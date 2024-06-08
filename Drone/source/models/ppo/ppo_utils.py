@@ -42,7 +42,7 @@ def compute_gae(next_values, rewards, masks, values, gamma, tau):
         logger.debug(f"masks shape: {masks.shape}")
 
         values = torch.cat([values, next_values], dim=0)
-        
+
         # Ensure masks has the same shape as rewards
         if masks.dim() == 1:
             masks = masks.unsqueeze(1)
@@ -75,10 +75,10 @@ def normalize(x, eps=1e-8):
     - torch.Tensor: Normalized tensor.
     """
     logger.debug("Normalizing tensor.")
-    x_mean = x.mean()
-    x_std = x.std().clamp(min=eps)
-    normalized_x = (x - x_mean) / x_std
-    logger.debug(f"Data normalized: mean={x_mean.item()}, std={x_std.item()}")
+    mean = x.mean()
+    std = x.std().clamp(min=eps)
+    normalized_x = (x - mean) / std
+    logger.debug(f"Data normalized: mean={mean.item()}, std={std.item()}")
     return normalized_x
 
 def to_tensor(np_array, device='cpu', dtype=torch.float32):
@@ -115,6 +115,26 @@ def reward_normalize(rewards):
     logger.debug(f"Rewards normalized: mean={mean.item()}, std={std.item()}")
     return normalized_rewards
 
+def discounted_rewards(rewards, gamma):
+    """
+    Compute the discounted rewards for a sequence of rewards.
+
+    Parameters:
+    - rewards (torch.Tensor): Sequence of rewards.
+    - gamma (float): Discount factor for future rewards.
+
+    Returns:
+    - torch.Tensor: Discounted rewards.
+    """
+    logger.debug("Computing discounted rewards.")
+    discounted = torch.zeros_like(rewards)
+    running_sum = 0
+    for t in reversed(range(len(rewards))):
+        running_sum = rewards[t] + gamma * running_sum
+        discounted[t] = running_sum
+    logger.debug(f"Discounted rewards: {discounted}")
+    return discounted
+
 # Example test cases to ensure the functions work as expected
 if __name__ == "__main__":
     # Example tensors
@@ -144,3 +164,7 @@ if __name__ == "__main__":
     rewards_tensor = torch.tensor([1.0, 2.0, 3.0])
     normalized_rewards = reward_normalize(rewards_tensor)
     logger.info(f"Normalized rewards: {normalized_rewards}")
+
+    # Compute discounted rewards
+    discounted = discounted_rewards(rewards_tensor, gamma)
+    logger.info(f"Discounted rewards: {discounted}")

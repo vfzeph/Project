@@ -3,7 +3,7 @@
   "gamma": 0.99,
   "tau": 0.95,
   "batch_size": 64,
-  "num_timestamps": 2000000,
+  "num_timesteps": 2000000,
   "ppo": {
     "learning_rate": 0.0003,
     "n_steps": 2048,
@@ -12,16 +12,12 @@
     "gamma": 0.99,
     "gae_lambda": 0.95,
     "clip_range": 0.2,
-    "clip_range_vf": null,
     "ent_coef": 0.01,
     "vf_coef": 0.5,
     "max_grad_norm": 0.5,
     "use_sde": true,
     "sde_sample_freq": 4,
-    "target_kl": null,
     "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
-    "create_eval_env": false,
-    "policy_kwargs": {},
     "verbose": 1,
     "seed": null,
     "device": "auto"
@@ -29,7 +25,7 @@
   "policy_network": {
     "input_size": 15,
     "hidden_layers": [256, 256],
-    "output_size": 3
+    "output_size": 4
   },
   "critic_network": {
     "input_size": 15,
@@ -41,7 +37,7 @@
     "reward_threshold": 250,
     "max_env_steps": 1000,
     "state_dim": 15,
-    "action_dim": 3,
+    "action_dim": 4,
     "reward_scale": 20,
     "proximity_threshold": 5.0,
     "collision_penalty": 25,
@@ -127,7 +123,7 @@
   },
   "icm": {
     "state_dim": 15,
-    "action_dim": 3,
+    "action_dim": 4,
     "image_channels": 3,
     "image_height": 144,
     "image_width": 256,
@@ -140,5 +136,30 @@
     "inverse_model": {
       "hidden_dim": 128
     }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 15,
+      "hidden_layers": [256, 256],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 18,
+      "hidden_layers": [256, 256],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [256, 256]
   }
 }

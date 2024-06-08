@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 import logging
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+from sklearn.impute import SimpleImputer
 
 class DataProcessor:
     """
@@ -32,10 +33,15 @@ class DataProcessor:
         """
         try:
             if drop_na:
+                initial_shape = df.shape
                 df = df.dropna()
-                self.logger.info("Dropped rows with NA values.")
-            if fill_na:
-                df = df.fillna(fill_na)
+                self.logger.info(f"Dropped rows with NA values. Shape changed from {initial_shape} to {df.shape}.")
+            if fill_na is not None:
+                if isinstance(fill_na, dict):
+                    df = df.fillna(fill_na)
+                else:
+                    imputer = SimpleImputer(strategy='constant', fill_value=fill_na)
+                    df.iloc[:, :] = imputer.fit_transform(df)
                 self.logger.info(f"Filled NA values with specified values: {fill_na}.")
             if replacements:
                 df.replace(replacements, inplace=True)
@@ -54,7 +60,7 @@ class DataProcessor:
                 if column in df.columns:
                     original_data = df[column].copy()
                     df[column] = df[column].apply(func)
-                    self.logger.debug(f"Transformed column {column}.")
+                    self.logger.debug(f"Transformed column {column} using {func.__name__}.")
                 else:
                     self.logger.warning(f"Column {column} not found in DataFrame.")
             return df
@@ -128,4 +134,30 @@ class DataProcessor:
             return df
         except Exception as e:
             self.logger.error(f"Failed to remove outliers from column {column}: {e}", exc_info=True)
+            return df
+
+    def impute_missing_values(self, df, strategy='mean', fill_value=None):
+        """
+        Impute missing values using a specified strategy (mean, median, most_frequent, or constant).
+        """
+        try:
+            imputer = SimpleImputer(strategy=strategy, fill_value=fill_value)
+            df_imputed = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
+            self.logger.info(f"Missing values imputed using {strategy} strategy.")
+            return df_imputed
+        except Exception as e:
+            self.logger.error(f"Failed to impute missing values: {e}", exc_info=True)
+            return df
+
+    def apply_scalers(self, df, scaling_instructions):
+        """
+        Apply multiple scalers to the specified columns of the DataFrame.
+        """
+        try:
+            for columns, scaler in scaling_instructions.items():
+                df[columns] = scaler.fit_transform(df[columns])
+                self.logger.info(f"Applied {scaler.__class__.__name__} to columns: {columns}")
+            return df
+        except Exception as e:
+            self.logger.error(f"Failed to apply scalers: {e}", exc_info=True)
             return df

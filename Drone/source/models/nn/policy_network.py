@@ -8,82 +8,94 @@ import sys
 # Ensure project root is in the path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..'))
 sys.path.append(project_root)
+from Drone.source.models.nn.shared_components import ResidualBlock, AttentionLayer
 
-from Drone.source.models.nn.common_layers import CNNFeatureExtractor
-from Drone.source.models.nn.shared_components import ResidualBlock
+class CNNFeatureExtractor(nn.Module):
+    def __init__(self, input_channels):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Conv2d(input_channels, 32, kernel_size=8, stride=4),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, kernel_size=4, stride=2),
+            nn.ReLU(),
+            nn.Conv2d(64, 128, kernel_size=3, stride=2),
+            nn.ReLU(),
+            nn.Conv2d(128, 256, kernel_size=3, stride=2),
+            nn.ReLU(),
+            nn.Flatten()
+        )
+        self._to_linear = None  # This will be initialized on the first forward pass
 
-def configure_logger():
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
-    if not logger.handlers:
-        stream_handler = logging.StreamHandler()
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        stream_handler.setFormatter(formatter)
-        logger.addHandler(stream_handler)
-    return logger
+    def forward(self, x):
+        x = self.layers(x)
+        if self._to_linear is None:
+            self._to_linear = x.numel() // x.shape[0]  # Calculate flat output dimension dynamically
+        return x
 
-logger = configure_logger()
 
 class AdvancedPolicyNetwork(nn.Module):
     def __init__(self, state_dim, action_dim, continuous, hidden_sizes, input_channels):
-        super(AdvancedPolicyNetwork, self).__init__()
+        super().__init__()
         self.continuous = continuous
         self.cnn = CNNFeatureExtractor(input_channels)
         
-        if self.cnn._to_linear is None:
-            raise ValueError("CNNFeatureExtractor _to_linear attribute is None. Ensure determine_to_linear is called properly.")
+        # Initialize CNN on a dummy input to set up dimensions
+        dummy_visual = torch.zeros(1, input_channels, 144, 256)
+        cnn_output_dim = self.cnn(dummy_visual).shape[1]
+
+        self.state_encoder = nn.Sequential(
+            nn.Linear(state_dim, hidden_sizes[0]),
+            nn.ReLU()
+        )
+
+        # Calculate the combined input dimension for the first policy layer
+        combined_input_dim = hidden_sizes[0] + cnn_output_dim
         
-        combined_input_dim = state_dim + self.cnn._to_linear
-
-        self.layers = nn.ModuleList()
-        input_dim = combined_input_dim
-
+        # Define the neural network layers using ModuleList
+        self.policy_layers = nn.ModuleList()
         for size in hidden_sizes:
-            self.layers.append(nn.Linear(input_dim, size))
-            input_dim = size
+            self.policy_layers.append(nn.Sequential(
+                nn.Linear(combined_input_dim, size),
+                nn.ReLU()
+            ))
+            combined_input_dim = size
 
+        # Final layer to output the mean or action probabilities
         if continuous:
             self.mean = nn.Linear(hidden_sizes[-1], action_dim)
             self.log_std = nn.Parameter(torch.zeros(action_dim))
         else:
             self.action_head = nn.Linear(hidden_sizes[-1], action_dim)
 
-        self.init_weights()
-
     def forward(self, state, visual_input):
         visual_features = self.cnn(visual_input)
-        x = torch.cat((state, visual_features), dim=1)  # Concatenate state and visual features
-        for layer in self.layers:
-            x = F.leaky_relu(layer(x))
+        state_features = self.state_encoder(state)
+        x = torch.cat((state_features, visual_features), dim=1)
+        
+        for layer in self.policy_layers:
+            x = layer(x)  # Apply layer transformations
 
         if self.continuous:
             action_mean = self.mean(x)
-            action_std = torch.exp(self.log_std)
+            action_std = torch.exp(self.log_std)  # Ensure the standard deviation is positive
             return action_mean, action_std
         else:
             action_probs = F.softmax(self.action_head(x), dim=-1)
             return action_probs
 
-    def init_weights(self):
-        for layer in self.modules():
-            if isinstance(layer, nn.Linear):
-                nn.init.kaiming_normal_(layer.weight, nonlinearity='leaky_relu')
-                nn.init.constant_(layer.bias, 0)
-
 if __name__ == "__main__":
-    logger.info("Initializing and testing the AdvancedPolicyNetwork.")
+    logging.basicConfig(level=logging.INFO)
     state_dim = 15
-    action_dim = 3
+    action_dim = 4
     hidden_sizes = [256, 256]
-    input_channels = 3  # Assuming RGB images
+    input_channels = 3
+    continuous = True
 
-    network = AdvancedPolicyNetwork(state_dim, action_dim, continuous=True, hidden_sizes=hidden_sizes, input_channels=input_channels)
-    test_state_input = torch.rand(1, state_dim)
-    test_visual_input = torch.rand(1, input_channels, 144, 256)  # Use the actual input dimensions
-    network.eval()
+    policy_network = AdvancedPolicyNetwork(state_dim, action_dim, continuous, hidden_sizes, input_channels)
+    test_state = torch.rand(1, state_dim)
+    test_visual_input = torch.rand(1, input_channels, 144, 256)
+    policy_network.eval()
+
     with torch.no_grad():
-        action_output = network(test_state_input, test_visual_input)
-        if isinstance(action_output, tuple):
-            logger.info(f"Action outputs: mean={action_output[0]}, std={action_output[1]}")
-        else:
-            logger.info(f"Action probabilities: {action_output}")
+        action_output = policy_network(test_state, test_visual_input)
+        print(f'Action output: {action_output}')

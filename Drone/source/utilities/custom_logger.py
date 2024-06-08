@@ -92,3 +92,20 @@ class CustomLogger(logging.Logger):
         """Log a scalar value to TensorBoard."""
         self.writer.add_scalar(tag, value, step)
         self.writer.flush()
+
+if __name__ == "__main__":
+    logger = CustomLogger("TestLogger", log_dir="./logs")
+    test_logger = logger.get_logger()
+    
+    # Example usage of the logger
+    test_logger.info("This is an info message.")
+    test_logger.debug("This is a debug message.")
+    test_logger.warning("This is a warning message.")
+    test_logger.error("This is an error message.")
+    
+    # Example usage of TensorBoard scalar logging
+    for step in range(100):
+        logger.log_scalar("example_scalar", step * 0.1, step)
+    
+    # Close handlers
+    logger.close_handlers()

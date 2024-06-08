@@ -11,7 +11,11 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.cuda.amp import autocast, GradScaler
 from stable_baselines3.common.vec_env import DummyVecEnv
 
-# Add the project root to sys.path
+# Assuming you have CurriculumLearning, HighLevelPolicy, LowLevelPolicy, HierarchicalRLAgent, and MultiAgentCooperation imported
+from Drone.source.learning.curriculum_learning import CurriculumLearning
+from Drone.source.learning.hierarchical_rl import HighLevelPolicy, LowLevelPolicy, HierarchicalRLAgent
+from Drone.source.learning.multi_agent_cooperation import MultiAgentCooperation
+
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..'))
 sys.path.append(project_root)
 
@@ -19,56 +23,8 @@ from Drone.source.envs.airsim_env import AirSimEnv
 from Drone.source.models.nn.policy_network import AdvancedPolicyNetwork
 from Drone.source.models.nn.critic_network import AdvancedCriticNetwork
 from Drone.source.models.ppo.ppo_utils import compute_gae, normalize
+from Drone.source.models.nn.common_layers import ICM
 from Drone.source.utilities.custom_logger import CustomLogger
-
-class PrioritizedReplayBuffer:
-    def __init__(self, capacity, alpha=0.6):
-        self.capacity = capacity
-        self.alpha = alpha
-        self.buffer = deque(maxlen=capacity)
-        self.priorities = deque(maxlen=capacity)
-        self.experience = namedtuple('Experience', ('state', 'visual', 'action', 'reward', 'next_state', 'next_visual', 'done'))
-
-    def push(self, state, visual, action, reward, next_state, next_visual, done):
-        max_priority = max(self.priorities, default=1.0)
-        self.buffer.append(self.experience(state, visual, action, reward, next_state, next_visual, done))
-        self.priorities.append(max_priority)
-
-    def sample(self, batch_size, beta=0.4):
-        if len(self.buffer) == self.capacity:
-            priorities = np.array(self.priorities)
-            probabilities = priorities ** self.alpha
-            probabilities /= probabilities.sum()
-        else:
-            priorities = np.array(self.priorities)[:len(self.buffer)]
-            probabilities = priorities ** self.alpha
-            probabilities /= probabilities.sum()
-        
-        indices = np.random.choice(len(self.buffer), batch_size, p=probabilities)
-        experiences = [self.buffer[idx] for idx in indices]
-
-        weights = (len(self.buffer) * probabilities[indices]) ** (-beta)
-        weights /= weights.max()
-        weights = np.array(weights, dtype=np.float32)
-
-        batch = self.experience(*zip(*experiences))
-        
-        states = np.vstack(batch.state)
-        visuals = np.vstack(batch.visual)
-        actions = np.vstack(batch.action)
-        rewards = np.vstack(batch.reward)
-        next_states = np.vstack(batch.next_state)
-        next_visuals = np.vstack(batch.next_visual)
-        dones = np.vstack(batch.done)
-        
-        return states, visuals, actions, rewards, next_states, next_visuals, dones, weights, indices
-
-    def update_priorities(self, batch_indices, batch_priorities):
-        for idx, priority in zip(batch_indices, batch_priorities):
-            self.priorities[idx] = priority
-
-    def __len__(self):
-        return len(self.buffer)
 
 class PPOAgent:
     class Memory:
@@ -79,6 +35,7 @@ class PPOAgent:
             self.log_probs = []
             self.rewards = []
             self.dones = []
+            self.goals = []
 
         def reset(self):
             self.actions.clear()
@@ -87,31 +44,26 @@ class PPOAgent:
             self.log_probs.clear()
             self.rewards.clear()
             self.dones.clear()
+            self.goals.clear()
 
-        def add(self, action, state, visual, log_prob, reward, done):
-            action = np.atleast_1d(action)
-            state = np.atleast_2d(state)
-            visual = np.atleast_3d(visual)
-
-            self.actions.append(action)
-            self.states.append(state)
-            self.visuals.append(visual)
+        def add(self, action, state, visual, log_prob, reward, done, goal):
+            self.actions.append(np.atleast_1d(action))
+            self.states.append(np.atleast_2d(state))
+            self.visuals.append(np.atleast_3d(visual))
             self.log_probs.append(log_prob)
             self.rewards.append(reward if reward is not None else 0.0)
             self.dones.append(done)
+            self.goals.append(np.atleast_1d(goal))
 
         def get_tensors(self, device):
-            actions = np.vstack(self.actions)
-            states = np.vstack(self.states)
-            visuals = np.vstack(self.visuals)
-
             return (
-                torch.tensor(actions, device=device).float(),
-                torch.tensor(states, device=device).float(),
-                torch.tensor(visuals, device=device).float(),
+                torch.tensor(np.vstack(self.actions), device=device).float(),
+                torch.tensor(np.vstack(self.states), device=device).float(),
+                torch.tensor(np.vstack(self.visuals), device=device).float(),
                 torch.tensor(np.array(self.log_probs), device=device).float(),
                 torch.tensor(np.array(self.rewards), device=device).float(),
-                torch.tensor(np.array(self.dones), device=device).bool()
+                torch.tensor(np.array(self.dones), device=device).bool(),
+                torch.tensor(np.vstack(self.goals), device=device).float()
             )
 
     def __init__(self, config, action_space):
@@ -139,8 +91,14 @@ class PPOAgent:
             input_channels=3  # Assuming RGB images
         ).to(self.device)
 
+        self.icm = ICM(
+            config['icm']['state_dim'],
+            config['icm']['action_dim'],
+            image_channels=3  # Assuming RGB images
+        ).to(self.device)
+
         self.optimizer = optim.Adam(
-            list(self.policy_network.parameters()) + list(self.critic_network.parameters()), 
+            list(self.policy_network.parameters()) + list(self.critic_network.parameters()) + list(self.icm.parameters()), 
             lr=config['ppo']['learning_rate']
         )
 
@@ -153,7 +111,6 @@ class PPOAgent:
         self.continuous = True  # Assuming continuous action space for simplicity
         self.writer = SummaryWriter(config['ppo']['tensorboard_log'])
         self.memory = self.Memory()
-        self.replay_buffer = PrioritizedReplayBuffer(capacity=10000)  # Initialize Prioritized Replay Buffer
 
         self.initial_epsilon = config['exploration']['initial_epsilon']
         self.epsilon_decay_rate = config['exploration']['epsilon_decay_rate']
@@ -167,7 +124,33 @@ class PPOAgent:
         self.total_loss = None
         self.entropy = None
 
-    def select_action(self, state, visual):
+        if config['hrl']['use_hierarchical']:
+            self.high_level_policy = HighLevelPolicy(
+                config['hrl']['high_level_policy']['input_size'],
+                config['hrl']['sub_goal_dim'],
+                config['hrl']['high_level_policy']['hidden_layers']
+            ).to(self.device)
+            self.low_level_policy = LowLevelPolicy(
+                config['policy_network']['input_size'] + config['hrl']['sub_goal_dim'],
+                config['policy_network']['output_size'],
+                config['policy_network']['hidden_layers']
+            ).to(self.device)
+            self.hrl_agent = HierarchicalRLAgent(self.high_level_policy, self.low_level_policy)
+
+        if config['curriculum_learning']['use_curriculum']:
+            difficulty_increment = config['curriculum_learning']['difficulty_increment']
+            difficulty_threshold = config['curriculum_learning']['difficulty_threshold']
+            self.curriculum = CurriculumLearning(config, difficulty_increment, difficulty_threshold)
+
+        if config['multi_agent']['use_multi_agent']:
+            self.multi_agent_cooperation = MultiAgentCooperation(
+                num_agents=config['multi_agent']['num_agents'],
+                state_dim=config['policy_network']['input_size'],
+                action_dim=config['policy_network']['output_size'],
+                hidden_layers=config['policy_network']['hidden_layers']
+            )
+
+    def select_action(self, state, visual, goal=None):
         state = np.atleast_1d(state)
         self.logger.debug(f"Original state shape: {state.shape}")
 
@@ -202,51 +185,36 @@ class PPOAgent:
 
         self.epsilon = max(self.min_epsilon, self.epsilon * self.epsilon_decay_rate)
 
-        self.memory.add(action_index, state, visual, action_log_prob, 0, False)
+        self.memory.add(action_index, state, visual, action_log_prob, 0, False, goal)
         return action_index, action_log_prob
 
-    def _update_action_values(self, reward, action_index):
-        self.action_value_estimates[action_index] = (self.action_value_estimates[action_index] + reward) / 2
-        self.logger.debug(f"Updated action value for action {action_index}: {self.action_value_estimates[action_index]}")
-
     def update(self):
-        if len(self.replay_buffer) < self.config['ppo']['batch_size']:
+        if len(self.memory.actions) < self.config['ppo']['batch_size']:
             return  # Skip update if not enough samples in the buffer
 
-        batch_size = self.config['ppo']['batch_size']
-        beta = self.config['ppo'].get('beta', 0.4)
-        states, visuals, actions, rewards, next_states, next_visuals, dones, weights, indices = self.replay_buffer.sample(batch_size, beta)
+        actions, states, visuals, log_probs, rewards, dones, goals = self.memory.get_tensors(self.device)
 
-        states = torch.tensor(states).float().to(self.device)
-        visuals = torch.tensor(visuals).float().to(self.device)
-        actions = torch.tensor(actions).float().to(self.device)
-        rewards = torch.tensor(rewards).float().to(self.device)
-        next_states = torch.tensor(next_states).float().to(self.device)
-        next_visuals = torch.tensor(next_visuals).float().to(self.device)
-        dones = torch.tensor(dones).float().to(self.device)
-        weights = torch.tensor(weights).float().to(self.device)
-
-        next_value = self.critic_network(next_states, next_visuals).detach()
+        next_value = self.critic_network(states[-1:], visuals[-1:]).detach()
         returns, advantages = compute_gae(next_value, rewards, dones, self.critic_network(states, visuals), self.gamma, self.tau)
-        
+
         if self.config['advanced_training_techniques']['normalize_advantages']:
             returns = normalize(returns).view(-1, 1)
             advantages = normalize(advantages).view(-1, 1)
 
-        old_log_probs = torch.tensor(np.array(self.memory.log_probs), device=self.device).float()
+        old_log_probs = log_probs.detach()
 
         for epoch in range(self.k_epochs):
             with autocast(enabled=self.device.type == 'cuda'):
-                log_probs, state_values, entropy = self.evaluate(states, visuals, actions)
-                ratios = torch.exp(log_probs - old_log_probs)
+                new_log_probs, state_values, entropy = self.evaluate(states, visuals, actions)
+                ratios = torch.exp(new_log_probs - old_log_probs)
                 surr1 = ratios * advantages
                 surr2 = torch.clamp(ratios, 1.0 - self.epsilon, 1.0 + self.epsilon) * advantages
-                self.policy_loss = -(torch.min(surr1, surr2) * weights).mean()
+                self.policy_loss = -(torch.min(surr1, surr2)).mean()
 
-                state_values = state_values.view(-1, 1)
-                self.value_loss = (weights * nn.functional.mse_loss(state_values, returns, reduction='none')).mean()
+                self.value_loss = nn.functional.mse_loss(state_values, returns)
                 
-                self.total_loss = self.policy_loss + self.config['ppo']['vf_coef'] * self.value_loss - self.config['ppo']['ent_coef'] * entropy
+                intrinsic_rewards = self.icm.intrinsic_reward(states, states[1:], actions, visuals, visuals[1:])
+                self.total_loss = self.policy_loss + self.config['ppo']['vf_coef'] * self.value_loss - self.config['ppo']['ent_coef'] * entropy + self.config['ppo']['icm_weight'] * intrinsic_rewards.mean()
 
             self.optimizer.zero_grad()
             if self.scaler:
@@ -290,14 +258,16 @@ class PPOAgent:
         torch.save({
             'policy_state_dict': self.policy_network.state_dict(),
             'critic_state_dict': self.critic_network.state_dict(),
+            'icm_state_dict': self.icm.state_dict(),
             'optimizer_state_dict': self.optimizer.state_dict(),
+            'high_level_policy_state_dict': self.high_level_policy.state_dict() if hasattr(self, 'high_level_policy') else None,
+            'low_level_policy_state_dict': self.low_level_policy.state_dict() if hasattr(self, 'low_level_policy') else None
         }, path)
         self.logger.info(f'Model saved at {path}')
 
     def load_model(self, path):
         checkpoint = torch.load(path)
         if 'policy_state_dict' in checkpoint and 'critic_state_dict' in checkpoint and 'optimizer_state_dict' in checkpoint:
-            # Rename keys in state_dict to match the current model definition
             def rename_keys(state_dict, old_prefix, new_prefix):
                 new_state_dict = {}
                 for k, v in state_dict.items():
@@ -314,9 +284,38 @@ class PPOAgent:
             self.policy_network.load_state_dict(checkpoint['policy_state_dict'])
             self.critic_network.load_state_dict(checkpoint['critic_state_dict'])
             self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            if 'high_level_policy_state_dict' in checkpoint and checkpoint['high_level_policy_state_dict'] is not None:
+                self.high_level_policy.load_state_dict(checkpoint['high_level_policy_state_dict'])
+            if 'low_level_policy_state_dict' in checkpoint and checkpoint['low_level_policy_state_dict'] is not None:
+                self.low_level_policy.load_state_dict(checkpoint['low_level_policy_state_dict'])
             self.logger.info('Model loaded')
         else:
             self.logger.warning('Checkpoint does not contain required keys: policy_state_dict, critic_state_dict, optimizer_state_dict')
+
+def train_ppo_agent(agent, env, total_timesteps, save_path):
+    try:
+        for timesteps in range(total_timesteps):
+            state, visual = env.reset()
+            done = False
+            while not done:
+                goal = agent.high_level_policy(torch.tensor(state, dtype=torch.float32).unsqueeze(0).to(agent.device)).cpu().detach().numpy().flatten() if agent.config['hrl']['use_hierarchical'] else None
+                action, log_prob = agent.select_action(state, visual, goal)
+                next_state, next_visual, reward, done, _ = env.step(action)
+                agent.memory.add(action, state, visual, log_prob, reward, done, goal)
+                state, visual = next_state, next_visual
+                if done:
+                    agent.update()
+                    agent.save_model(save_path)  # Save model at the end of each episode
+    except Exception as e:
+        agent.logger.error(f"An error occurred during training: {e}")
+    finally:
+        agent.save_model(save_path)  # Final save after training
+
+def train_agents(ppo_agent, env, config, logger, writer, scheduler, data_processor, data_visualizer):
+    total_timesteps = config["num_timesteps"]
+    ppo_save_path = config["logging"]["model_save_path"] + "/ppo_trained_model.pth"
+    train_ppo_agent(ppo_agent, env, total_timesteps, ppo_save_path)
+    logger.info("PPO training completed and model saved.")
 
 if __name__ == '__main__':
     try:
@@ -325,28 +324,21 @@ if __name__ == '__main__':
         config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../configs/learning/ppo_config.json'))
         print(f"Loading configuration from: {config_path}")
         with open(config_path, 'r') as f:
-            ppo_config = json.load(f)
+            config = json.load(f)
 
         logger = CustomLogger("AirSimEnvLogger", log_dir="./logs")
-        env = AirSimEnv(state_dim=15, action_dim=3, logger=logger, tensorboard_log_dir="./logs/tensorboard_logs", log_enabled=True)
+        env = AirSimEnv(logger=logger, tensorboard_log_dir="./logs/tensorboard_logs", log_enabled=True)
         env = DummyVecEnv([lambda: env])
 
-        agent = PPOAgent(ppo_config, env.action_space.n)
+        ppo_agent = PPOAgent(config, env.action_space.n)
 
-        total_timesteps = 100000
-        for timestep in range(total_timesteps):
-            state, visual = env.reset()
-            done = False
-            while not done:
-                action, log_prob = agent.select_action(state, visual)
-                next_state, next_visual, reward, done, _ = env.step(action)
-                agent.memory.add(action, state, visual, log_prob, reward, done)
-                state, visual = next_state, next_visual
-                if done:
-                    agent.update()
+        # Initialize other components if necessary
+        writer = SummaryWriter(config["logging"]["tensorboard_log_dir"])
+        scheduler = None  # Define your scheduler if required
+        data_processor = None  # Define your data processor if required
+        data_visualizer = None  # Define your data visualizer if required
 
-        agent.save_model('./models/ppo_trained_model.pth')
-
+        train_agents(ppo_agent, env, config, logger, writer, scheduler, data_processor, data_visualizer)
+        logger.info("Training completed and models saved.")
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-        logger.close_handlers()
