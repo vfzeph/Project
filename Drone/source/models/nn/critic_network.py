@@ -9,6 +9,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..
 sys.path.append(project_root)
 from Drone.source.models.nn.shared_components import ResidualBlock, AttentionLayer
 
+
 class CNNFeatureExtractor(nn.Module):
     def __init__(self, input_channels):
         super().__init__()
@@ -23,23 +24,21 @@ class CNNFeatureExtractor(nn.Module):
             nn.ReLU(),
             nn.Flatten()
         )
-        self.output_dim = None  # This will be initialized on the first forward pass
+        self._to_linear = None
 
     def forward(self, x):
         x = self.layers(x)
+        if self._to_linear is None:
+            self._to_linear = x.numel() // x.shape[0]
         return x
-
-    def determine_to_linear(self):
-        dummy_input = torch.zeros(1, 3, 144, 256)
-        self.output_dim = self(dummy_input).shape[1]
 
 class AdvancedCriticNetwork(nn.Module):
     def __init__(self, state_dim, hidden_sizes, dropout_rate=0.2, input_channels=3, use_attention=True):
         super(AdvancedCriticNetwork, self).__init__()
         self.cnn = CNNFeatureExtractor(input_channels)
-        self.cnn.determine_to_linear()  # Properly initialize CNN output dimension
+        self.cnn(torch.zeros(1, input_channels, 144, 256))
 
-        combined_input_dim = state_dim + self.cnn.output_dim
+        combined_input_dim = state_dim + self.cnn._to_linear
         self.layers = nn.ModuleList()
         self.dropouts = nn.ModuleList()
         self.batch_norms = nn.ModuleList()

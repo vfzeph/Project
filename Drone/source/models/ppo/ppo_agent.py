@@ -10,8 +10,6 @@ import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
 from torch.cuda.amp import autocast, GradScaler
 from stable_baselines3.common.vec_env import DummyVecEnv
-
-# Assuming you have CurriculumLearning, HighLevelPolicy, LowLevelPolicy, HierarchicalRLAgent, and MultiAgentCooperation imported
 from Drone.source.learning.curriculum_learning import CurriculumLearning
 from Drone.source.learning.hierarchical_rl import HighLevelPolicy, LowLevelPolicy, HierarchicalRLAgent
 from Drone.source.learning.multi_agent_cooperation import MultiAgentCooperation
@@ -66,12 +64,12 @@ class PPOAgent:
                 torch.tensor(np.vstack(self.goals), device=device).float()
             )
 
-    def __init__(self, config, action_space):
+    def __init__(self, config):
         self.config = config
         self.state_dim = config['policy_network']['input_size']
         self.action_dim = config['policy_network']['output_size']
-        self.action_space = action_space
-        self.logger = CustomLogger(__name__, config['logging']['log_dir'])
+        self.action_space = config['policy_network']['output_size']
+        self.logger = logging.getLogger(__name__)
 
         device_config = config['ppo']['device']
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') if device_config == 'auto' else torch.device(device_config)
@@ -91,18 +89,14 @@ class PPOAgent:
             input_channels=3  # Assuming RGB images
         ).to(self.device)
 
-        self.icm = ICM(
-            config['icm']['state_dim'],
-            config['icm']['action_dim'],
-            image_channels=3  # Assuming RGB images
-        ).to(self.device)
+        self.icm = ICM(config['icm']).to(self.device)
 
         self.optimizer = optim.Adam(
             list(self.policy_network.parameters()) + list(self.critic_network.parameters()) + list(self.icm.parameters()), 
             lr=config['ppo']['learning_rate']
         )
 
-        self.scaler = GradScaler() if torch.cuda.is_available() else None
+        self.scaler = torch.cuda.amp.GradScaler() if torch.cuda.is_available() else None
         self.gamma = config['ppo']['gamma']
         self.tau = config['ppo']['gae_lambda']
         self.epsilon = config['ppo']['clip_range']
@@ -117,12 +111,8 @@ class PPOAgent:
         self.min_epsilon = config['exploration']['min_epsilon']
         self.epsilon = self.initial_epsilon
 
-        self.action_value_estimates = np.zeros(self.action_space)
-
-        self.policy_loss = None
-        self.value_loss = None
-        self.total_loss = None
-        self.entropy = None
+        self.entropy_coef = config['ppo']['ent_coef']
+        self.icm_weight = config['ppo']['icm_weight']
 
         if config['hrl']['use_hierarchical']:
             self.high_level_policy = HighLevelPolicy(
@@ -159,7 +149,7 @@ class PPOAgent:
         self.logger.debug(f"Corrected state tensor shape: {state_tensor.shape}")
         self.logger.debug(f"Visual tensor shape: {visual_tensor.shape}")
 
-        with autocast(enabled=self.device.type == 'cuda'):
+        with torch.cuda.amp.autocast(enabled=self.device.type == 'cuda'):
             if self.continuous:
                 action_mean, action_std_log = self.policy_network(state_tensor, visual_tensor)
                 action_std = torch.exp(action_std_log)
@@ -204,7 +194,7 @@ class PPOAgent:
         old_log_probs = log_probs.detach()
 
         for epoch in range(self.k_epochs):
-            with autocast(enabled=self.device.type == 'cuda'):
+            with torch.cuda.amp.autocast(enabled=self.device.type == 'cuda'):
                 new_log_probs, state_values, entropy = self.evaluate(states, visuals, actions)
                 ratios = torch.exp(new_log_probs - old_log_probs)
                 surr1 = ratios * advantages
@@ -214,7 +204,7 @@ class PPOAgent:
                 self.value_loss = nn.functional.mse_loss(state_values, returns)
                 
                 intrinsic_rewards = self.icm.intrinsic_reward(states, states[1:], actions, visuals, visuals[1:])
-                self.total_loss = self.policy_loss + self.config['ppo']['vf_coef'] * self.value_loss - self.config['ppo']['ent_coef'] * entropy + self.config['ppo']['icm_weight'] * intrinsic_rewards.mean()
+                self.total_loss = self.policy_loss + self.config['ppo']['vf_coef'] * self.value_loss - self.entropy_coef * entropy + self.icm_weight * intrinsic_rewards.mean()
 
             self.optimizer.zero_grad()
             if self.scaler:
@@ -237,7 +227,7 @@ class PPOAgent:
         self.memory.reset()
 
     def evaluate(self, states, visuals, actions):
-        with autocast(enabled=self.device.type == 'cuda'):
+        with torch.cuda.amp.autocast(enabled=self.device.type == 'cuda'):
             if self.continuous:
                 action_means, action_std_logs = self.policy_network(states, visuals)
                 action_stds = torch.exp(action_std_logs)
@@ -294,7 +284,7 @@ class PPOAgent:
 
 def train_ppo_agent(agent, env, total_timesteps, save_path):
     try:
-        for timesteps in range(total_timesteps):
+        for num_timesteps in range(total_timesteps):
             state, visual = env.reset()
             done = False
             while not done:
@@ -327,10 +317,10 @@ if __name__ == '__main__':
             config = json.load(f)
 
         logger = CustomLogger("AirSimEnvLogger", log_dir="./logs")
-        env = AirSimEnv(logger=logger, tensorboard_log_dir="./logs/tensorboard_logs", log_enabled=True)
+        env = AirSimEnv(config=config, logger=logger, tensorboard_log_dir="./logs/tensorboard_logs", log_enabled=True)
         env = DummyVecEnv([lambda: env])
 
-        ppo_agent = PPOAgent(config, env.action_space.n)
+        ppo_agent = PPOAgent(config)
 
         # Initialize other components if necessary
         writer = SummaryWriter(config["logging"]["tensorboard_log_dir"])

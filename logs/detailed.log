@@ -6818,3 +6818,334 @@ n=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entrop
 2024-06-05 17:44:24,027 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
 2024-06-05 17:44:24,027 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
 2024-06-05 17:44:25,117 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 0 selected.
+2024-06-09 00:52:29,739 - Drone.source.models.ppo.ppo_agent - INFO - Using device: cpu
+2024-06-09 00:52:38,577 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:52:38,701 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:52:38,701 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:52:39,687 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:52:42,608 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:52:42,609 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:52:42,609 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:52:43,452 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:52:45,614 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:52:45,769 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:52:45,769 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:52:46,240 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:52:48,530 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:52:48,593 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:52:48,593 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:52:49,041 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:52:51,362 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:52:51,486 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:52:51,486 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:52:51,937 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:52:54,331 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:52:54,392 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:52:54,392 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:52:55,483 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 2 selected.
+2024-06-09 00:52:58,007 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:52:58,146 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:52:58,146 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:52:59,084 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:53:01,324 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:01,340 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:01,340 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:02,419 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:53:05,291 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:05,338 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:05,338 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:06,133 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:53:08,761 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:08,839 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:08,839 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:09,712 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:53:12,113 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:12,222 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:12,222 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:13,030 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:53:15,505 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:15,613 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:15,613 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:16,440 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:53:19,220 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:19,347 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:19,347 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:20,021 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:53:22,483 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:22,513 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:22,513 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:23,232 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:53:25,213 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:25,324 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:25,324 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:26,257 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:53:28,677 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:28,800 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:28,800 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:29,376 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:53:31,970 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:32,080 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:32,080 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:32,921 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:53:35,385 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:35,478 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:35,478 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:36,261 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:53:39,043 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:39,169 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:39,169 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:40,181 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:53:42,858 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:42,953 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:42,953 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:43,994 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:53:46,172 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:46,250 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:46,250 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:47,124 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:53:50,062 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:50,092 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:50,092 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:50,649 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:53:52,325 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:52,371 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:52,371 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:52,808 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:53:54,632 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:54,708 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:54,708 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:55,191 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:53:57,261 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:57,277 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:57,278 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:57,650 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:53:59,297 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:53:59,344 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:53:59,344 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:53:59,748 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 2 selected.
+2024-06-09 00:54:02,175 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:02,221 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:02,221 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:03,198 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:04,919 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:04,949 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:04,949 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:05,261 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:06,966 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:06,982 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:06,982 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:07,513 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:54:09,414 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:09,459 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:09,459 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:10,201 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:54:12,510 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:12,635 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:12,635 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:13,053 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:54:15,206 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:15,206 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:15,206 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:15,856 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:17,508 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:17,508 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:17,509 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:17,897 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:20,267 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:20,328 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:20,328 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:20,779 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:54:23,049 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:23,111 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:23,111 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:23,871 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:25,853 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:25,929 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:25,929 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:26,676 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:54:28,825 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:28,857 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:28,857 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:29,790 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:54:32,748 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:32,825 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:32,825 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:33,671 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:54:36,305 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:36,415 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:36,415 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:37,007 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:54:39,920 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:40,015 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:40,015 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:40,953 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:43,899 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:43,962 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:43,962 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:44,757 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:47,754 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:47,879 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:47,879 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:48,717 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:54:51,525 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:51,602 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:51,602 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:52,536 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:54:55,080 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:55,095 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:55,095 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:56,088 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:54:58,761 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:54:58,839 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:54:58,839 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:54:59,244 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 1 selected.
+2024-06-09 00:55:01,802 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:01,926 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:01,926 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:02,487 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:55:05,012 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:05,059 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:05,059 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:05,760 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:55:08,341 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:08,435 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:08,435 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:09,385 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 0 selected.
+2024-06-09 00:55:11,802 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:11,818 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:11,819 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:12,336 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 0 selected.
+2024-06-09 00:55:14,268 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:14,347 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:14,347 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:15,316 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:55:17,863 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:17,988 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:17,988 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:18,872 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 3 selected.
+2024-06-09 00:55:21,961 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:22,070 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:22,070 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:22,476 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:55:25,233 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:25,342 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:25,342 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:26,231 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:55:28,944 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:28,991 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:28,991 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:29,816 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:55:32,811 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:32,872 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:32,872 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:33,436 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:55:35,939 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:36,064 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:36,064 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:36,983 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:55:39,490 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:39,631 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:39,631 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:40,691 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 2 selected.
+2024-06-09 00:55:42,987 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:43,065 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:43,065 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:44,140 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:55:46,595 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:46,673 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:46,673 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:47,080 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:55:49,632 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:49,758 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:49,758 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:50,515 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 00:55:52,795 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:52,875 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:52,875 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:53,766 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 2 selected.
+2024-06-09 00:55:56,461 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:55:56,554 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:55:56,554 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:55:57,456 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:56:00,120 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:00,246 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:00,246 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:00,637 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:56:03,031 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:03,125 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:03,125 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:04,122 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 0 selected.
+2024-06-09 00:56:06,583 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:06,693 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:06,693 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:07,474 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 0 selected.
+2024-06-09 00:56:09,338 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:09,447 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:09,447 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:10,292 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:56:12,234 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:12,282 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:12,282 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:13,060 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 0 selected.
+2024-06-09 00:56:16,033 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:16,080 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:16,080 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:17,115 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 3 selected.
+2024-06-09 00:56:19,499 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:19,516 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:19,516 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:20,037 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:56:21,902 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:21,979 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:21,979 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:22,633 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:56:25,223 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:25,301 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:25,301 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:25,974 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:56:28,825 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:28,951 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:28,951 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:29,809 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:56:32,057 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:32,096 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:32,096 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:32,994 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 0 selected.
+2024-06-09 00:56:35,426 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:35,488 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:35,488 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:36,305 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:56:38,629 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:38,721 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:38,721 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:39,689 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 2 selected.
+2024-06-09 00:56:41,732 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:41,824 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:41,824 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:42,790 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:56:45,340 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:45,357 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:45,358 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:46,262 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 1 selected.
+2024-06-09 00:56:48,381 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:48,475 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:48,475 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:49,005 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 1 selected.
+2024-06-09 00:56:50,995 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:51,027 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:51,027 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:51,386 - Drone.source.models.ppo.ppo_agent - INFO - Exploitation: Action 0 selected.
+2024-06-09 00:56:53,530 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 00:56:53,591 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 00:56:53,591 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 00:56:54,385 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 3 selected.
+2024-06-09 01:03:15,133 - Drone.source.models.ppo.ppo_agent - INFO - Using device: cpu
+2024-06-09 01:03:24,245 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 01:03:24,339 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 01:03:24,339 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 01:03:25,307 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 14 selected.
+2024-06-09 01:10:49,985 - Drone.source.models.ppo.ppo_agent - INFO - Using device: cpu
+2024-06-09 01:10:58,285 - Drone.source.models.ppo.ppo_agent - DEBUG - Original state shape: (15,)
+2024-06-09 01:10:58,393 - Drone.source.models.ppo.ppo_agent - DEBUG - Corrected state tensor shape: torch.Size([1, 15])
+2024-06-09 01:10:58,393 - Drone.source.models.ppo.ppo_agent - DEBUG - Visual tensor shape: torch.Size([1, 3, 144, 256])
+2024-06-09 01:10:59,444 - Drone.source.models.ppo.ppo_agent - INFO - Exploration: Random action 13 selected.

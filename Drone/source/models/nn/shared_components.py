@@ -50,18 +50,3 @@ class AttentionLayer(nn.Module):
         nn.init.kaiming_normal_(self.fc.weight, nonlinearity='leaky_relu')
         nn.init.constant_(self.fc.bias, 0)
         nn.init.normal_(self.context_vector, mean=0, std=0.1)
-
-# Usage Example in ICM or Other Networks
-if __name__ == "__main__":
-    # Example input dimensions
-    input_dim = 128
-    hidden_dim = 128
-
-    # Instantiate and test ResidualBlock
-    residual_block = ResidualBlock(input_dim, hidden_dim)
-    test_input = torch.rand(1, input_dim)
-    print(f"Residual Block Output: {residual_block(test_input).shape}")
-
-    # Instantiate and test AttentionLayer
-    attention_layer = AttentionLayer(input_dim, hidden_dim)
-    print(f"Attention Layer Output: {attention_layer(test_input).shape}")

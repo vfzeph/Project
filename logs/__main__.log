@@ -281,3 +281,106 @@
 2024-06-05 17:44:23,514 - __main__ - INFO - Action: [0.47491599 0.47491599 0.47491599 0.47491599], Reward: tensor([-521.8465], grad_fn=<AddBackward0>), Done: False
 2024-06-05 17:44:27,294 - __main__ - INFO - Episode timed out.
 2024-06-05 17:44:27,836 - __main__ - INFO - Action: [0.23745799 0.23745799 0.23745799 0.23745799], Reward: tensor([-523.7324], grad_fn=<AddBackward0>), Done: True
+2024-06-09 00:52:34,935 - __main__ - INFO - DataVisualizer initialized with Seaborn style set to 'whitegrid'.
+2024-06-09 00:52:35,044 - __main__ - INFO - Loading checkpoint from e:\Project\models/checkpoints\ppo_agent_checkpoint.pt
+2024-06-09 00:52:37,676 - __main__ - WARNING - Checkpoint does not contain required keys
+2024-06-09 00:52:38,082 - __main__ - INFO - Environment reset and takeoff completed.
+2024-06-09 00:52:41,957 - __main__ - INFO - Action: [0. 0. 0. 0.], Reward: tensor([-73.2603], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:52:42,546 - __main__ - INFO - Epoch 0, Iteration 0: Reward: tensor([-73.2603], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:52:45,321 - __main__ - INFO - Action: [0. 0. 0. 0.], Reward: tensor([-24.8542], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:52:48,201 - __main__ - INFO - Action: [0.38079708 0.38079708 0.38079708 0.38079708], Reward: tensor([-26.6333], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:52:51,035 - __main__ - INFO - Action: [0.67241233 0.67241233 0.67241233 0.67241233], Reward: tensor([-28.3483], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:52:54,096 - __main__ - INFO - Action: [0.33620616 0.33620616 0.33620616 0.33620616], Reward: tensor([-29.6363], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:52:57,693 - __main__ - INFO - Action: [0.65011687 0.65011687 0.65011687 0.65011687], Reward: tensor([-31.7459], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:00,985 - __main__ - INFO - Action: [0.82258581 0.82258581 0.82258581 0.82258581], Reward: tensor([-33.7387], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:04,964 - __main__ - INFO - Action: [0.90882028 0.90882028 0.90882028 0.90882028], Reward: tensor([-35.5900], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:08,419 - __main__ - INFO - Action: [0.95193752 0.95193752 0.95193752 0.95193752], Reward: tensor([-87.3921], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:11,768 - __main__ - INFO - Action: [0.85676584 0.85676584 0.85676584 0.85676584], Reward: tensor([-89.1436], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:14,817 - __main__ - INFO - Action: [0.42838292 0.42838292 0.42838292 0.42838292], Reward: tensor([-40.4023], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:15,442 - __main__ - INFO - Epoch 0, Iteration 10: Reward: tensor([-500.7450], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:53:18,926 - __main__ - INFO - Action: [0.71171884 0.71171884 0.71171884 0.71171884], Reward: tensor([-42.4728], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:22,092 - __main__ - INFO - Action: [0.83787321 0.83787321 0.83787321 0.83787321], Reward: tensor([-44.2716], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:24,963 - __main__ - INFO - Action: [0.4189366 0.4189366 0.4189366 0.4189366], Reward: tensor([-45.4504], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:28,363 - __main__ - INFO - Action: [0.59026538 0.59026538 0.59026538 0.59026538], Reward: tensor([-47.0722], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:31,625 - __main__ - INFO - Action: [0.77714648 0.77714648 0.77714648 0.77714648], Reward: tensor([-49.0065], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:35,073 - __main__ - INFO - Action: [0.87058703 0.87058703 0.87058703 0.87058703], Reward: tensor([-50.7009], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:38,699 - __main__ - INFO - Action: [0.91730731 0.91730731 0.91730731 0.91730731], Reward: tensor([-52.4732], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:42,512 - __main__ - INFO - Action: [0.83945073 0.83945073 0.83945073 0.83945073], Reward: tensor([-54.5092], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:45,848 - __main__ - INFO - Action: [0.91725274 0.91725274 0.91725274 0.91725274], Reward: tensor([-56.2213], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:49,419 - __main__ - INFO - Action: [0.45862637 0.45862637 0.45862637 0.45862637], Reward: tensor([-57.5851], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:50,014 - __main__ - INFO - Epoch 0, Iteration 20: Reward: tensor([-1000.5081], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:53:52,111 - __main__ - INFO - Action: [0.61011026 0.61011026 0.61011026 0.61011026], Reward: tensor([-59.2225], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:54,413 - __main__ - INFO - Action: [0.78706892 0.78706892 0.78706892 0.78706892], Reward: tensor([-60.5896], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:56,965 - __main__ - INFO - Action: [0.89106184 0.89106184 0.89106184 0.89106184], Reward: tensor([-61.7930], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:53:59,174 - __main__ - INFO - Action: [0.9430583 0.9430583 0.9430583 0.9430583], Reward: tensor([-63.1418], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:01,879 - __main__ - INFO - Action: [0.95354294 0.95354294 0.95354294 0.95354294], Reward: tensor([-64.2254], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:04,842 - __main__ - INFO - Action: [0.85756855 0.85756855 0.85756855 0.85756855], Reward: tensor([-65.9164], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:06,751 - __main__ - INFO - Action: [0.80958135 0.80958135 0.80958135 0.80958135], Reward: tensor([-66.7569], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:09,258 - __main__ - INFO - Action: [0.90231805 0.90231805 0.90231805 0.90231805], Reward: tensor([-67.9170], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:12,228 - __main__ - INFO - Action: [0.93317282 0.93317282 0.93317282 0.93317282], Reward: tensor([-69.4262], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:14,816 - __main__ - INFO - Action: [0.46658641 0.46658641 0.46658641 0.46658641], Reward: tensor([-70.4021], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:15,159 - __main__ - INFO - Epoch 0, Iteration 30: Reward: tensor([-1649.8988], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:54:17,260 - __main__ - INFO - Action: [0.61409028 0.61409028 0.61409028 0.61409028], Reward: tensor([-71.9181], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:19,907 - __main__ - INFO - Action: [0.68784222 0.68784222 0.68784222 0.68784222], Reward: tensor([-73.0367], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:22,726 - __main__ - INFO - Action: [0.84144849 0.84144849 0.84144849 0.84144849], Reward: tensor([-74.6851], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:25,575 - __main__ - INFO - Action: [0.80152132 0.80152132 0.80152132 0.80152132], Reward: tensor([-76.1315], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:28,594 - __main__ - INFO - Action: [0.40076066 0.40076066 0.40076066 0.40076066], Reward: tensor([-77.1846], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:32,359 - __main__ - INFO - Action: [0.20038033 0.20038033 0.20038033 0.20038033], Reward: tensor([-78.5964], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:35,977 - __main__ - INFO - Action: [0.59771754 0.59771754 0.59771754 0.59771754], Reward: tensor([-80.8881], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:39,559 - __main__ - INFO - Action: [0.78087256 0.78087256 0.78087256 0.78087256], Reward: tensor([-82.8164], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:43,572 - __main__ - INFO - Action: [0.77123336 0.77123336 0.77123336 0.77123336], Reward: tensor([-84.7006], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:46,800 - __main__ - INFO - Action: [0.76641376 0.76641376 0.76641376 0.76641376], Reward: tensor([-86.6852], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:47,691 - __main__ - INFO - Epoch 0, Iteration 40: Reward: tensor([-2436.5417], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:54:51,183 - __main__ - INFO - Action: [0.38320688 0.38320688 0.38320688 0.38320688], Reward: tensor([-88.2602], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:54,782 - __main__ - INFO - Action: [0.57240052 0.57240052 0.57240052 0.57240052], Reward: tensor([-90.2342], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:54:58,402 - __main__ - INFO - Action: [0.76821405 0.76821405 0.76821405 0.76821405], Reward: tensor([-92.3011], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:01,492 - __main__ - INFO - Action: [0.7649041 0.7649041 0.7649041 0.7649041], Reward: tensor([-93.7874], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:04,776 - __main__ - INFO - Action: [0.76324913 0.76324913 0.76324913 0.76324913], Reward: tensor([-95.4136], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:07,998 - __main__ - INFO - Action: [0.86363835 0.86363835 0.86363835 0.86363835], Reward: tensor([-97.1879], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:11,599 - __main__ - INFO - Action: [0.43181918 0.43181918 0.43181918 0.43181918], Reward: tensor([-98.6812], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:13,990 - __main__ - INFO - Action: [0.21590959 0.21590959 0.21590959 0.21590959], Reward: tensor([-99.7136], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:17,521 - __main__ - INFO - Action: [0.58996858 0.58996858 0.58996858 0.58996858], Reward: tensor([-101.6551], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:21,338 - __main__ - INFO - Action: [0.79251167 0.79251167 0.79251167 0.79251167], Reward: tensor([-103.6766], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:21,899 - __main__ - INFO - Epoch 0, Iteration 50: Reward: tensor([-3397.4524], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:55:24,907 - __main__ - INFO - Action: [0.87826962 0.87826962 0.87826962 0.87826962], Reward: tensor([-105.6487], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:28,617 - __main__ - INFO - Action: [0.93666219 0.93666219 0.93666219 0.93666219], Reward: tensor([-107.5772], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:32,467 - __main__ - INFO - Action: [0.84912817 0.84912817 0.84912817 0.84912817], Reward: tensor([-109.3293], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:35,560 - __main__ - INFO - Action: [0.92209146 0.92209146 0.92209146 0.92209146], Reward: tensor([-111.0565], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:39,147 - __main__ - INFO - Action: [0.46104573 0.46104573 0.46104573 0.46104573], Reward: tensor([-112.4376], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:42,657 - __main__ - INFO - Action: [0.71253666 0.71253666 0.71253666 0.71253666], Reward: tensor([-114.5680], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:46,268 - __main__ - INFO - Action: [0.73706541 0.73706541 0.73706541 0.73706541], Reward: tensor([-116.2238], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:49,318 - __main__ - INFO - Action: [0.74932978 0.74932978 0.74932978 0.74932978], Reward: tensor([-117.8129], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:52,440 - __main__ - INFO - Action: [0.87219227 0.87219227 0.87219227 0.87219227], Reward: tensor([-119.5396], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:55,650 - __main__ - INFO - Action: [0.91810992 0.91810992 0.91810992 0.91810992], Reward: tensor([-121.1785], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:55:56,399 - __main__ - INFO - Epoch 0, Iteration 60: Reward: tensor([-4532.8247], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:55:59,917 - __main__ - INFO - Action: [0.83985204 0.83985204 0.83985204 0.83985204], Reward: tensor([-123.0650], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:02,671 - __main__ - INFO - Action: [0.41992602 0.41992602 0.41992602 0.41992602], Reward: tensor([-124.1128], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:06,211 - __main__ - INFO - Action: [0.20996301 0.20996301 0.20996301 0.20996301], Reward: tensor([-125.6703], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:09,155 - __main__ - INFO - Action: [0.1049815 0.1049815 0.1049815 0.1049815], Reward: tensor([-127.3117], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:12,033 - __main__ - INFO - Action: [0.43328783 0.43328783 0.43328783 0.43328783], Reward: tensor([-128.9287], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:15,677 - __main__ - INFO - Action: [0.21664392 0.21664392 0.21664392 0.21664392], Reward: tensor([-130.2529], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:19,156 - __main__ - INFO - Action: [0.60584933 0.60584933 0.60584933 0.60584933], Reward: tensor([-132.5931], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:21,636 - __main__ - INFO - Action: [0.78493846 0.78493846 0.78493846 0.78493846], Reward: tensor([-134.1781], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:24,881 - __main__ - INFO - Action: [0.77326631 0.77326631 0.77326631 0.77326631], Reward: tensor([-135.5060], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:28,262 - __main__ - INFO - Action: [0.76743023 0.76743023 0.76743023 0.76743023], Reward: tensor([-137.2006], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:28,763 - __main__ - INFO - Epoch 0, Iteration 70: Reward: tensor([-5831.6440], grad_fn=<AddBackward0>), Policy Loss: None, Value Loss: None, Total Loss: None, Entropy: None
+2024-06-09 00:56:31,794 - __main__ - INFO - Action: [0.86572891 0.86572891 0.86572891 0.86572891], Reward: tensor([-139.1613], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:35,067 - __main__ - INFO - Action: [0.43286445 0.43286445 0.43286445 0.43286445], Reward: tensor([-140.3455], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:38,304 - __main__ - INFO - Action: [0.5972293 0.5972293 0.5972293 0.5972293], Reward: tensor([-142.2044], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:41,464 - __main__ - INFO - Action: [0.78062844 0.78062844 0.78062844 0.78062844], Reward: tensor([-144.0183], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:45,106 - __main__ - INFO - Action: [0.7711113 0.7711113 0.7711113 0.7711113], Reward: tensor([-145.7067], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:48,130 - __main__ - INFO - Action: [0.76635273 0.76635273 0.76635273 0.76635273], Reward: tensor([-147.2814], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:50,774 - __main__ - INFO - Action: [0.76397344 0.76397344 0.76397344 0.76397344], Reward: tensor([-148.6736], grad_fn=<AddBackward0>), Done: False
+2024-06-09 00:56:53,171 - __main__ - INFO - Action: [0.38198672 0.38198672 0.38198672 0.38198672], Reward: tensor([-149.4491], grad_fn=<AddBackward0>), Done: False
+2024-06-09 01:03:21,190 - __main__ - INFO - DataVisualizer initialized with Seaborn style set to 'whitegrid'.
+2024-06-09 01:03:21,298 - __main__ - INFO - Loading checkpoint from e:\Project\models/checkpoints\ppo_agent_checkpoint.pt
+2024-06-09 01:03:23,465 - __main__ - WARNING - Checkpoint does not contain required keys
+2024-06-09 01:03:23,776 - __main__ - INFO - Environment reset and takeoff completed.
+2024-06-09 01:10:55,447 - __main__ - INFO - DataVisualizer initialized with Seaborn style set to 'whitegrid'.
+2024-06-09 01:10:55,507 - __main__ - INFO - Loading checkpoint from e:\Project\models/checkpoints\ppo_agent_checkpoint.pt
+2024-06-09 01:10:57,427 - __main__ - WARNING - Checkpoint does not contain required keys
+2024-06-09 01:10:57,800 - __main__ - INFO - Environment reset and takeoff completed.
+2024-06-09 02:00:27,710 - __main__ - INFO - DataVisualizer initialized with Seaborn style set to 'whitegrid'.
+2024-06-09 02:00:27,826 - __main__ - INFO - Loading checkpoint from e:\Project\models/checkpoints\ppo_agent_checkpoint.pt
+2024-06-09 02:00:29,949 - __main__ - WARNING - Checkpoint does not contain required keys
+2024-06-09 02:00:30,438 - __main__ - INFO - Environment reset and takeoff completed.

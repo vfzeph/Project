@@ -5,24 +5,9 @@ import logging
 import os
 import sys
 
-# Ensure project root is in the path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..'))
 sys.path.append(project_root)
-
-# Assuming these modules are in your project structure:
 from Drone.source.models.nn.shared_components import ResidualBlock, AttentionLayer
-
-def configure_logger():
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
-    if not logger.handlers:
-        stream_handler = logging.StreamHandler()
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        stream_handler.setFormatter(formatter)
-        logger.addHandler(stream_handler)
-    return logger
-
-logger = configure_logger()
 
 class CNNFeatureExtractor(nn.Module):
     def __init__(self, input_channels):
@@ -38,28 +23,40 @@ class CNNFeatureExtractor(nn.Module):
             nn.ReLU(),
             nn.Flatten()
         )
+        self._to_linear = None  # This will be initialized on the first forward pass
 
     def forward(self, x):
-        return self.layers(x)
+        x = self.layers(x)
+        if self._to_linear is None:
+            self._to_linear = x.numel() // x.shape[0]  # Calculate flat output dimension dynamically
+        return x
 
 class ICM(nn.Module):
-    def __init__(self, state_dim, action_dim, image_channels):
+    def __init__(self, config):
         super().__init__()
+        state_dim = config['state_dim']
+        action_dim = config['action_dim']
+        image_channels = config['image_channels']
+        
         self.cnn = CNNFeatureExtractor(image_channels)
+        self.cnn(torch.zeros(1, image_channels, 144, 256))  # Properly initialize CNN output dimension
+
         self.state_encoder = nn.Sequential(
-            nn.Linear(state_dim, 128),
+            nn.Linear(state_dim, config['state_encoder']['hidden_dim']),
             nn.ReLU()
         )
 
-        # Dummy input to initialize CNN and get output dimension
-        self.cnn(torch.zeros(1, image_channels, 144, 256))
+        self.forward_model = nn.Sequential(
+            nn.Linear(self.cnn._to_linear + config['state_encoder']['hidden_dim'] + action_dim, config['forward_model']['hidden_dim']),
+            nn.ReLU(),
+            nn.Linear(config['forward_model']['hidden_dim'], config['state_encoder']['hidden_dim'])
+        )
 
-        # Manually set the correct input dimensions based on concatenated feature size
-        self.forward_input_dim = 4740  # Corrected based on debug output
-        self.inverse_input_dim = 4740  # Corrected based on debug output
-
-        self.forward_model = nn.Linear(self.forward_input_dim, 128)  # Output to some dimension, adjust as needed
-        self.inverse_model = nn.Linear(self.inverse_input_dim, action_dim)
+        self.inverse_model = nn.Sequential(
+            nn.Linear(self.cnn._to_linear + config['state_encoder']['hidden_dim'] * 2, config['inverse_model']['hidden_dim']),
+            nn.ReLU(),
+            nn.Linear(config['inverse_model']['hidden_dim'], action_dim)
+        )
 
     def forward(self, state, next_state, action, image, next_image):
         state_feat = self.state_encoder(state)
@@ -82,7 +79,15 @@ class ICM(nn.Module):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    icm = ICM(15, 4, 3)
+    config = {
+        "state_dim": 15,
+        "action_dim": 4,
+        "image_channels": 3,
+        "state_encoder": {"hidden_dim": 128},
+        "forward_model": {"hidden_dim": 128},
+        "inverse_model": {"hidden_dim": 128}
+    }
+    icm = ICM(config)
     test_state = torch.rand(1, 15)
     test_next_state = torch.rand(1, 15)
     test_action = torch.rand(1, 4)

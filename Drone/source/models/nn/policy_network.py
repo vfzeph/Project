@@ -24,43 +24,44 @@ class CNNFeatureExtractor(nn.Module):
             nn.ReLU(),
             nn.Flatten()
         )
-        self._to_linear = None  # This will be initialized on the first forward pass
+        self._to_linear = None
 
     def forward(self, x):
         x = self.layers(x)
         if self._to_linear is None:
-            self._to_linear = x.numel() // x.shape[0]  # Calculate flat output dimension dynamically
+            self._to_linear = x.numel() // x.shape[0]
         return x
 
-
 class AdvancedPolicyNetwork(nn.Module):
-    def __init__(self, state_dim, action_dim, continuous, hidden_sizes, input_channels):
+    def __init__(self, state_dim, action_dim, continuous, hidden_sizes, input_channels, use_attention=True):
         super().__init__()
         self.continuous = continuous
+        self.use_attention = use_attention
         self.cnn = CNNFeatureExtractor(input_channels)
         
-        # Initialize CNN on a dummy input to set up dimensions
-        dummy_visual = torch.zeros(1, input_channels, 144, 256)
-        cnn_output_dim = self.cnn(dummy_visual).shape[1]
-
+        # Initialize CNN to determine its output dimension
+        self.cnn(torch.zeros(1, input_channels, 144, 256))
+        
         self.state_encoder = nn.Sequential(
             nn.Linear(state_dim, hidden_sizes[0]),
             nn.ReLU()
         )
 
-        # Calculate the combined input dimension for the first policy layer
-        combined_input_dim = hidden_sizes[0] + cnn_output_dim
+        combined_input_dim = hidden_sizes[0] + self.cnn._to_linear
         
-        # Define the neural network layers using ModuleList
         self.policy_layers = nn.ModuleList()
+        self.attention_layers = nn.ModuleList() if use_attention else None
+
         for size in hidden_sizes:
             self.policy_layers.append(nn.Sequential(
                 nn.Linear(combined_input_dim, size),
-                nn.ReLU()
+                nn.ReLU(),
+                ResidualBlock(size, size)
             ))
+            if use_attention:
+                self.attention_layers.append(AttentionLayer(size, size))
             combined_input_dim = size
 
-        # Final layer to output the mean or action probabilities
         if continuous:
             self.mean = nn.Linear(hidden_sizes[-1], action_dim)
             self.log_std = nn.Parameter(torch.zeros(action_dim))
@@ -72,12 +73,14 @@ class AdvancedPolicyNetwork(nn.Module):
         state_features = self.state_encoder(state)
         x = torch.cat((state_features, visual_features), dim=1)
         
-        for layer in self.policy_layers:
-            x = layer(x)  # Apply layer transformations
+        for i, layer in enumerate(self.policy_layers):
+            x = layer(x)
+            if self.use_attention:
+                x = self.attention_layers[i](x)
 
         if self.continuous:
             action_mean = self.mean(x)
-            action_std = torch.exp(self.log_std)  # Ensure the standard deviation is positive
+            action_std = torch.exp(self.log_std)
             return action_mean, action_std
         else:
             action_probs = F.softmax(self.action_head(x), dim=-1)

@@ -11,6 +11,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.tensorboard import SummaryWriter
 from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 
+# Ensure the project root is in the path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
@@ -188,13 +189,15 @@ def main():
     logger = configure_logger(__name__, config['logging']['log_dir'])
     writer = SummaryWriter(log_dir=config['logging']['tensorboard_log_dir'])
 
-    env = AirSimEnv(config, logger=logger)
+    state_dim = config['policy_network']['input_size']
+    action_dim = config['policy_network']['output_size']
+    env = AirSimEnv(state_dim=state_dim, action_dim=action_dim, config=config, logger=logger, tensorboard_log_dir=config['logging']['tensorboard_log_dir'], log_enabled=True)
 
     device = config['ppo']['device']
     if device == 'auto':    
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-    ppo_agent = PPOAgent(config, env.action_space.shape[0])  # Updated to use the shape of the action space
+    ppo_agent = PPOAgent(config)
 
     optimizer = ppo_agent.optimizer
     scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=5, verbose=True)

@@ -2843,3 +2843,88 @@
 {"time": "2024-06-05T12:44:16.608781", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 3 selected."}
 {"time": "2024-06-05T12:44:20.848338", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
 {"time": "2024-06-05T12:44:25.117744", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 0 selected."}
+{"time": "2024-06-08T19:52:29.739846", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Using device: cpu"}
+{"time": "2024-06-08T19:52:39.687813", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:52:43.452615", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:52:46.240102", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:52:49.041806", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:52:51.937736", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:52:55.483653", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 2 selected."}
+{"time": "2024-06-08T19:52:59.084588", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:53:02.419908", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:53:06.133325", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:53:09.712158", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:53:13.030650", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:53:16.440883", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:53:20.021278", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:53:23.232723", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:53:26.257812", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:53:29.376153", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:53:32.921836", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:53:36.261032", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:53:40.181195", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:53:43.994693", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:53:47.124092", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:53:50.649259", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:53:52.808408", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:53:55.191819", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:53:57.650150", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:53:59.748298", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 2 selected."}
+{"time": "2024-06-08T19:54:03.198268", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:05.261479", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:07.513393", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:54:10.201918", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:54:13.053368", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:54:15.856365", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:17.897190", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:20.779775", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:54:23.871942", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:26.676125", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:54:29.790177", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:54:33.671537", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:54:37.007037", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:54:40.953295", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:44.757822", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:48.717706", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:54:52.536178", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:54:56.088760", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:54:59.244210", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 1 selected."}
+{"time": "2024-06-08T19:55:02.487495", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:55:05.760653", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:55:09.385783", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 0 selected."}
+{"time": "2024-06-08T19:55:12.336993", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 0 selected."}
+{"time": "2024-06-08T19:55:15.316730", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:55:18.872880", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 3 selected."}
+{"time": "2024-06-08T19:55:22.476120", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:55:26.231652", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:55:29.816476", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:55:33.436117", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:55:36.983959", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:55:40.691147", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 2 selected."}
+{"time": "2024-06-08T19:55:44.140208", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:55:47.080463", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:55:50.515951", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T19:55:53.766588", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 2 selected."}
+{"time": "2024-06-08T19:55:57.456981", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:56:00.637424", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:56:04.122190", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 0 selected."}
+{"time": "2024-06-08T19:56:07.474011", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 0 selected."}
+{"time": "2024-06-08T19:56:10.292411", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:56:13.060820", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 0 selected."}
+{"time": "2024-06-08T19:56:17.115178", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 3 selected."}
+{"time": "2024-06-08T19:56:20.037218", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:56:22.633808", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:56:25.974031", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:56:29.809292", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:56:32.994691", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 0 selected."}
+{"time": "2024-06-08T19:56:36.305787", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:56:39.689945", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 2 selected."}
+{"time": "2024-06-08T19:56:42.790905", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:56:46.262281", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 1 selected."}
+{"time": "2024-06-08T19:56:49.005955", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 1 selected."}
+{"time": "2024-06-08T19:56:51.386802", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploitation: Action 0 selected."}
+{"time": "2024-06-08T19:56:54.385347", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 3 selected."}
+{"time": "2024-06-08T20:03:15.133169", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Using device: cpu"}
+{"time": "2024-06-08T20:03:25.307756", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 14 selected."}
+{"time": "2024-06-08T20:10:49.985349", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Using device: cpu"}
+{"time": "2024-06-08T20:10:59.444460", "name": "Drone.source.models.ppo.ppo_agent", "level": "INFO", "message": "Exploration: Random action 13 selected."}
