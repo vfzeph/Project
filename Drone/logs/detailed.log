@@ -1,0 +1,2507 @@
+2024-07-21 08:22:45,968 - AirSimEnvLogger - ERROR - An error occurred: __init__() got an unexpected keyword argument 'client'
+2024-07-21 08:25:56,370 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 08:25:56,387 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 08:25:56,389 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 08:25:57,187 - AirSimEnvLogger - ERROR - An error occurred: 'AirSimEnv' object has no attribute 'set_client'
+2024-07-21 08:42:06,637 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 08:42:06,658 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 08:42:06,661 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 08:42:07,885 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 08:42:12,545 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 08:42:16,134 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 08:42:16,744 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 08:42:16,744 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 08:42:16,744 - AirSimEnvLogger - ERROR - An error occurred: float() argument must be a string or a number, not 'dict'
+2024-07-21 11:36:47,033 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 11:36:47,050 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 11:36:47,052 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 11:36:48,017 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 11:36:52,275 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 11:36:57,357 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 11:36:57,937 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 11:36:57,937 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 11:36:57,937 - AirSimEnvLogger - ERROR - An error occurred: float() argument must be a string or a number, not 'dict'
+2024-07-21 11:38:52,942 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 11:38:52,958 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 11:38:52,959 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 11:38:54,902 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 11:39:02,151 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 11:39:06,732 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 11:39:07,329 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 11:39:07,329 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 11:39:07,362 - AirSimEnvLogger - ERROR - An error occurred: 'training'
+2024-07-21 11:46:16,315 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 11:46:16,336 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 11:46:16,336 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 11:46:17,766 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 11:46:22,995 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 11:46:28,172 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 11:46:28,754 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 11:46:28,754 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 11:46:28,787 - AirSimEnvLogger - ERROR - An error occurred: 'training'
+2024-07-21 11:47:03,066 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 11:47:03,083 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 11:47:03,084 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 11:47:04,559 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 11:47:10,309 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 11:47:14,945 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 11:47:15,536 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 11:47:15,536 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 11:47:15,551 - AirSimEnvLogger - ERROR - An error occurred: 'training'
+2024-07-21 12:06:39,458 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 12:06:39,477 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 12:06:39,479 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 12:06:40,590 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 12:06:45,153 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 12:06:49,861 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 12:06:50,364 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 12:06:50,364 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 12:06:50,366 - AirSimEnvLogger - ERROR - An error occurred: 'training'
+2024-07-21 19:46:16,218 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 19:46:16,231 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 19:46:16,231 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 19:46:17,494 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 19:46:23,937 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 19:46:28,644 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 19:46:29,272 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 19:46:29,272 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 19:46:29,398 - AirSimEnvLogger - INFO - Visual tensor shape after permute: torch.Size([1, 3, 144, 256])
+2024-07-21 19:46:30,696 - AirSimEnvLogger - ERROR - An error occurred: Tensors must have same number of dimensions: got 3 and 2
+2024-07-21 19:47:35,958 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 19:47:35,976 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 19:47:35,977 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 19:47:37,402 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 19:47:43,658 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 19:47:48,781 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 19:47:49,267 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 19:47:49,267 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 19:47:49,362 - AirSimEnvLogger - INFO - Visual tensor shape after permute: torch.Size([1, 3, 144, 256])
+2024-07-21 19:47:50,729 - AirSimEnvLogger - ERROR - An error occurred: Tensors must have same number of dimensions: got 3 and 2
+2024-07-21 19:49:58,144 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 19:49:58,163 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 19:49:58,163 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 19:49:59,629 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 19:50:05,859 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 19:50:10,983 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 19:50:11,594 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 19:50:11,594 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 19:50:11,705 - AirSimEnvLogger - INFO - Visual tensor shape after permute: torch.Size([1, 3, 144, 256])
+2024-07-21 19:50:13,309 - AirSimEnvLogger - ERROR - An error occurred: Tensors must have same number of dimensions: got 3 and 2
+2024-07-21 19:51:07,336 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 19:51:07,357 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 19:51:07,358 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 19:51:08,347 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 19:51:13,278 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 19:51:18,028 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 19:51:18,625 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 19:51:18,625 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 19:51:20,424 - AirSimEnvLogger - ERROR - An error occurred: mat1 and mat2 shapes cannot be multiplied (1x4096 and 256x256)
+2024-07-21 19:54:56,185 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-21 19:54:56,202 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-21 19:54:56,202 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 2000000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 2000,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 10000
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 1000,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -1000,
+      "x_max": 1000,
+      "y_min": -1000,
+      "y_max": 1000,
+      "z_min": -100,
+      "z_max": 100
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 10,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 10,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 10
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 256
+    },
+    "inverse_model": {
+      "hidden_dim": 256
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "difficulty_increment": 1,
+    "difficulty_threshold": 200
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-21 19:54:57,662 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-21 19:55:03,997 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-21 19:55:09,801 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-21 19:55:10,396 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-21 19:55:10,396 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-21 19:55:12,160 - AirSimEnvLogger - ERROR - An error occurred: mat1 and mat2 shapes cannot be multiplied (1x4096 and 256x256)

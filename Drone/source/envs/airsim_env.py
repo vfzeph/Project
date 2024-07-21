@@ -1,22 +1,30 @@
+import sys
+import os
 import json
 import airsim
 import numpy as np
 import time
-import os
 import gym
 from gym import spaces
 import torch
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
 import random
-from threading import Thread
+from threading import Thread, Lock
 from collections import deque
+import torch.nn.functional as F
 
-from Drone.source.models.nn.common_layers import ICM  # Import the necessary class
+# Add the project root to sys.path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from Drone.source.models.nn.common_layers import ICM
 from Drone.source.models.nn.policy_network import AdvancedPolicyNetwork
 from Drone.source.models.nn.critic_network import AdvancedCriticNetwork
+from Drone.source.models.nn.Predictive_model import PredictiveModel
+from Drone.source.envs.drone_controller import DroneController
 
-# Custom Logger
 class CustomLogger:
     def __init__(self, name, log_dir=None):
         self.name = name
@@ -40,16 +48,42 @@ class CustomLogger:
     def info(self, message):
         self.logger.info(message)
 
-# Domain Randomization
+    def error(self, message):
+        self.logger.error(message)
+
 def randomize_environment(client):
     weather_params = [
         airsim.WeatherParameter.Rain,
-        airsim.WeatherParameter.Enabled
+        airsim.WeatherParameter.Fog,
+        airsim.WeatherParameter.Dust,
+        airsim.WeatherParameter.Snow
     ]
     weather = random.choice(weather_params)
     client.simSetWeatherParameter(weather, random.uniform(0, 1))
 
+class CurriculumLearning:
+    def __init__(self, config):
+        self.current_difficulty = config['curriculum_learning']['initial_difficulty']
+        self.max_difficulty = config['curriculum_learning'].get('max_difficulty', 10)
+        self.difficulty_increment = config['curriculum_learning'].get('difficulty_increment', 0.5)
+        self.reward_threshold = config['curriculum_learning'].get('reward_threshold', 50)
+
+    def update_difficulty(self, average_reward):
+        if average_reward > self.reward_threshold:
+            self.current_difficulty = min(self.current_difficulty + self.difficulty_increment, self.max_difficulty)
+            self.reward_threshold *= 1.1  # Increase the threshold for the next level
+
+    def get_action_scale(self):
+        return 1 + (self.current_difficulty * 1.0)  # Scales from 1 to 11 as difficulty increases
+
 class AirSimEnv(gym.Env):
+    class State:
+        INITIALIZING = 'initializing'
+        RESETTING = 'resetting'
+        TAKING_OFF = 'taking_off'
+        RUNNING = 'running'
+        DONE = 'done'
+
     def __init__(self, state_dim, action_dim, config, target_position=np.array([0, 0, -10]), action_frequency=1.0, log_enabled=False,
                  exploration_strategy="epsilon_greedy", epsilon=1.0, epsilon_decay=0.995, min_epsilon=0.1,
                  temperature=1.0, ucb_c=2.0, logger=None, tensorboard_log_dir=None):
@@ -58,8 +92,13 @@ class AirSimEnv(gym.Env):
         self.client.confirmConnection()
         self.client.enableApiControl(True)
         self.client.armDisarm(True)
+        self.drone_controller = DroneController(self.client)
         self.state_dim = state_dim
+        self.max_episode_steps = config.get('max_episode_steps', 1000)
+        self.current_step = 0
         self.action_dim = action_dim
+        self.logger = logger if logger else CustomLogger("AirSimEnvLogger")
+        self.logger.info(f"Initialized with state_dim: {self.state_dim}, action_dim: {self.action_dim}")
         self.target_position = target_position
         self.action_frequency = action_frequency
         self.start_time = None
@@ -69,18 +108,20 @@ class AirSimEnv(gym.Env):
             "y_min": -1000, "y_max": 1000,
             "z_min": -100, "z_max": 100
         }
-        self.action_space = spaces.Discrete(len([
-            (10, 0, 0), (-10, 0, 0),  # Slower Forward, Backward
-            (30, 0, 0), (-30, 0, 0),  # Faster Forward, Backward
-            (0, 10, 0), (0, -10, 0),  # Slower Right, Left
-            (0, 30, 0), (0, -30, 0),  # Faster Right, Left
-            (0, 0, 10), (0, 0, -10),  # Slower Up, Down
-            (0, 0, 30), (0, 0, -30),  # Faster Up, Down
-            (10, 10, 0), (-10, -10, 0),  # Diagonal movements
-            (10, -10, 0), (-10, 10, 0),  # Diagonal movements
-            (0, 0, 0)  # Hover
-        ]))
-        self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(state_dim,), dtype=np.float32)
+        
+        # Calculate the total observation size
+        self.image_height = config['icm']['image_height']
+        self.image_width = config['icm']['image_width']
+        self.image_channels = config['icm']['image_channels']
+        self.image_size = self.image_height * self.image_width * self.image_channels
+        self.total_obs_size = self.state_dim + self.image_size
+        
+        self.action_space = spaces.Box(low=-5, high=5, shape=(self.action_dim,), dtype=np.float32)
+        self.observation_space = spaces.Dict({
+            'state': spaces.Box(low=-np.inf, high=np.inf, shape=(self.state_dim,), dtype=np.float32),
+            'visual': spaces.Box(low=0, high=1, shape=(self.image_height, self.image_width, self.image_channels), dtype=np.float32)
+        })
+        
         self.log_enabled = log_enabled
         self.exploration_strategy = exploration_strategy
         self.epsilon = epsilon
@@ -88,34 +129,25 @@ class AirSimEnv(gym.Env):
         self.min_epsilon = min_epsilon
         self.temperature = temperature
         self.ucb_c = ucb_c
-        self.action_counts = np.zeros(self.action_space.n)
-        self.action_values = np.zeros(self.action_space.n)
         self.total_steps = 0
-        self.prev_action = np.array([0, 0, 0])
-        self.logger = logger
+        self.prev_action = np.zeros(self.action_dim)
         self.writer = SummaryWriter(log_dir=tensorboard_log_dir) if tensorboard_log_dir else None
-        self.prev_state = None  # Used for curiosity-based reward
+        self.prev_state = None
+        self.state = None
+        self.next_state = None
+        self.current_image = None
+
+        self.logger.info("Initializing AirSimEnv")
+        self.logger.info(f"Configuration: {json.dumps(config, indent=2)}")
 
         # Initialize device
         device_config = config['ppo']['device']
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') if device_config == 'auto' else torch.device(device_config)
 
-        # Initialize ICM module
-        self.icm = ICM(config['icm']).to(self.device)
-        self.icm_optimizer = optim.Adam(self.icm.parameters(), lr=1e-3)
-
-        # Initialize Policy and Critic Networks
-        self.policy_network = AdvancedPolicyNetwork(
-            state_dim, action_dim, continuous=config['ppo']['continuous'],
-            hidden_sizes=config['policy_network']['hidden_layers'], 
-            input_channels=config['icm']['image_channels'],
-            use_attention=True
-        ).to(self.device)
-
-        self.critic_network = AdvancedCriticNetwork(
-            state_dim, hidden_sizes=config['critic_network']['hidden_layers'],
-            input_channels=config['icm']['image_channels']
-        ).to(self.device)
+        self._initialize_icm(config)
+        self._initialize_policy_network(config)
+        self._initialize_critic_network(config)
+        self._initialize_predictive_model(config)
 
         # Randomize environment
         self.randomize_environment()
@@ -124,10 +156,127 @@ class AirSimEnv(gym.Env):
         self.state_means = np.zeros(self.state_dim)
         self.state_stddevs = np.ones(self.state_dim)
         self.state_buffer = deque(maxlen=1000)
+        self.state_buffer_lock = Lock()
 
         # Start background thread for state normalization
         self.normalization_thread = Thread(target=self._update_state_normalization)
         self.normalization_thread.start()
+
+        # Initialize FSM state
+        self.current_fsm_state = self.State.INITIALIZING
+
+        # Initialize reward weights
+        self.reward_weights = {
+            'distance': 1.0,
+            'velocity': 0.1,
+            'collision': 5.0,
+            'height': 0.5,
+            'movement': 0.5,
+            'smoothness': 0.1,
+            'curiosity': 1.0,
+            'exploration': 0.5
+        }
+
+        # Initialize curriculum learning
+        self.curriculum = CurriculumLearning(config)
+
+    def set_client(self, client):
+        self.client = client
+        self.drone_controller.client = client
+        self.client.confirmConnection()
+        self.client.enableApiControl(True)
+        self.client.armDisarm(True)
+
+    def _initialize_icm(self, config):
+        try:
+            if 'icm' in config:
+                self.icm = ICM(config['icm']).to(self.device)
+                self.icm_optimizer = optim.Adam(self.icm.parameters(), lr=config['learning_rate'])
+            else:
+                self.icm = None
+                self.icm_optimizer = None
+        except Exception as e:
+            self.logger.error(f"Error initializing ICM: {e}")
+            raise
+
+    def _initialize_policy_network(self, config):
+        try:
+            continuous = config['ppo'].get('continuous', True)
+            
+            policy_config = {
+                'image_channels': config['icm']['image_channels'],
+                'image_height': config['icm']['image_height'],
+                'image_width': config['icm']['image_width'],
+                'cnn': config['icm']['cnn'],
+                'use_batch_norm': config['policy_network'].get('use_batch_norm', True),
+                'use_dropout': config['policy_network'].get('use_dropout', True),
+                'dropout_rate': config['policy_network'].get('dropout_rate', 0.2),
+                'use_attention': config['policy_network'].get('use_attention', True),
+                'num_action_heads': config['policy_network'].get('num_action_heads', 1),
+            }
+            
+            self.policy_network = AdvancedPolicyNetwork(
+                self.state_dim, 
+                self.action_dim, 
+                continuous=continuous,
+                hidden_sizes=config['policy_network']['hidden_layers'],
+                config=policy_config
+            ).to(self.device)
+        except KeyError as e:
+            self.logger.error(f"Missing key in configuration for policy network: {e}")
+            raise
+        except Exception as e:
+            self.logger.error(f"Error initializing policy network: {e}")
+            raise
+
+    def _initialize_critic_network(self, config):
+        try:
+            critic_config = {
+                'image_channels': config['icm']['image_channels'],
+                'image_height': config['icm']['image_height'],
+                'image_width': config['icm']['image_width'],
+                'cnn': config['icm']['cnn'],
+                'use_batch_norm': config['critic_network'].get('use_batch_norm', True),
+                'use_dropout': config['critic_network'].get('use_dropout', True),
+                'dropout_rate': config['critic_network'].get('dropout_rate', 0.2),
+                'use_attention': config['critic_network'].get('use_attention', True),
+            }
+
+            self.critic_network = AdvancedCriticNetwork(
+                self.state_dim,
+                hidden_sizes=config['critic_network']['hidden_layers'],
+                config=critic_config
+            ).to(self.device)
+        except KeyError as e:
+            self.logger.error(f"Missing key in configuration for critic network: {e}")
+            raise
+        except Exception as e:
+            self.logger.error(f"Error initializing critic network: {e}")
+            raise
+
+    def _initialize_predictive_model(self, config):
+        try:
+            cnn_config = config['icm']['cnn']
+            cnn_config['image_channels'] = config['icm']['image_channels']
+            cnn_config['image_height'] = config['icm']['image_height']
+            cnn_config['image_width'] = config['icm']['image_width']
+
+            self.predictive_model = PredictiveModel(
+                self.state_dim + self.action_dim,
+                self.state_dim,
+                config['predictive_model']['hidden_layers'],
+                cnn_config
+            ).to(self.device)
+            self.predictive_model_optimizer = optim.Adam(
+                self.predictive_model.parameters(),
+                lr=config['predictive_model']['learning_rate']
+            )
+        except KeyError as e:
+            self.logger.error(f"Missing key in configuration for predictive model: {e}")
+            raise
+        except Exception as e:
+            self.logger.error(f"Error initializing predictive model: {e}")
+            raise
 
     def log(self, message):
         if self.log_enabled:
@@ -140,67 +289,126 @@ class AirSimEnv(gym.Env):
         randomize_environment(self.client)
 
     def reset(self):
-        self.client.reset()
-        self.client.enableApiControl(True)
-        self.client.armDisarm(True)
-        self.client.takeoffAsync().join()
+        self.current_fsm_state = self.State.RESETTING
+        self._reset_env()
+        self.current_fsm_state = self.State.TAKING_OFF
+        self.drone_controller.takeoff()
+        self.current_fsm_state = self.State.RUNNING
         self.start_time = time.time()
-        self.prev_action = np.array([0, 0, 0])
-        self.action_counts = np.zeros(self.action_space.n)
-        self.action_values = np.zeros(self.action_space.n)
+        self.prev_action = np.zeros(self.action_dim)
         self.total_steps = 0
+        self.current_step = 0  # Reset current step counter
         self.prev_state = None
         self.log("Environment reset and takeoff completed.")
-        state = self._get_state()
-        image = self._get_image()
-        self.state_buffer.append(state)
-        return state, image
-
-    def step(self, action_index):
-        if self.exploration_strategy == "ucb":
-            action_index = self.select_action_ucb()
-        elif self.exploration_strategy == "softmax":
-            action_index = self.select_action_softmax()
-        elif self.exploration_strategy == "epsilon_greedy":
-            if random.random() < self.epsilon:
-                action_index = np.random.randint(self.action_space.n)
-            self.epsilon = max(self.min_epsilon, self.epsilon * self.epsilon_decay)
+        self.state = self._get_state()
+        self.current_image = self._get_image()
+        with self.state_buffer_lock:
+            self.state_buffer.append(self.state)
         
-        action = self._map_action(action_index)
-        action = action + np.random.normal(0, 0.1, size=action.shape)
-        # Variable duration based on action magnitude
-        duration = (0.2 if np.linalg.norm(action) > 20 else 0.5) / self.action_frequency
-        action = self._smooth_action(action)
-        vx, vy, vz = float(action[0]), float(action[1]), float(action[2])
-        self.client.moveByVelocityAsync(vx, vy, vz, duration).join()
-        time.sleep(duration)
-        new_state = self._get_state()
-        new_image = self._get_image()
-        reward = self._compute_reward(new_state, action, new_image)
-        done = self._check_done(new_state)
-        self.log(f"Action: {action_index}, Reward: {reward}, Done: {done}")
-        self._update_action_values(action_index, reward)
-        self.state_buffer.append(new_state)
-        if self.writer:
-            self.writer.add_scalar('Reward', reward, self.total_steps)
-            self.writer.add_scalar('Epsilon', self.epsilon, self.total_steps)
-            self.writer.flush()
-        return new_state, new_image, reward, done, {}
+        observation = {
+            'state': self.state,
+            'visual': self.current_image
+        }
+        
+        self.logger.info(f"Reset completed. Observation keys: {observation.keys()}")
+        self.logger.info(f"State shape: {observation['state'].shape}, Visual shape: {observation['visual'].shape}")
+        
+        return observation
 
-    def _map_action(self, action_index):
-        actions = [
-            (10, 0, 0), (-10, 0, 0),  # Slower Forward, Backward
-            (30, 0, 0), (-30, 0, 0),  # Faster Forward, Backward
-            (0, 10, 0), (0, -10, 0),  # Slower Right, Left
-            (0, 30, 0), (0, -30, 0),  # Faster Right, Left
-            (0, 0, 10), (0, 0, -10),  # Slower Up, Down
-            (0, 0, 30), (0, 0, -30),  # Faster Up, Down
-            (10, 10, 0), (-10, -10, 0),  # Diagonal movements
-            (10, -10, 0), (-10, 10, 0),  # Diagonal movements
-            (0, 0, 0)  # Hover
-        ]
-        return np.array(actions[action_index])
+    def _reset_env(self):
+        self.drone_controller.reset()
 
+    def predict_next_state(self, state, action, image):
+        state_tensor = torch.tensor(state, dtype=torch.float32).unsqueeze(0).to(self.device)
+        action_tensor = torch.tensor(action, dtype=torch.float32).unsqueeze(0).to(self.device)
+        image_tensor = torch.tensor(image, dtype=torch.float32).unsqueeze(0).to(self.device)
+
+        with torch.no_grad():
+            next_state = self.predictive_model(state_tensor, action_tensor, image_tensor).cpu().numpy()
+
+        return next_state
+    
+    def _train_predictive_model(self, state, action, next_state, image):
+        state_tensor = torch.tensor(state, dtype=torch.float32).unsqueeze(0).to(self.device)
+        action_tensor = torch.tensor(action, dtype=torch.float32).unsqueeze(0).to(self.device)
+        next_state_tensor = torch.tensor(next_state, dtype=torch.float32).unsqueeze(0).to(self.device)
+        image_tensor = torch.tensor(image, dtype=torch.float32).permute(2, 0, 1).unsqueeze(0).to(self.device)
+
+        predicted_next_state = self.predictive_model(state_tensor, action_tensor, image_tensor)
+        loss = F.mse_loss(predicted_next_state, next_state_tensor)
+
+        self.predictive_model_optimizer.zero_grad()
+        loss.backward()
+        self.predictive_model_optimizer.step()
+
+        return loss.item()
+
+    def step(self, action):
+        if self.current_fsm_state != self.State.RUNNING:
+            self.logger.error("Step called while not in RUNNING state.")
+            return {'state': np.zeros(self.state_dim), 'visual': np.zeros((self.image_height, self.image_width, self.image_channels))}, 0, True, {}
+        
+        try:
+            # Ensure action is within bounds
+            action = np.clip(action, self.action_space.low, self.action_space.high)
+            
+            # Apply curriculum learning scaling
+            action_scale = self.curriculum.get_action_scale()
+            scaled_action = action * action_scale
+            
+            duration = 1.0 / self.action_frequency
+            scaled_action = self._smooth_action(scaled_action)
+            vx, vy, vz = scaled_action[:3]
+
+            self.drone_controller.move_by_velocity_z(vx, vy, -vz, duration)
+            time.sleep(duration)
+
+            new_state = self._get_state()
+            new_image = self._get_image()
+
+            reward = self._compute_reward(self.state, scaled_action, self.current_image, new_state)
+            done = self._check_done(new_state)
+
+            self.log(f"Action: {scaled_action}, Velocity: ({vx}, {vy}, {vz}), Duration: {duration}, Reward: {reward}, Done: {done}")
+            
+            with self.state_buffer_lock:
+                self.state_buffer.append(new_state)
+            
+            if self.writer:
+                self.writer.add_scalar('Reward', reward, self.total_steps)
+                self.writer.add_scalar('Epsilon', self.epsilon, self.total_steps)
+                self.writer.add_scalar('Action Scale', action_scale, self.total_steps)
+                self.writer.flush()
+            
+            self.total_steps += 1
+            self.current_step += 1
+            self.prev_state = self.state
+            self.state = new_state
+            self.current_image = new_image
+
+            observation = {
+                'state': self.state,
+                'visual': self.current_image
+            }
+            
+            if done:
+                self.current_fsm_state = self.State.DONE
+
+            self.logger.info(f"Step completed. Observation keys: {observation.keys()}")
+            self.logger.info(f"State shape: {observation['state'].shape}, Visual shape: {observation['visual'].shape}")
+
+            # Train predictive model
+            predictive_loss = self._train_predictive_model(self.prev_state, scaled_action, new_state, self.current_image)
+            self.logger.info(f"Predictive model loss: {predictive_loss}")
+            
+            return observation, reward, done, {'action_scale': action_scale}
+        
+        except Exception as e:
+            self.logger.error(f"Error in step function: {str(e)}")
+            self.logger.error(f"Action shape: {action.shape}, Current state shape: {self.state.shape}, "
+                              f"Current image shape: {self.current_image.shape}")
+            raise
+    
     def _smooth_action(self, action):
         action = np.tanh(action)  # Apply non-linear transformation (hyperbolic tangent)
         action = self.prev_action + 0.5 * (action - self.prev_action)
@@ -208,73 +416,102 @@ class AirSimEnv(gym.Env):
         return action
 
     def _get_state(self):
-        pose = self.client.simGetVehiclePose().position
-        velocity = self.client.getMultirotorState().kinematics_estimated.linear_velocity
-        orientation = self.client.simGetVehiclePose().orientation
-        angular_velocity = self.client.getMultirotorState().kinematics_estimated.angular_velocity
+        position = self.drone_controller.get_position()
+        velocity = self.drone_controller.get_velocity()
+        orientation = self.drone_controller.get_orientation()
+        angular_velocity = self.drone_controller.get_angular_velocity()
 
-        position = np.array([pose.x_val, pose.y_val, pose.z_val])
-        linear_velocity = np.array([velocity.x_val, velocity.y_val, velocity.z_val])
-        orientation_quat = np.array([orientation.x_val, orientation.y_val, orientation.z_val, orientation.w_val])
-        angular_velocity = np.array([angular_velocity.x_val, angular_velocity.y_val, angular_velocity.z_val])
+        # Check if position and velocity are objects with x_val, y_val, z_val attributes
+        if hasattr(position, 'x_val'):
+            position = np.array([position.x_val, position.y_val, position.z_val])
+        if hasattr(velocity, 'x_val'):
+            velocity = np.array([velocity.x_val, velocity.y_val, velocity.z_val])
 
-        state = np.concatenate((position, linear_velocity, orientation_quat, angular_velocity), axis=0)
-        if state.shape[0] < 15:
-            state = np.pad(state, (0, 15 - state.shape[0]), 'constant', constant_values=(0, 0))
-        return self._normalize_state(state)
+        # Ensure orientation is a numpy array
+        orientation = np.array(orientation)
 
+        # Angular velocity is already a numpy array, so we don't need to modify it
+
+        state = np.concatenate([
+            position,
+            velocity,
+            orientation,
+            angular_velocity
+        ])
+
+        # Ensure state has the correct shape
+        state = np.pad(state, (0, max(0, self.state_dim - len(state))))[:self.state_dim]
+        
+        return state
+        
     def _get_image(self):
-        response = self.client.simGetImages([airsim.ImageRequest("0", airsim.ImageType.Scene, False, False)])[0]
+        responses = self.client.simGetImages([airsim.ImageRequest("0", airsim.ImageType.Scene, False, False)])
+        response = responses[0]
         img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
-        img_rgb = img1d.reshape(response.height, response.width, 3).astype(np.float32) / 255.0  # Normalize image
-        img_rgb = img_rgb.transpose(2, 0, 1)  # Convert to [channels, height, width] format
-        return img_rgb
+        img_rgb = img1d.reshape(self.image_height, self.image_width, self.image_channels)
+        img_rgb = img_rgb.astype(np.float32) / 255.0
+        return img_rgb  # This will be (H, W, C)
 
     def _normalize_state(self, state):
-        """Normalize state values to improve learning stability."""
-        if state.shape != self.state_means.shape or state.shape != self.state_stddevs.shape:
-            raise ValueError(f"Shape mismatch: state {state.shape}, state_means {self.state_means.shape}, state_stddevs {self.state_stddevs.shape}")
-        state = (state - self.state_means) / (self.state_stddevs + 1e-8)
-        return state
+        if state.shape != self.state_means.shape:
+            raise ValueError(f"State shape {state.shape} does not match normalization parameters shape {self.state_means.shape}")
+        return (state - self.state_means) / (self.state_stddevs + 1e-8)
 
     def _update_state_normalization(self):
         while True:
-            if len(self.state_buffer) >= 1000:
-                states = np.array(self.state_buffer)
-                self.state_means = np.mean(states, axis=0)
-                self.state_stddevs = np.std(states, axis=0)
-                self.state_buffer.clear()
+            with self.state_buffer_lock:
+                if len(self.state_buffer) >= 1000:
+                    states = np.array(self.state_buffer)
+                    self.state_means = np.mean(states, axis=0)
+                    self.state_stddevs = np.std(states, axis=0)
+                    self.state_buffer.clear()
 
-    def _compute_reward(self, state, action, new_image):
-        distance_reward = self._compute_distance_reward(state)
-        potential_reward = self._compute_potential_reward(state)
+    def _compute_reward(self, state, action, current_image, next_state):
+        distance_reward = self._compute_distance_reward(next_state)
+        velocity_reward = self._compute_velocity_reward(next_state)
+        movement_reward = np.linalg.norm(action[:3]) * 0.5 
         collision_penalty = self._compute_collision_penalty()
-        height_penalty = self._compute_height_penalty(state)
-        time_penalty = self._compute_time_penalty()
+        height_penalty = self._compute_height_penalty(next_state)
         movement_penalty = self._compute_movement_penalty(action)
         smoothness_penalty = self._compute_smoothness_penalty(action)
-        curiosity_reward = self._compute_curiosity_reward(state, action, new_image)
-        exploration_bonus = self._compute_exploration_bonus(action)
+        curiosity_reward = self._compute_curiosity_reward(state, action, current_image, next_state)
+        exploration_bonus = self._compute_exploration_bonus(next_state)
 
-        reward = (
-            distance_reward + potential_reward + collision_penalty +
-            height_penalty + time_penalty + movement_penalty +
-            smoothness_penalty + curiosity_reward + exploration_bonus
+        # Adjust weights based on curriculum difficulty
+        curriculum_factor = self.curriculum.current_difficulty / self.curriculum.max_difficulty
+        movement_weight = 0.1 + (0.4 * curriculum_factor)  # Increases from 0.1 to 0.5 as difficulty increases
+        exploration_weight = 0.2 + (0.3 * curriculum_factor)  # Increases from 0.2 to 0.5 as difficulty increases
+
+        total_reward = (
+            self.reward_weights['distance'] * distance_reward +
+            self.reward_weights['velocity'] * velocity_reward +
+            movement_weight * movement_reward +
+            self.reward_weights['collision'] * collision_penalty +
+            self.reward_weights['height'] * height_penalty +
+            self.reward_weights['movement'] * movement_penalty +
+            self.reward_weights['smoothness'] * smoothness_penalty +
+            self.reward_weights['curiosity'] * curiosity_reward +
+            exploration_weight * exploration_bonus
         )
-        return reward
+
+        self.logger.info(f"Reward breakdown - Distance: {distance_reward}, Velocity: {velocity_reward}, "
+                        f"Movement: {movement_reward}, Collision: {collision_penalty}, Height: {height_penalty}, "
+                        f"Movement Penalty: {movement_penalty}, Smoothness: {smoothness_penalty}, "
+                        f"Curiosity: {curiosity_reward}, Exploration: {exploration_bonus}, Total: {total_reward}")
+
+        return total_reward
 
     def _compute_distance_reward(self, state):
         position = state[:3]
         distance_to_target = np.linalg.norm(self.target_position - position)
         return -distance_to_target
 
-    def _compute_potential_reward(self, state):
-        position = state[:3]
-        distance_to_target = np.linalg.norm(self.target_position - position)
-        return 1.0 / (1.0 + distance_to_target)
+    def _compute_velocity_reward(self, state):
+        velocity = state[3:6]
+        return -np.linalg.norm(velocity)  # Penalize high velocities
 
     def _compute_collision_penalty(self):
-        collision_info = self.client.simGetCollisionInfo()
+        collision_info = self.drone_controller.get_collision_info()
         return -50 if collision_info.has_collided else 0
 
     def _compute_height_penalty(self, state):
@@ -284,10 +521,6 @@ class AirSimEnv(gym.Env):
         height_penalty = 1.0
         return -height_penalty if abs(current_height - height_target) > height_tolerance else 0
 
-    def _compute_time_penalty(self):
-        time_penalty = 0.01
-        return -time_penalty * (time.time() - self.start_time)
-
     def _compute_movement_penalty(self, action):
         movement_penalty = 0.1
         return -movement_penalty * np.linalg.norm(action)
@@ -296,67 +529,80 @@ class AirSimEnv(gym.Env):
         smoothness_penalty = 0.1
         return -smoothness_penalty * np.linalg.norm(action - self.prev_action)
 
-    def _compute_curiosity_reward(self, state, action, image):
+    def _compute_curiosity_reward(self, state, action, current_image, next_state):
         state_tensor = torch.tensor(state, dtype=torch.float32).unsqueeze(0).to(self.device)
-        next_state_tensor = torch.tensor(state, dtype=torch.float32).unsqueeze(0).to(self.device)
+        next_state_tensor = torch.tensor(next_state, dtype=torch.float32).unsqueeze(0).to(self.device)
         action_tensor = torch.tensor(action, dtype=torch.float32).unsqueeze(0).to(self.device)
-        image_tensor = torch.tensor(image, dtype=torch.float32).unsqueeze(0).to(self.device)
-        next_image_tensor = torch.tensor(image, dtype=torch.float32).unsqueeze(0).to(self.device)
+        
+        current_image_tensor = torch.tensor(current_image, dtype=torch.float32).permute(2, 0, 1).unsqueeze(0).to(self.device)
+        next_image_tensor = torch.tensor(self.current_image, dtype=torch.float32).permute(2, 0, 1).unsqueeze(0).to(self.device)
 
-        curiosity_reward = self.icm.intrinsic_reward(state_tensor, next_state_tensor, action_tensor, image_tensor, next_image_tensor)
+        curiosity_reward = self.icm.intrinsic_reward(state_tensor, next_state_tensor, action_tensor, current_image_tensor, next_image_tensor)
+        return curiosity_reward.item()
+        
+    def _compute_exploration_bonus(self, state):
+        exploration_bonus = 0.3 * np.linalg.norm(state - self.prev_state) if self.prev_state is not None else 0
         self.prev_state = state
-        return curiosity_reward
-
-    def _compute_exploration_bonus(self, action):
-        exploration_bonus = 0.1 * np.linalg.norm(action - self.prev_action)
         return exploration_bonus
-
-    def _update_action_values(self, action_index, reward):
-        self.action_counts[action_index] += 1
-        n = self.action_counts[action_index]
-        value = self.action_values[action_index]
-        new_value = ((n - 1) / n) * value + (1 / n) * reward
-        self.action_values[action_index] = new_value
 
     def _check_done(self, state):
         position = state[:3]
         distance_to_target = np.linalg.norm(self.target_position - position)
+        collision_info = self.drone_controller.get_collision_info()
+
         if distance_to_target < 1.0:
-            self.log("Target reached.")
+            self.logger.info("Target reached.")
             return True
-        if time.time() - self.start_time > self.max_episode_duration:
-            self.log("Episode timed out.")
+        if collision_info.has_collided:
+            self.logger.info("Collision detected.")
+            return True
+        if self.current_step >= self.max_episode_steps:
+            self.logger.info("Maximum episode steps reached.")
             return True
         return False
-
-    def select_action_ucb(self):
-        total_counts = np.sum(self.action_counts)
-        ucb_values = self.action_values + self.ucb_c * np.sqrt(np.log(total_counts + 1) / (self.action_counts + 1e-5))
-        return np.argmax(ucb_values)
-
-    def select_action_softmax(self):
-        exp_values = np.exp(self.action_values / self.temperature)
-        probabilities = exp_values / np.sum(exp_values)
-        return np.random.choice(len(probabilities), p=probabilities)
-
+    
+    def get_goal(self):
+        return self.target_position
+    
     def close(self):
+        self.drone_controller.land()
         self.client.armDisarm(False)
         self.client.enableApiControl(False)
         self.client.reset()
+        if self.writer:
+            self.writer.close()
         if self.logger:
             self.logger.info("Environment closed.")
 
+    def update_curriculum(self, average_reward):
+        self.curriculum.update_difficulty(average_reward)
+        self.logger.info(f"Updated curriculum difficulty to {self.curriculum.current_difficulty}")
+
 if __name__ == '__main__':
-    config_path = os.path.join(os.path.dirname(__file__), '..', 'configs', 'learning', 'ppo_config.json')
+    config_path = os.path.join(os.path.dirname(__file__), '..', '..', 'configs', 'learning', 'ppo_config.json')
     with open(config_path, 'r') as config_file:
         config = json.load(config_file)
     logger = CustomLogger("AirSimEnvLogger", log_dir="./logs")
-    env = AirSimEnv(state_dim=15, action_dim=4, config=config, logger=logger, tensorboard_log_dir="./logs/tensorboard_logs", log_enabled=True)
-    state, image = env.reset()
-    done = False
-    while not done:
-        action = np.random.randint(env.action_space.n)  # Random action for testing
-        state, image, reward, done, _ = env.step(action)
-        if done:
-            state, image = env.reset()
-    env.close()
+    env = AirSimEnv(state_dim=config['policy_network']['input_size'], 
+                    action_dim=config['policy_network']['output_size'], 
+                    config=config, 
+                    logger=logger, 
+                    tensorboard_log_dir="./logs/tensorboard_logs", 
+                    log_enabled=True)
+    try:
+        observation = env.reset()
+        done = False
+        episode_reward = 0
+        while not done:
+            action = env.action_space.sample()  # Random action for testing
+            observation, reward, done, info = env.step(action)
+            episode_reward += reward
+            if done:
+                logger.info(f"Episode finished. Total reward: {episode_reward}")
+                env.update_curriculum(episode_reward)  # Update curriculum after each episode
+                observation = env.reset()
+                episode_reward = 0
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+    finally:
+        env.close()
