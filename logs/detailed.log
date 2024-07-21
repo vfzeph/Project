@@ -21416,3 +21416,1387 @@ TypeError: can't convert np.ndarray of type numpy.object_. The only supported ty
 2024-07-21 23:41:15,423 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
 2024-07-21 23:41:15,423 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
 2024-07-21 23:41:18,074 - AirSimEnvLogger - INFO - Predictive model loss: 0.08619578182697296
+2024-07-22 00:29:24,088 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-22 00:29:24,110 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-22 00:29:24,111 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-22 00:29:25,532 - AirSimEnvLogger - INFO - DataVisualizer initialized with Seaborn style set to 'whitegrid'.
+2024-07-22 00:29:25,533 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-22 00:29:32,317 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-22 00:29:37,731 - AirSimEnvLogger - ERROR - Error during training: 'AirSimEnv' object has no attribute 'log'
+2024-07-22 00:29:37,731 - AirSimEnvLogger - ERROR - Error during training: 'AirSimEnv' object has no attribute 'log'
+2024-07-22 00:29:37,731 - AirSimEnvLogger - ERROR - An error occurred in main: 'AirSimEnv' object has no attribute 'log'
+Traceback (most recent call last):
+  File "e:\Project\Drone\train.py", line 132, in main
+    episode_rewards, episode_lengths = train_agents(ppo_agent, env, config, logger)
+  File "e:\Project\Drone\train.py", line 77, in train_agents
+    episode_rewards, episode_lengths = ppo_agent.train(env, total_timesteps, ppo_save_path)
+  File "e:\Project\Drone\source\models\ppo\ppo_agent.py", line 334, in train
+    observation = env.reset()
+  File "C:\Users\HP\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\stable_baselines3\common\vec_env\dummy_vec_env.py", line 77, in reset
+    obs, self.reset_infos[env_idx] = self.envs[env_idx].reset(seed=self._seeds[env_idx], **maybe_options)
+  File "C:\Users\HP\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\shimmy\openai_gym_compatibility.py", line 235, in reset
+    obs = self.gym_env.reset()
+  File "e:\Project\Drone\source\envs\airsim_env.py", line 298, in reset
+    self.log("Environment reset and takeoff completed.")
+AttributeError: 'AirSimEnv' object has no attribute 'log'
+2024-07-22 00:29:43,268 - AirSimEnvLogger - INFO - Environment closed.
+2024-07-22 00:29:43,330 - AirSimEnvLogger - INFO - Training script execution finished.
+2024-07-22 00:34:21,809 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-22 00:34:21,826 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-22 00:34:21,826 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-22 00:34:23,530 - AirSimEnvLogger - INFO - DataVisualizer initialized with Seaborn style set to 'whitegrid'.
+2024-07-22 00:34:23,530 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-22 00:34:29,996 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-22 00:34:34,242 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-22 00:34:34,900 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:34:34,900 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:34:36,267 - AirSimEnvLogger - ERROR - Error in select_action: permute(sparse_coo): number of dimensions in the tensor input does not match the length of the desired ordering of dimensions i.e. input.dim() = 5 is not equal to len(dims) = 4
+2024-07-22 00:34:36,267 - AirSimEnvLogger - ERROR - Error during training: permute(sparse_coo): number of dimensions in the tensor input does not match the length of the desired ordering of dimensions i.e. input.dim() = 5 is not equal to len(dims) = 4
+2024-07-22 00:34:36,267 - AirSimEnvLogger - ERROR - Error during training: permute(sparse_coo): number of dimensions in the tensor input does not match the length of the desired ordering of dimensions i.e. input.dim() = 5 is not equal to len(dims) = 4
+2024-07-22 00:34:36,267 - AirSimEnvLogger - ERROR - An error occurred in main: permute(sparse_coo): number of dimensions in the tensor input does not match the length of the desired ordering of dimensions i.e. input.dim() = 5 is not equal to len(dims) = 4
+Traceback (most recent call last):
+  File "e:\Project\Drone\train.py", line 134, in main
+    episode_rewards, episode_lengths = train_agents(ppo_agent, env, config, logger)
+  File "e:\Project\Drone\train.py", line 77, in train_agents
+    episode_rewards, episode_lengths = ppo_agent.train(env, total_timesteps, ppo_save_path)
+  File "e:\Project\Drone\source\models\ppo\ppo_agent.py", line 336, in train
+    action, log_prob = self.select_action(observation)
+  File "e:\Project\Drone\source\models\ppo\ppo_agent.py", line 212, in select_action
+    mean, std = self.policy_network(state, visual)
+  File "C:\Users\HP\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\torch\nn\modules\module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "e:\Project\Drone\source\models\nn\policy_network.py", line 105, in forward
+    visual = visual.permute(0, 3, 1, 2)
+RuntimeError: permute(sparse_coo): number of dimensions in the tensor input does not match the length of the desired ordering of dimensions i.e. input.dim() = 5 is not equal to len(dims) = 4
+2024-07-22 00:34:41,825 - AirSimEnvLogger - INFO - Environment closed.
+2024-07-22 00:34:41,887 - AirSimEnvLogger - INFO - Training script execution finished.
+2024-07-22 00:37:55,706 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-07-22 00:37:55,725 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-07-22 00:37:55,725 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 4,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.1,
+    "smoothness_penalty": 0.1,
+    "duration": 0.1,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    }
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-07-22 00:37:57,155 - AirSimEnvLogger - INFO - DataVisualizer initialized with Seaborn style set to 'whitegrid'.
+2024-07-22 00:37:57,156 - AirSimEnvLogger - INFO - Using device: cpu
+2024-07-22 00:38:04,381 - AirSimEnvLogger - INFO - PPOAgent initialized successfully.
+2024-07-22 00:38:09,568 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-07-22 00:38:10,214 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:38:10,214 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:38:17,223 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.59915525606885, Velocity: -0.14406632434723196, Movement: 0.24276758498618145, Collision: 0, Height: -1.0, Movement Penalty: -0.05595627992435059, Smoothness: -0.0, Curiosity: 0.6596298217773438, Exploration: 0, Large Movement: 0.9710703399447258, Direction Change: 0, Total: -8.476852404845612
+2024-07-22 00:38:17,396 - AirSimEnvLogger - INFO - Action: [0.27780092 0.27928311 0.28385207 0.27814767], Velocity: (0.27780091762542725, 0.2792831063270569, 0.28385207056999207), Duration: 1.5, Reward: -8.476852404845612, Done: False
+2024-07-22 00:38:17,458 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:38:17,458 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:38:20,766 - AirSimEnvLogger - INFO - Predictive model loss: 0.016325751319527626
+2024-07-22 00:38:27,574 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.826949557494938, Velocity: -0.03767594150311649, Movement: 0.09256593833117963, Collision: 0, Height: -1.0, Movement Penalty: -0.019929647044778568, Smoothness: -0.0, Curiosity: 0.20414738357067108, Exploration: 1.2299842640026413, Large Movement: 0.3702637533247185, Direction Change: 0.08505115787322537, Total: -9.300312910438826
+2024-07-22 00:38:27,716 - AirSimEnvLogger - INFO - Action: [0.07123401 0.06164273 0.15937284 0.07379208], Velocity: (0.07123400717973707, 0.061642727255821206, 0.15937284007668495), Duration: 1.5, Reward: -9.300312910438826, Done: False
+2024-07-22 00:38:27,748 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:38:27,748 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:38:30,667 - AirSimEnvLogger - INFO - Predictive model loss: 0.006762190256267786
+2024-07-22 00:38:37,586 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.852718168040793, Velocity: -0.06438458963598852, Movement: 0.1151066107074977, Collision: 0, Height: -1.0, Movement Penalty: -0.023887578125881107, Smoothness: -0.0, Curiosity: 0.33861270546913147, Exploration: 0.1393028708835773, Large Movement: 0.4604264428299908, Direction Change: 0.03529351308714479, Total: -9.453319655791647
+2024-07-22 00:38:37,712 - AirSimEnvLogger - INFO - Action: [0.13610231 0.09036282 0.16220003 0.06374568], Velocity: (0.13610230848193167, 0.09036281526088713, 0.1622000325471163), Duration: 1.5, Reward: -9.453319655791647, Done: False
+2024-07-22 00:38:37,759 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:38:37,759 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:38:40,462 - AirSimEnvLogger - INFO - Predictive model loss: 0.011866356246173382
+2024-07-22 00:38:47,126 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.670939375716994, Velocity: -0.20762518168384178, Movement: 0.33847205387087886, Collision: 0, Height: -1.0, Movement Penalty: -0.07594471597179356, Smoothness: -0.0, Curiosity: 1.8079469203948975, Exploration: 0.35916163554931063, Large Movement: 1.3538882154835155, Direction Change: 0.014706819829985895, Total: -6.908432212614625
+2024-07-22 00:38:47,254 - AirSimEnvLogger - INFO - Action: [0.39493242 0.36263383 0.41325346 0.34424797], Velocity: (0.3949324178248644, 0.3626338260769844, 0.41325345557183024), Duration: 1.5, Reward: -6.908432212614625, Done: False
+2024-07-22 00:38:47,314 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:38:47,314 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:38:50,119 - AirSimEnvLogger - INFO - Predictive model loss: 0.06056063994765282
+2024-07-22 00:38:56,844 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.011920464173231, Velocity: -0.018958684852406493, Movement: 0.024329717221679387, Collision: 0, Height: -1.0, Movement Penalty: -0.007462708124982795, Smoothness: -0.0, Curiosity: 0.6221877336502075, Exploration: 0.16086557328185147, Large Movement: 0.09731886888671755, Direction Change: 0.16825909143579165, Total: -9.421117659046594
+2024-07-22 00:38:56,923 - AirSimEnvLogger - INFO - Action: [-0.01991278 -0.04344718 -0.00914134 -0.05658145], Velocity: (-0.019912777216732513, -0.04344718335270881, -0.009141341399401481), Duration: 1.5, Reward: -9.421117659046594, Done: False
+2024-07-22 00:38:56,985 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:38:56,985 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:38:59,800 - AirSimEnvLogger - INFO - Predictive model loss: 0.029808277264237404
+2024-07-22 00:39:06,174 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.999192421143716, Velocity: -0.022341163430403693, Movement: 0.03858076049451543, Collision: 0, Height: -1.0, Movement Penalty: -0.009886728828595953, Smoothness: -0.0, Curiosity: 0.7670976519584656, Exploration: 0.1903802075245449, Large Movement: 0.1543230419780617, Direction Change: 0.1618245834369325, Total: -9.212111286890785
+2024-07-22 00:39:06,300 - AirSimEnvLogger - INFO - Action: [0.04714762 0.0413697  0.0449394  0.06181295], Velocity: (0.04714762492969631, 0.04136970217287542, 0.04493939838223156), Duration: 1.5, Reward: -9.212111286890785, Done: False
+2024-07-22 00:39:06,393 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:39:06,393 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:39:09,214 - AirSimEnvLogger - INFO - Predictive model loss: 0.03597083315253258
+2024-07-22 00:39:15,906 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.200495007316999, Velocity: -0.09904020488574614, Movement: 0.15911320452339814, Collision: 0, Height: -1.0, Movement Penalty: -0.03670380964489754, Smoothness: -0.0, Curiosity: 0.5206543803215027, Exploration: 0.15016151291827948, Large Movement: 0.6364528180935926, Direction Change: 0.00928273667068047, Total: -9.496265264267086
+2024-07-22 00:39:16,001 - AirSimEnvLogger - INFO - Action: [-0.15848259 -0.18916491 -0.20091777 -0.18289045], Velocity: (-0.15848258905811607, -0.18916491267400978, -0.20091777470719072), Duration: 1.5, Reward: -9.496265264267086, Done: False
+2024-07-22 00:39:16,078 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:39:16,078 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:39:18,877 - AirSimEnvLogger - INFO - Predictive model loss: 0.02203408069908619
+2024-07-22 00:39:25,511 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.412404082011438, Velocity: -0.22742963500280328, Movement: 0.35613352875800147, Collision: 0, Height: -1.0, Movement Penalty: -0.08261089098758152, Smoothness: -0.0, Curiosity: 0.9757654666900635, Exploration: 0.49978424703847807, Large Movement: 1.4245341150320059, Direction Change: 0.0017694148079809846, Total: -8.407805008822505
+2024-07-22 00:39:25,607 - AirSimEnvLogger - INFO - Action: [-0.38863666 -0.41952496 -0.42459948 -0.41848724], Velocity: (-0.3886366570119306, -0.4195249628834188, -0.42459947664447506), Duration: 1.5, Reward: -8.407805008822505, Done: False
+2024-07-22 00:39:25,669 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:39:25,669 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:39:28,539 - AirSimEnvLogger - INFO - Predictive model loss: 0.032249148935079575
+2024-07-22 00:39:35,079 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.0406143111131, Velocity: -0.0103798860657645, Movement: 0.01340765284452935, Collision: 0, Height: -1.0, Movement Penalty: -0.0027339608431801395, Smoothness: -0.0, Curiosity: 0.09825500100851059, Exploration: 0.18136490343550862, Large Movement: 0.0536306113781174, Direction Change: 0.3329413507824598, Total: -9.681659967001318
+2024-07-22 00:39:35,186 - AirSimEnvLogger - INFO - Action: [0.0263185  0.00505423 0.00092295 0.00532856], Velocity: (0.02631850253671697, 0.005054226888360436, 0.0009229485269833249), Duration: 1.5, Reward: -9.681659967001318, Done: False
+2024-07-22 00:39:35,248 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:39:35,248 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:39:38,040 - AirSimEnvLogger - INFO - Predictive model loss: 0.006236876826733351
+2024-07-22 00:39:44,821 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.788530904315586, Velocity: -0.1516895869520403, Movement: 0.23329458951850163, Collision: 0, Height: -1.0, Movement Penalty: -0.053777833667045, Smoothness: -0.0, Curiosity: 0.8099015951156616, Exploration: 0.4670710428079091, Large Movement: 0.9331783580740065, Direction Change: 0.29250932342366676, Total: -7.862402597428901
+2024-07-22 00:39:44,852 - AirSimEnvLogger - INFO - Action: [0.27574601 0.26709226 0.26520053 0.26739498], Velocity: (0.27574600823512874, 0.26709226366003286, 0.26520053474639993), Duration: 1.5, Reward: -7.862402597428901, Done: False
+2024-07-22 00:39:44,944 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:39:44,944 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:39:47,418 - AirSimEnvLogger - INFO - Predictive model loss: 0.01863892190158367
+2024-07-22 00:39:54,083 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.807056156641458, Velocity: -0.11256154496581453, Movement: 0.19021723301285545, Collision: 0, Height: -1.0, Movement Penalty: -0.04177500810663426, Smoothness: -0.0, Curiosity: 0.9811242818832397, Exploration: 0.33735354875786594, Large Movement: 0.7608689320514218, Direction Change: 0.007220535993478938, Total: -8.478543800433629
+2024-07-22 00:39:54,271 - AirSimEnvLogger - INFO - Action: [0.23930268 0.17891677 0.23548546 0.17258258], Velocity: (0.23930268296056828, 0.17891676635577233, 0.23548545514518615), Duration: 1.5, Reward: -8.478543800433629, Done: False
+2024-07-22 00:39:54,319 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:39:54,319 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:39:57,252 - AirSimEnvLogger - INFO - Predictive model loss: 0.03207872062921524
+2024-07-22 00:40:04,096 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.122703785326754, Velocity: -0.08444946831633156, Movement: 0.12880143646916298, Collision: 0, Height: -1.0, Movement Penalty: -0.03137954608661721, Smoothness: -0.0, Curiosity: 0.41193878650665283, Exploration: 0.19548570583974817, Large Movement: 0.5152057458766519, Direction Change: 0.032679488699733916, Total: -9.591341081970098
+2024-07-22 00:40:04,175 - AirSimEnvLogger - INFO - Action: [-0.13248539 -0.17475458 -0.13515805 -0.17918803], Velocity: (-0.1324853920348715, -0.17475457998391225, -0.13515804755208674), Duration: 1.5, Reward: -9.591341081970098, Done: False
+2024-07-22 00:40:04,253 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:40:04,253 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:40:06,883 - AirSimEnvLogger - INFO - Predictive model loss: 0.013659371994435787
+2024-07-22 00:40:13,816 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.381033323157835, Velocity: -0.23000929254545205, Movement: 0.34940050114838145, Collision: 0, Height: -1.0, Movement Penalty: -0.08181166114958978, Smoothness: -0.0, Curiosity: 0.9862841367721558, Exploration: 0.5675448525304249, Large Movement: 1.3976020045935258, Direction Change: 0.004679305078353124, Total: -8.372243945222015
+2024-07-22 00:40:13,865 - AirSimEnvLogger - INFO - Action: [-0.39273961 -0.42232807 -0.3946105  -0.42543149], Velocity: (-0.3927396075314047, -0.4223280688980556, -0.3946104961957777), Duration: 1.5, Reward: -8.372243945222015, Done: False
+2024-07-22 00:40:13,942 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:40:13,942 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:40:16,878 - AirSimEnvLogger - INFO - Predictive model loss: 0.031093595549464226
+2024-07-22 00:40:23,686 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.123146098722533, Velocity: -0.07000895838516939, Movement: 0.1024258934420418, Collision: 0, Height: -1.0, Movement Penalty: -0.025462199688071625, Smoothness: -0.0, Curiosity: 0.19342409074306488, Exploration: 0.29063898591177495, Large Movement: 0.4097035737681672, Direction Change: 0.009259162540559585, Total: -9.940045512971139
+2024-07-22 00:40:23,748 - AirSimEnvLogger - INFO - Action: [-0.12252012 -0.1361188  -0.09178642 -0.15122204], Velocity: (-0.1225201224754287, -0.13611879732226684, -0.09178642161969053), Duration: 1.5, Reward: -9.940045512971139, Done: False
+2024-07-22 00:40:23,811 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:40:23,811 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:40:26,660 - AirSimEnvLogger - INFO - Predictive model loss: 0.01502823457121849
+2024-07-22 00:40:33,658 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.85020988100007, Velocity: -0.08979078533246314, Movement: 0.1474133015770629, Collision: 0, Height: -1.0, Movement Penalty: -0.03353604241097086, Smoothness: -0.0, Curiosity: 0.2709422707557678, Exploration: 0.3166596684795822, Large Movement: 0.5896532063082516, Direction Change: 0.02563127913288188, Total: -9.370629359437926
+2024-07-22 00:40:33,753 - AirSimEnvLogger - INFO - Action: [0.16865345 0.15582442 0.18492563 0.15982455], Velocity: (0.1686534529100832, 0.1558244153836295, 0.18492563456497), Duration: 1.5, Reward: -9.370629359437926, Done: False
+2024-07-22 00:40:33,863 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:40:33,863 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:40:36,554 - AirSimEnvLogger - INFO - Predictive model loss: 0.005449523217976093
+2024-07-22 00:40:43,388 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.89034488244811, Velocity: -0.07103356036159283, Movement: 0.118568540823917, Collision: 0, Height: -1.0, Movement Penalty: -0.02663750229657102, Smoothness: -0.0, Curiosity: 0.3169296085834503, Exploration: 0.2712929274218267, Large Movement: 0.474274163295668, Direction Change: 0.011344102603910056, Total: -9.517878043523247
+2024-07-22 00:40:43,512 - AirSimEnvLogger - INFO - Action: [0.15693342 0.13066353 0.12055264 0.12133284], Velocity: (0.15693341782884634, 0.13066352940949277, 0.12055264386674744), Duration: 1.5, Reward: -9.517878043523247, Done: False
+2024-07-22 00:40:43,590 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:40:43,590 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:40:46,324 - AirSimEnvLogger - INFO - Predictive model loss: 0.0071503957733511925
+2024-07-22 00:40:53,372 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.137555249861167, Velocity: -0.07856772282305356, Movement: 0.12692031541823262, Collision: 0, Height: -1.0, Movement Penalty: -0.02964579327956784, Smoothness: -0.0, Curiosity: 0.22789154946804047, Exploration: 0.16736621381446234, Large Movement: 0.5076812616729305, Direction Change: 0.01656861276557897, Total: -9.835261808775249
+2024-07-22 00:40:53,499 - AirSimEnvLogger - INFO - Action: [-0.13134343 -0.15354738 -0.15364625 -0.15314124], Velocity: (-0.131343433620157, -0.15354738060487577, -0.15364625025591566), Duration: 1.5, Reward: -9.835261808775249, Done: False
+2024-07-22 00:40:53,562 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:40:53,562 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:40:56,207 - AirSimEnvLogger - INFO - Predictive model loss: 0.009270079433918
+2024-07-22 00:41:03,060 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.38392553676113, Velocity: -0.21599994008483436, Movement: 0.3286615595195798, Collision: 0, Height: -1.0, Movement Penalty: -0.07628206836518835, Smoothness: -0.0, Curiosity: 1.1491029262542725, Exploration: 0.49658772215815705, Large Movement: 1.3146462380783193, Direction Change: 0.001321727202541756, Total: -8.317046151785414
+2024-07-22 00:41:03,219 - AirSimEnvLogger - INFO - Action: [-0.3685433 -0.3858866 -0.3838503 -0.3870681], Velocity: (-0.36854329760187415, -0.38588659760055233, -0.38385030208191195), Duration: 1.5, Reward: -8.317046151785414, Done: False
+2024-07-22 00:41:03,250 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:41:03,250 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:41:06,013 - AirSimEnvLogger - INFO - Predictive model loss: 0.04866502806544304
+2024-07-22 00:41:11,799 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.635445186889088, Velocity: -0.3060276521295283, Movement: 0.4888940192335692, Collision: 0, Height: -1.0, Movement Penalty: -0.1131402210183127, Smoothness: -0.0, Curiosity: 3.4065873622894287, Exploration: 0.6809503054209928, Large Movement: 1.9555760769342767, Direction Change: 5.7383837465674326e-05, Total: -5.635276122773033
+2024-07-22 00:41:11,922 - AirSimEnvLogger - INFO - Action: [-0.55683287 -0.56923601 -0.56743014 -0.56921131], Velocity: (-0.5568328712256698, -0.5692360079058816, -0.567430144595232), Duration: 1.5, Reward: -5.635276122773033, Done: False
+2024-07-22 00:41:11,985 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:41:11,985 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:41:14,580 - AirSimEnvLogger - INFO - Predictive model loss: 0.16084370017051697
+2024-07-22 00:41:20,937 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.200868425513866, Velocity: -0.053988912069877895, Movement: 0.08676323606213848, Collision: 0, Height: -1.0, Movement Penalty: -0.020160592156036702, Smoothness: -0.0, Curiosity: 1.353305459022522, Exploration: 0.30774007875937737, Large Movement: 0.34705294424855393, Direction Change: 0.0004317153682473762, Total: -8.932198707627945
+2024-07-22 00:41:21,047 - AirSimEnvLogger - INFO - Action: [-0.09477876 -0.10401704 -0.10153265 -0.10263289], Velocity: (-0.09477876123888929, -0.10401703844846949, -0.1015326482385282), Duration: 1.5, Reward: -8.932198707627945, Done: False
+2024-07-22 00:41:21,093 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:41:21,093 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:41:23,841 - AirSimEnvLogger - INFO - Predictive model loss: 0.10106772184371948
+2024-07-22 00:41:30,769 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.485751225459724, Velocity: -0.21169674367074537, Movement: 0.3202242793799406, Collision: 0, Height: -1.0, Movement Penalty: -0.07403419658956902, Smoothness: -0.0, Curiosity: 3.5373778343200684, Exploration: 0.215362994028632, Large Movement: 1.2808971175197623, Direction Change: 0.0004971994650179168, Total: -6.130303759611938
+2024-07-22 00:41:30,816 - AirSimEnvLogger - INFO - Action: [-0.36597577 -0.37244683 -0.37083615 -0.3713918 ], Velocity: (-0.36597577480447835, -0.3724468305832859, -0.3708361458411732), Duration: 1.5, Reward: -6.130303759611938, Done: False
+2024-07-22 00:41:30,895 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:41:30,895 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:41:33,597 - AirSimEnvLogger - INFO - Predictive model loss: 0.21495439112186432
+2024-07-22 00:41:40,382 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.231911104730447, Velocity: -0.04157254692847084, Movement: 0.07464087056727839, Collision: 0, Height: -1.0, Movement Penalty: -0.015804433379045118, Smoothness: -0.0, Curiosity: 2.678715944290161, Exploration: 0.2532320627124252, Large Movement: 0.29856348226911356, Direction Change: 0.0011519155394301706, Total: -7.695694222171404
+2024-07-22 00:41:40,509 - AirSimEnvLogger - INFO - Action: [-0.09063697 -0.08596973 -0.08172628 -0.05189386], Velocity: (-0.09063696785351416, -0.08596972511099787, -0.08172627887543471), Duration: 1.5, Reward: -7.695694222171404, Done: False
+2024-07-22 00:41:40,557 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:41:40,557 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:41:43,483 - AirSimEnvLogger - INFO - Predictive model loss: 0.18846197426319122
+2024-07-22 00:41:50,611 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -9.99467931838892, Velocity: -0.04880798761351058, Movement: 0.09278748784147847, Collision: 0, Height: -1.0, Movement Penalty: -0.023266351023284816, Smoothness: -0.0, Curiosity: 2.039673089981079, Exploration: 0.2653691798619412, Large Movement: 0.3711499513659139, Direction Change: 0.026385347011747995, Total: -7.973574397625371
+2024-07-22 00:41:50,690 - AirSimEnvLogger - INFO - Action: [0.07661961 0.11702781 0.1219508  0.14033616], Velocity: (0.0766196137020335, 0.117027812996299, 0.12195079901822903), Duration: 1.5, Reward: -7.973574397625371, Done: False
+2024-07-22 00:41:50,738 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:41:50,738 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:41:53,942 - AirSimEnvLogger - INFO - Predictive model loss: 0.14058804512023926
+2024-07-22 00:42:00,626 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.332252962921288, Velocity: -0.12022638930626042, Movement: 0.18264671658861717, Collision: 0, Height: -1.0, Movement Penalty: -0.04104609240548167, Smoothness: -0.0, Curiosity: 3.502858877182007, Exploration: 0.1072437945325217, Large Movement: 0.7305868663544687, Direction Change: 0.032777316619368, Total: -6.515561658214557
+2024-07-22 00:42:00,752 - AirSimEnvLogger - INFO - Action: [-0.23015817 -0.20099565 -0.20016808 -0.18718675], Velocity: (-0.23015817008966785, -0.20099564625903601, -0.2001680774956351), Duration: 1.5, Reward: -6.515561658214557, Done: False
+2024-07-22 00:42:00,815 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:42:00,815 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:42:03,764 - AirSimEnvLogger - INFO - Predictive model loss: 0.22986584901809692
+2024-07-22 00:42:10,563 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.35394233336644, Velocity: -0.10137405011711556, Movement: 0.1532768918917633, Collision: 0, Height: -1.0, Movement Penalty: -0.03471429886583121, Smoothness: -0.0, Curiosity: 4.104593276977539, Exploration: 0.32586797391366223, Large Movement: 0.6131075675670532, Direction Change: 0.0008581277766099848, Total: -6.065611388848268
+2024-07-22 00:42:10,674 - AirSimEnvLogger - INFO - Action: [-0.20266043 -0.16125266 -0.16401692 -0.16288963], Velocity: (-0.2026604277569871, -0.16125266466398283, -0.16401692446853555), Duration: 1.5, Reward: -6.065611388848268, Done: False
+2024-07-22 00:42:10,706 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:42:10,706 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:42:13,473 - AirSimEnvLogger - INFO - Predictive model loss: 0.26997050642967224
+2024-07-22 00:42:20,420 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.707564256550954, Velocity: -0.2376888851460359, Movement: 0.36487127589971696, Collision: 0, Height: -1.0, Movement Penalty: -0.08379763765634847, Smoothness: -0.0, Curiosity: 7.624456882476807, Exploration: 0.4087522927268813, Large Movement: 1.4594851035988679, Direction Change: 0.002803083327723055, Total: -2.038588805209468
+2024-07-22 00:42:20,545 - AirSimEnvLogger - INFO - Action: [-0.44019967 -0.41063452 -0.41246543 -0.41192258], Velocity: (-0.44019966958713275, -0.41063452064694433, -0.4124654328003534), Duration: 1.5, Reward: -2.038588805209468, Done: False
+2024-07-22 00:42:20,609 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:42:20,609 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:42:23,345 - AirSimEnvLogger - INFO - Predictive model loss: 0.45851975679397583
+2024-07-22 00:42:30,327 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.943960336964327, Velocity: -0.2924831270555268, Movement: 0.4309329490431223, Collision: 0, Height: -1.0, Movement Penalty: -0.09944881833149086, Smoothness: -0.0, Curiosity: 11.591188430786133, Exploration: 0.6321606174648721, Large Movement: 1.7237317961724892, Direction Change: 0.000743834718569425, Total: 1.9992023924430926
+2024-07-22 00:42:30,453 - AirSimEnvLogger - INFO - Action: [-0.50829525 -0.51194791 -0.47154863 -0.49617932], Velocity: (-0.5082952504071218, -0.5119479051211578, -0.47154862648472246), Duration: 1.5, Reward: 1.9992023924430926, Done: False
+2024-07-22 00:42:30,517 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:42:30,517 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:42:33,316 - AirSimEnvLogger - INFO - Predictive model loss: 0.6903353333473206
+2024-07-22 00:42:40,149 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -11.120467066290857, Velocity: -0.2607714951971461, Movement: 0.40654341509638764, Collision: 0, Height: -1.0, Movement Penalty: -0.09426306981797873, Smoothness: -0.0, Curiosity: 14.851083755493164, Exploration: 0.5545452053884965, Large Movement: 1.6261736603855506, Direction Change: 0.003524082621123137, Total: 4.975091305754248
+2024-07-22 00:42:40,305 - AirSimEnvLogger - INFO - Action: [-0.43565717 -0.47421591 -0.49641947 -0.47690926], Velocity: (-0.435657170146588, -0.47421591189358353, -0.49641947226084804), Duration: 1.5, Reward: 4.975091305754248, Done: False
+2024-07-22 00:42:40,369 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:42:40,369 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:42:43,267 - AirSimEnvLogger - INFO - Predictive model loss: 0.8989856839179993
+2024-07-22 00:42:50,291 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.659420429167708, Velocity: -0.013973314380925448, Movement: 0.029636510680488757, Collision: 0, Height: -1.0, Movement Penalty: -0.006937445123342892, Smoothness: -0.0, Curiosity: 12.130559921264648, Exploration: 0.23635767025930407, Large Movement: 0.11854604272195503, Direction Change: 0.11086604252312693, Total: 1.3650629415202944
+2024-07-22 00:42:50,418 - AirSimEnvLogger - INFO - Action: [-0.00679073 -0.03325513 -0.04859294 -0.0360489 ], Velocity: (-0.006790734043636337, -0.033255127020653086, -0.048592936927579544), Duration: 1.5, Reward: 1.3650629415202944, Done: False
+2024-07-22 00:42:50,480 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:42:50,480 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:42:53,254 - AirSimEnvLogger - INFO - Predictive model loss: 0.7742696404457092
+2024-07-22 00:43:00,253 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.418499532886461, Velocity: -0.07656500538424188, Movement: 0.11102983309392024, Collision: 0, Height: -1.0, Movement Penalty: -0.02587055515759218, Smoothness: -0.0, Curiosity: 10.653481483459473, Exploration: 0.37065631713921565, Large Movement: 0.44411933237568096, Direction Change: 0.20545077142662438, Total: 0.6702061772598903
+2024-07-22 00:43:00,346 - AirSimEnvLogger - INFO - Action: [0.14740904 0.1255872  0.10866888 0.13273307], Velocity: (0.1474090380493374, 0.1255872002605764, 0.10866888229633184), Duration: 1.5, Reward: 0.6702061772598903, Done: False
+2024-07-22 00:43:00,438 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:43:00,438 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:43:03,204 - AirSimEnvLogger - INFO - Predictive model loss: 0.6725051999092102
+2024-07-22 00:43:10,177 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -10.822625245495475, Velocity: -0.11447596747878515, Movement: 0.18201297827184545, Collision: 0, Height: -1.0, Movement Penalty: -0.04182161449854995, Smoothness: -0.0, Curiosity: 13.595717430114746, Exploration: 0.1038712164739528, Large Movement: 0.7280519130873818, Direction Change: 0.015640341176304084, Total: 3.0494385728091755
+2024-07-22 00:43:10,255 - AirSimEnvLogger - INFO - Action: [-0.19577904 -0.21079194 -0.22305206 -0.20588795], Velocity: (-0.19577903806005917, -0.2107919448658906, -0.2230520595589343), Duration: 1.5, Reward: 3.0494385728091755, Done: False
+2024-07-22 00:43:10,318 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:43:10,318 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:43:13,125 - AirSimEnvLogger - INFO - Predictive model loss: 0.8502692580223083
+2024-07-22 00:43:19,965 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -11.260650622873813, Velocity: -0.2424267314740167, Movement: 0.381789727927991, Collision: 0, Height: -1.0, Movement Penalty: -0.08807509546642568, Smoothness: -0.0, Curiosity: 19.255640029907227, Exploration: 0.5741747282484612, Large Movement: 1.527158911711964, Direction Change: 0.000619163694653202, Total: 9.140617174661134
+2024-07-22 00:43:20,091 - AirSimEnvLogger - INFO - Action: [-0.43014273 -0.44282424 -0.44937457 -0.43894038], Velocity: (-0.43014273326778907, -0.44282423812464455, -0.4493745748833164), Duration: 1.5, Reward: 9.140617174661134, Done: False
+2024-07-22 00:43:20,233 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:43:20,233 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:43:23,015 - AirSimEnvLogger - INFO - Predictive model loss: 1.165116548538208
+2024-07-22 00:43:29,907 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -11.720885598805886, Velocity: -0.33674379751229344, Movement: 0.5192551590073515, Collision: 0, Height: -1.0, Movement Penalty: -0.11985077014086198, Smoothness: -0.0, Curiosity: 27.235145568847656, Exploration: 0.7179159348584132, Large Movement: 2.077020636029406, Direction Change: 4.0111308242885e-05, Total: 17.23557745114447
+2024-07-22 00:43:30,015 - AirSimEnvLogger - INFO - Action: [-0.5926164  -0.59774506 -0.60828474 -0.59826167], Velocity: (-0.5926163961174999, -0.5977450624189864, -0.6082847425584734), Duration: 1.5, Reward: 17.23557745114447, Done: False
+2024-07-22 00:43:30,093 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:43:30,093 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:43:32,919 - AirSimEnvLogger - INFO - Predictive model loss: 1.615300178527832
+2024-07-22 00:43:39,875 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -11.502341209166264, Velocity: -0.14546958756104014, Movement: 0.2318264234865731, Collision: 0, Height: -1.0, Movement Penalty: -0.05178241146970474, Smoothness: -0.0, Curiosity: 26.77109146118164, Exploration: 0.43776290418158215, Large Movement: 0.9273056939462924, Direction Change: 0.00028530556228067994, Total: 15.789329559845157
+2024-07-22 00:43:39,954 - AirSimEnvLogger - INFO - Action: [-0.2626472  -0.25996429 -0.28001603 -0.23058155], Velocity: (-0.2626471995093465, -0.25996429429029055, -0.2800160295239407), Duration: 1.5, Reward: 15.789329559845157, Done: False
+2024-07-22 00:43:40,000 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:43:40,000 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:43:42,848 - AirSimEnvLogger - INFO - Predictive model loss: 1.646378993988037
+2024-07-22 00:43:49,862 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -11.892673125755257, Velocity: -0.24061680717247555, Movement: 0.3839450960530106, Collision: 0, Height: -1.0, Movement Penalty: -0.08803042025949163, Smoothness: -0.0, Curiosity: 33.855796813964844, Exploration: 0.3582731172392224, Large Movement: 1.5357803842120423, Direction Change: 0.00030783042520932113, Total: 23.067597972837497
+2024-07-22 00:43:49,925 - AirSimEnvLogger - INFO - Action: [-0.44154579 -0.43991622 -0.44851575 -0.4304418 ], Velocity: (-0.4415457939251888, -0.43991622223359583, -0.4485157482355756), Duration: 1.5, Reward: 23.067597972837497, Done: False
+2024-07-22 00:43:49,987 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:43:49,987 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:43:52,690 - AirSimEnvLogger - INFO - Predictive model loss: 2.0449419021606445
+2024-07-22 00:43:59,549 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -12.289754365723448, Velocity: -0.2877499656037431, Movement: 0.4565711323555067, Collision: 0, Height: -1.0, Movement Penalty: -0.10443989579882468, Smoothness: -0.0, Curiosity: 41.96718215942383, Exploration: 0.6245724888609049, Large Movement: 1.826284529422027, Direction Change: 0.00019004861868510137, Total: 31.13066910686777
+2024-07-22 00:43:59,704 - AirSimEnvLogger - INFO - Action: [-0.53434938 -0.50869194 -0.53808182 -0.50689288], Velocity: (-0.5343493766189853, -0.5086919449342446, -0.538081819491679), Duration: 1.5, Reward: 31.13066910686777, Done: False
+2024-07-22 00:43:59,765 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:43:59,765 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:44:02,565 - AirSimEnvLogger - INFO - Predictive model loss: 2.51113224029541
+2024-07-22 00:44:09,450 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -12.10891128289337, Velocity: -0.13446120882374124, Movement: 0.20371416171236964, Collision: 0, Height: -1.0, Movement Penalty: -0.050008124333059616, Smoothness: -0.0, Curiosity: 42.07948684692383, Exploration: 0.37525730249294226, Large Movement: 0.8148566468494786, Direction Change: 2.078722419285306e-05, Total: 30.361852764492525
+2024-07-22 00:44:09,498 - AirSimEnvLogger - INFO - Action: [-0.2403609  -0.22522712 -0.23978579 -0.2899714 ], Velocity: (-0.24036089704641378, -0.22522711732002193, -0.23978578674193834), Duration: 1.5, Reward: 30.361852764492525, Done: False
+2024-07-22 00:44:09,513 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:44:09,513 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:44:12,328 - AirSimEnvLogger - INFO - Predictive model loss: 2.5461294651031494
+2024-07-22 00:44:19,313 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -12.463074308828379, Velocity: -0.21642682693463236, Movement: 0.32547187441751957, Collision: 0, Height: -1.0, Movement Penalty: -0.07666015502850582, Smoothness: -0.0, Curiosity: 49.14942932128906, Exploration: 0.3070519749937487, Large Movement: 1.3018874976700783, Direction Change: 0.0001289308988161597, Total: 37.544715628387706
+2024-07-22 00:44:19,436 - AirSimEnvLogger - INFO - Action: [-0.38780668 -0.36466569 -0.37463673 -0.40490761], Velocity: (-0.38780667968934845, -0.36466568991152903, -0.3746367279606822), Duration: 1.5, Reward: 37.544715628387706, Done: False
+2024-07-22 00:44:19,498 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:44:19,498 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:44:22,375 - AirSimEnvLogger - INFO - Predictive model loss: 2.9328927993774414
+2024-07-22 00:44:29,314 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -13.039087772691033, Velocity: -0.32149231066284856, Movement: 0.4869180219799118, Collision: 0, Height: -1.0, Movement Penalty: -0.1134923813770832, Smoothness: -0.0, Curiosity: 60.96937561035156, Exploration: 0.636532091469541, Large Movement: 1.9476720879196472, Direction Change: 9.033820256432179e-05, Total: 49.503816084345665
+2024-07-22 00:44:29,455 - AirSimEnvLogger - INFO - Action: [-0.57061818 -0.55443311 -0.56156519 -0.58283396], Velocity: (-0.5706181825383727, -0.5544331093552304, -0.5615651854616834), Duration: 1.5, Reward: 49.503816084345665, Done: False
+2024-07-22 00:44:29,471 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:44:29,471 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:44:32,375 - AirSimEnvLogger - INFO - Predictive model loss: 3.5774006843566895
+2024-07-22 00:44:39,286 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -13.624938921170022, Velocity: -0.38621053225520685, Movement: 0.5777547281975558, Collision: 0, Height: -1.0, Movement Penalty: -0.13429930775338636, Smoothness: -0.0, Curiosity: 74.9365463256836, Exploration: 0.7955183346487141, Large Movement: 2.311018912790223, Direction Change: 6.66616515841989e-05, Total: 63.280843812421615
+2024-07-22 00:44:39,429 - AirSimEnvLogger - INFO - Action: [-0.66820801 -0.66779559 -0.66539403 -0.68441822], Velocity: (-0.6682080120671746, -0.6677955879713907, -0.6653940254568759), Duration: 1.5, Reward: 63.280843812421615, Done: False
+2024-07-22 00:44:39,491 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:44:39,491 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:44:42,374 - AirSimEnvLogger - INFO - Predictive model loss: 4.346858501434326
+2024-07-22 00:44:49,379 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -14.18278175096956, Velocity: -0.4056155885040538, Movement: 0.6069650218324882, Collision: 0, Height: -1.0, Movement Penalty: -0.14115347202517511, Smoothness: -0.0, Curiosity: 89.99365234375, Exploration: 0.8259345138099627, Large Movement: 2.427860087329953, Direction Change: 2.087816398588238e-05, Total: 77.90257418280821
+2024-07-22 00:44:49,505 - AirSimEnvLogger - INFO - Action: [-0.69924929 -0.70792176 -0.69535844 -0.72028058], Velocity: (-0.6992492887954185, -0.7079217628401587, -0.6953584404670985), Duration: 1.5, Reward: 77.90257418280821, Done: False
+2024-07-22 00:44:49,599 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:44:49,599 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:44:52,374 - AirSimEnvLogger - INFO - Predictive model loss: 5.178770065307617
+2024-07-22 00:44:59,239 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -13.93040666149245, Velocity: -0.1606348201871172, Movement: 0.23859792950996184, Collision: 0, Height: -1.0, Movement Penalty: -0.056361728991562866, Smoothness: -0.0, Curiosity: 89.22537231445312, Exploration: 0.48570816392961386, Large Movement: 0.9543917180398473, Direction Change: 0.00023502544961562233, Total: 75.85069966322045
+2024-07-22 00:44:59,349 - AirSimEnvLogger - INFO - Action: [-0.27762671 -0.28363834 -0.2649313  -0.29991426], Velocity: (-0.27762670512062193, -0.2836383389466453, -0.2649312989233587), Duration: 1.5, Reward: 75.85069966322045, Done: False
+2024-07-22 00:44:59,445 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:44:59,445 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:45:02,349 - AirSimEnvLogger - INFO - Predictive model loss: 5.142708778381348
+2024-07-22 00:45:09,196 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -13.561843759779025, Velocity: -0.015663654260985982, Movement: 0.03096400796007011, Collision: 0, Height: -1.0, Movement Penalty: -0.006209029148878758, Smoothness: -0.0, Curiosity: 85.18466186523438, Exploration: 0.36702039987284396, Large Movement: 0.12385603184028043, Direction Change: 0.055874201990822714, Total: 71.44250131436189
+2024-07-22 00:45:09,308 - AirSimEnvLogger - INFO - Action: [0.0342412  0.02070375 0.04726493 0.00448611], Velocity: (0.034241200123793725, 0.02070375234649441, 0.04726493423948114), Duration: 1.5, Reward: 71.44250131436189, Done: False
+2024-07-22 00:45:09,370 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:45:09,370 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:45:12,168 - AirSimEnvLogger - INFO - Predictive model loss: 4.821523666381836
+2024-07-22 00:45:19,088 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -13.659167970037949, Velocity: -0.031299724958154765, Movement: 0.04184251708012093, Collision: 0, Height: -1.0, Movement Penalty: -0.011018788288612164, Smoothness: -0.0, Curiosity: 87.00997924804688, Exploration: 0.14802406113599165, Large Movement: 0.16737006832048373, Direction Change: 0.1351783786050892, Total: 73.31980222335196
+2024-07-22 00:45:19,228 - AirSimEnvLogger - INFO - Action: [-0.07215328 -0.0309065  -0.02901512 -0.07168113], Velocity: (-0.0721532832143736, -0.03090649529758987, -0.029015120406562123), Duration: 1.5, Reward: 73.31980222335196, Done: False
+2024-07-22 00:45:19,322 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:45:19,322 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:45:21,846 - AirSimEnvLogger - INFO - Predictive model loss: 4.812353134155273
+2024-07-22 00:45:28,594 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -14.09984519861273, Velocity: -0.15111886781862827, Movement: 0.22969990886206026, Collision: 0, Height: -1.0, Movement Penalty: -0.05358477574784498, Smoothness: -0.0, Curiosity: 95.13411712646484, Exploration: 0.28624543765554106, Large Movement: 0.9187996354482411, Direction Change: 0.08143811222404451, Total: 81.67203795099411
+2024-07-22 00:45:28,718 - AirSimEnvLogger - INFO - Action: [-0.27226776 -0.25764377 -0.26559018 -0.27583442], Velocity: (-0.27226776494489335, -0.25764377195760335, -0.2655901795404452), Duration: 1.5, Reward: 81.67203795099411, Done: False
+2024-07-22 00:45:28,812 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:45:28,812 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:45:31,606 - AirSimEnvLogger - INFO - Predictive model loss: 5.126495361328125
+2024-07-22 00:45:38,642 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -14.48312994793914, Velocity: -0.1532368365493354, Movement: 0.2978098114518013, Collision: 0, Height: -1.0, Movement Penalty: -0.06698976891648878, Smoothness: -0.0, Curiosity: 104.33772277832031, Exploration: 0.4587036843342925, Large Movement: 1.1912392458072052, Direction Change: 0.00016449786656380638, Total: 90.64453772480847
+2024-07-22 00:45:38,721 - AirSimEnvLogger - INFO - Action: [-0.35218102 -0.32664993 -0.35218048 -0.30659449], Velocity: (-0.35218102166786147, -0.32664992804713355, -0.3521804759943593), Duration: 1.5, Reward: 90.64453772480847, Done: False
+2024-07-22 00:45:38,783 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:45:38,783 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:45:41,495 - AirSimEnvLogger - INFO - Predictive model loss: 5.472739219665527
+2024-07-22 00:45:48,590 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -14.035389105925566, Velocity: -0.026950309271156422, Movement: 0.03647661533916233, Collision: 0, Height: -1.0, Movement Penalty: -0.009777793488829933, Smoothness: -0.0, Curiosity: 97.89262390136719, Exploration: 0.14487026848437454, Large Movement: 0.1459064613566493, Direction Change: 0.06931078660591017, Total: 83.67260579023744
+2024-07-22 00:45:48,685 - AirSimEnvLogger - INFO - Action: [0.03433928 0.05897212 0.02579295 0.06510262], Velocity: (0.03433928190853153, 0.058972121509203196, 0.02579295386563979), Duration: 1.5, Reward: 83.67260579023744, Done: False
+2024-07-22 00:45:48,715 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:45:48,715 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:45:51,437 - AirSimEnvLogger - INFO - Predictive model loss: 4.93118953704834
+2024-07-22 00:45:58,451 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -13.762870432530583, Velocity: -0.09696289879011408, Movement: 0.14428866393171128, Collision: 0, Height: -1.0, Movement Penalty: -0.0347810574119908, Smoothness: -0.0, Curiosity: 92.90904235839844, Exploration: 0.36323850934623375, Large Movement: 0.5771546557268451, Direction Change: 0.08466746495052946, Total: 79.46931996301082
+2024-07-22 00:45:58,608 - AirSimEnvLogger - INFO - Action: [0.21139506 0.14637054 0.131014   0.19415283], Velocity: (0.21139505713612008, 0.14637054439644237, 0.13101399813874431), Duration: 1.5, Reward: 79.46931996301082, Done: False
+2024-07-22 00:45:58,718 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:45:58,718 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:46:01,537 - AirSimEnvLogger - INFO - Predictive model loss: 4.434453964233398
+2024-07-22 00:46:08,566 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -14.242391776373958, Velocity: -0.09896283607589612, Movement: 0.16231373631484533, Collision: 0, Height: -1.0, Movement Penalty: -0.03636914430879813, Smoothness: -0.0, Curiosity: 100.34782409667969, Exploration: 0.1122859563759587, Large Movement: 0.6492549452593813, Direction Change: 0.05764530995320738, Total: 86.39044672276009
+2024-07-22 00:46:08,690 - AirSimEnvLogger - INFO - Action: [-0.15189455 -0.1974191  -0.20817479 -0.16397704], Velocity: (-0.15189454707899575, -0.19741909697272228, -0.2081747888292004), Duration: 1.5, Reward: 86.39044672276009, Done: False
+2024-07-22 00:46:08,751 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:46:08,751 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:46:11,618 - AirSimEnvLogger - INFO - Predictive model loss: 4.559438228607178
+2024-07-22 00:46:18,345 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -14.846073924672233, Velocity: -0.24196415490981252, Movement: 0.37272782000462334, Collision: 0, Height: -1.0, Movement Penalty: -0.0853071430909231, Smoothness: -0.0, Curiosity: 113.70413208007812, Exploration: 0.5643606829226048, Large Movement: 1.4909112800184934, Direction Change: 0.004123633923718839, Total: 99.97235156810822
+2024-07-22 00:46:18,484 - AirSimEnvLogger - INFO - Action: [-0.40630074 -0.43815634 -0.44569366 -0.41476108], Velocity: (-0.40630074369290686, -0.43815633551510663, -0.4456936644649099), Duration: 1.5, Reward: 99.97235156810822, Done: False
+2024-07-22 00:46:18,547 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:46:18,547 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:46:21,377 - AirSimEnvLogger - INFO - Predictive model loss: 4.90128231048584
+2024-07-22 00:46:28,146 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -15.523938416154317, Velocity: -0.3212213910104115, Movement: 0.5206004136525638, Collision: 0, Height: -1.0, Movement Penalty: -0.11969011709034486, Smoothness: -0.0, Curiosity: 131.5650634765625, Exploration: 0.7209747850233217, Large Movement: 2.0824016546102553, Direction Change: 0.00019590190314167089, Total: 117.77065957964523
+2024-07-22 00:46:28,270 - AirSimEnvLogger - INFO - Action: [-0.58439086 -0.60669869 -0.61196665 -0.59031623], Velocity: (-0.5843908629731879, -0.6066986881431216, -0.6119666525716496), Duration: 1.5, Reward: 117.77065957964523, Done: False
+2024-07-22 00:46:28,365 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:46:28,365 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:46:31,163 - AirSimEnvLogger - INFO - Predictive model loss: 5.39794921875
+2024-07-22 00:46:38,061 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -16.26024093131139, Velocity: -0.41045477336872715, Movement: 0.6222747529227475, Collision: 0, Height: -1.0, Movement Penalty: -0.14331182752861363, Smoothness: -0.0, Curiosity: 153.2831268310547, Exploration: 0.8394337110041146, Large Movement: 2.48909901169099, Direction Change: 3.933273481504518e-05, Total: 139.17955040474288
+2024-07-22 00:46:38,170 - AirSimEnvLogger - INFO - Action: [-0.70752246 -0.72205904 -0.72591059 -0.71058041], Velocity: (-0.7075224647265257, -0.7220590386703999, -0.7259105861481466), Duration: 1.5, Reward: 139.17955040474288, Done: False
+2024-07-22 00:46:38,232 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:46:38,232 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:46:40,807 - AirSimEnvLogger - INFO - Predictive model loss: 6.007007598876953
+2024-07-22 00:46:47,680 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -16.888268637386158, Velocity: -0.4213699994575113, Movement: 0.6253085926790823, Collision: 0, Height: -1.0, Movement Penalty: -0.14211113473022025, Smoothness: -0.0, Curiosity: 174.14649963378906, Exploration: 0.8542791558983496, Large Movement: 2.5012343707163294, Direction Change: 9.999557229700695e-05, Total: 159.43050019978466
+2024-07-22 00:46:47,836 - AirSimEnvLogger - INFO - Action: [-0.71247731 -0.73720353 -0.71620554 -0.67491786], Velocity: (-0.7124773145257539, -0.7372035276632283, -0.7162055427042153), Duration: 1.5, Reward: 159.43050019978466, Done: False
+2024-07-22 00:46:47,899 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:46:47,899 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:46:50,732 - AirSimEnvLogger - INFO - Predictive model loss: 6.548351287841797
+2024-07-22 00:46:57,392 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -17.36986304775337, Velocity: -0.35943418435960334, Movement: 0.5524843078519949, Collision: 0, Height: -1.0, Movement Penalty: -0.12739834607466913, Smoothness: -0.0, Curiosity: 191.85592651367188, Exploration: 0.7505580689575113, Large Movement: 2.2099372314079795, Direction Change: 0.0008768600852950836, Total: 176.34808798498332
+2024-07-22 00:46:57,487 - AirSimEnvLogger - INFO - Action: [-0.65899046 -0.61608043 -0.63806905 -0.63409638], Velocity: (-0.6589904612677668, -0.6160804315625172, -0.6380690522934253), Duration: 1.5, Reward: 176.34808798498332, Done: False
+2024-07-22 00:46:57,566 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:46:57,566 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:47:00,407 - AirSimEnvLogger - INFO - Predictive model loss: 6.906013011932373
+2024-07-22 00:47:07,323 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.054919923370964, Velocity: -0.4027141179039614, Movement: 0.6027279571007583, Collision: 0, Height: -1.0, Movement Penalty: -0.13893337294580005, Smoothness: -0.0, Curiosity: 215.73890686035156, Exploration: 0.7525171459295412, Large Movement: 2.4109118284030333, Direction Change: 0.00021839911632803855, Total: 199.7430583229109
+2024-07-22 00:47:07,430 - AirSimEnvLogger - INFO - Action: [-0.70555927 -0.69250155 -0.68974755 -0.69074181], Velocity: (-0.705559266653077, -0.6925015527956664, -0.6897475492518821), Duration: 1.5, Reward: 199.7430583229109, Done: False
+2024-07-22 00:47:07,492 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:47:07,492 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:47:10,329 - AirSimEnvLogger - INFO - Predictive model loss: 7.423275947570801
+2024-07-22 00:47:17,276 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.649577157828784, Velocity: -0.38839406273299015, Movement: 0.581151541811321, Collision: 0, Height: -1.0, Movement Penalty: -0.13378827823933798, Smoothness: -0.0, Curiosity: 237.75357055664062, Exploration: 0.782799389569574, Large Movement: 2.324606167245284, Direction Change: 0.00021962242094397677, Total: 221.08471034096064
+2024-07-22 00:47:17,340 - AirSimEnvLogger - INFO - Action: [-0.6604789  -0.67611318 -0.6764518  -0.66255708], Velocity: (-0.6604788990144842, -0.6761131848163491, -0.6764518042498007), Duration: 1.5, Reward: 221.08471034096064, Done: False
+2024-07-22 00:47:17,403 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:47:17,403 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:47:19,988 - AirSimEnvLogger - INFO - Predictive model loss: 7.785702228546143
+2024-07-22 00:47:26,906 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.892436996392966, Velocity: -0.26509536897007907, Movement: 0.4133444524890087, Collision: 0, Height: -1.0, Movement Penalty: -0.09714646124134635, Smoothness: -0.0, Curiosity: 249.66192626953125, Exploration: 0.5843320509924242, Large Movement: 1.6533778099560348, Direction Change: 0.0007977574302777679, Total: 232.0416444255139
+2024-07-22 00:47:27,016 - AirSimEnvLogger - INFO - Action: [-0.44235147 -0.49595281 -0.49170167 -0.51022441], Velocity: (-0.4423514664349396, -0.49595281016697085, -0.4917016736234448), Duration: 1.5, Reward: 232.0416444255139, Done: False
+2024-07-22 00:47:27,079 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:47:27,079 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:47:29,774 - AirSimEnvLogger - INFO - Predictive model loss: 7.60897970199585
+2024-07-22 00:47:36,538 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -19.479939486572512, Velocity: -0.30851557773392446, Movement: 0.48211677790849233, Collision: 0, Height: -1.0, Movement Penalty: -0.1120121520129967, Smoothness: -0.0, Curiosity: 271.3993835449219, Exploration: 0.5415246733572744, Large Movement: 1.9284671116339693, Direction Change: 0.001018577572986179, Total: 253.4551377151288
+2024-07-22 00:47:36,539 - AirSimEnvLogger - INFO - Action: [-0.54694153 -0.54794128 -0.57477096 -0.57002269], Velocity: (-0.5469415348891623, -0.5479412791362277, -0.5747709649896279), Duration: 1.5, Reward: 253.4551377151288, Done: False
+2024-07-22 00:47:36,631 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:47:36,631 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:47:39,431 - AirSimEnvLogger - INFO - Predictive model loss: 7.714006423950195
+2024-07-22 00:47:46,279 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -19.173327236762294, Velocity: -0.06872707429496733, Movement: 0.1095537043991744, Collision: 0, Height: -1.0, Movement Penalty: -0.02594274258655296, Smoothness: -0.0, Curiosity: 266.3517150878906, Exploration: 0.325289744025572, Large Movement: 0.4382148175966976, Direction Change: 0.0013543971518936715, Total: 247.18962154404784
+2024-07-22 00:47:46,294 - AirSimEnvLogger - INFO - Action: [-0.1213406  -0.11777916 -0.13932905 -0.13890476], Velocity: (-0.12134059602885888, -0.11777916173752245, -0.13932905442187765), Duration: 1.5, Reward: 247.18962154404784, Done: False
+2024-07-22 00:47:46,372 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:47:46,372 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:47:48,898 - AirSimEnvLogger - INFO - Predictive model loss: 6.746401309967041
+2024-07-22 00:47:55,892 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.673589073107074, Velocity: -0.11050628108255013, Movement: 0.1676417647464032, Collision: 0, Height: -1.0, Movement Penalty: -0.03782310551539868, Smoothness: -0.0, Curiosity: 254.1394500732422, Exploration: 0.4405175924322951, Large Movement: 0.6705670589856128, Direction Change: 0.005422770446235514, Total: 235.74210031247117
+2024-07-22 00:47:55,987 - AirSimEnvLogger - INFO - Action: [0.19949382 0.19578519 0.18516323 0.17505338], Velocity: (0.19949381515971212, 0.19578519429334734, 0.18516322679650082), Duration: 1.5, Reward: 235.74210031247117, Done: False
+2024-07-22 00:47:56,034 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:47:56,034 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:47:58,899 - AirSimEnvLogger - INFO - Predictive model loss: 5.688065528869629
+2024-07-22 00:48:05,641 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.044565602091293, Velocity: -0.24177880112425024, Movement: 0.3764969908124022, Collision: 0, Height: -1.0, Movement Penalty: -0.08631485213722846, Smoothness: -0.0, Curiosity: 236.55523681640625, Exploration: 0.5646457669841083, Large Movement: 1.5059879632496087, Direction Change: 0.0002341329993118535, Total: 219.63237024250222
+2024-07-22 00:48:05,673 - AirSimEnvLogger - INFO - Action: [0.43893064 0.43630271 0.42892864 0.4219306 ], Velocity: (0.4389306354116794, 0.4363027123202693, 0.4289286384496282), Duration: 1.5, Reward: 219.63237024250222, Done: False
+2024-07-22 00:48:05,751 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:48:05,751 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:48:08,429 - AirSimEnvLogger - INFO - Predictive model loss: 5.053198337554932
+2024-07-22 00:48:15,492 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -17.37592271022303, Velocity: -0.3206880868433034, Movement: 0.5074321971694749, Collision: 0, Height: -1.0, Movement Penalty: -0.11680078440643843, Smoothness: -0.0, Curiosity: 216.5680389404297, Exploration: 0.6715178753750971, Large Movement: 2.0297287886778994, Direction Change: 8.891142060707402e-06, Total: 200.85688321922112
+2024-07-22 00:48:15,587 - AirSimEnvLogger - INFO - Action: [0.59085604 0.58546268 0.58143988 0.57818041], Velocity: (0.5908560368730602, 0.58546268297363, 0.581439876025839), Duration: 1.5, Reward: 200.85688321922112, Done: False
+2024-07-22 00:48:15,603 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:48:15,603 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:48:18,488 - AirSimEnvLogger - INFO - Predictive model loss: 5.233565330505371
+2024-07-22 00:48:25,387 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -17.614601859296847, Velocity: -0.09022702279850428, Movement: 0.1410845891037103, Collision: 0, Height: -1.0, Movement Penalty: -0.03268008193762597, Smoothness: -0.0, Curiosity: 216.2286834716797, Exploration: 0.33888394547712397, Large Movement: 0.5643383564148412, Direction Change: 0.00025432613894305067, Total: 198.7512610277612
+2024-07-22 00:48:25,466 - AirSimEnvLogger - INFO - Action: [0.15910036 0.16481733 0.16474759 0.16486155], Velocity: (0.1591003566304628, 0.1648173317034053, 0.16474759124333294), Duration: 1.5, Reward: 198.7512610277612, Done: False
+2024-07-22 00:48:25,529 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:48:25,529 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:48:28,338 - AirSimEnvLogger - INFO - Predictive model loss: 4.623281002044678
+2024-07-22 00:48:35,272 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.122251677092255, Velocity: -0.10099701598094052, Movement: 0.15503116490925803, Collision: 0, Height: -1.0, Movement Penalty: -0.03558535537630526, Smoothness: -0.0, Curiosity: 227.51910400390625, Exploration: 0.4124032868310787, Large Movement: 0.6201246596370321, Direction Change: 0.0003876329565187797, Total: 209.60641699213627
+2024-07-22 00:48:35,380 - AirSimEnvLogger - INFO - Action: [-0.18174933 -0.17886867 -0.17638545 -0.17462275], Velocity: (-0.18174932991228018, -0.17886867033409032, -0.17638545354375995), Duration: 1.5, Reward: 209.60641699213627, Done: False
+2024-07-22 00:48:35,444 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:48:35,444 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:48:38,361 - AirSimEnvLogger - INFO - Predictive model loss: 3.79093074798584
+2024-07-22 00:48:45,159 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.598814924986062, Velocity: -0.19391145480407337, Movement: 0.28926815282385027, Collision: 0, Height: -1.0, Movement Penalty: -0.06648096180659437, Smoothness: -0.0, Curiosity: 242.18890380859375, Exploration: 0.49323555202195496, Large Movement: 1.157072611295401, Direction Change: 0.0007747487213415338, Total: 224.35002108432246
+2024-07-22 00:48:45,269 - AirSimEnvLogger - INFO - Action: [-0.35727587 -0.32309889 -0.32041429 -0.32751728], Velocity: (-0.35727586961123403, -0.32309888735291226, -0.32041429265458216), Duration: 1.5, Reward: 224.35002108432246, Done: False
+2024-07-22 00:48:45,332 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:48:45,332 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:48:48,115 - AirSimEnvLogger - INFO - Predictive model loss: 3.195216178894043
+2024-07-22 00:48:54,986 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.216784506240852, Velocity: -0.018711627945138847, Movement: 0.03642402940659892, Collision: 0, Height: -1.0, Movement Penalty: -0.008652778489837856, Smoothness: -0.0, Curiosity: 234.30650329589844, Exploration: 0.14269952133291142, Large Movement: 0.14569611762639567, Direction Change: 0.058950424895523934, Total: 215.88503845905907
+2024-07-22 00:48:55,128 - AirSimEnvLogger - INFO - Action: [0.02368816 0.04394949 0.05304859 0.0466928 ], Velocity: (0.023688161060878232, 0.0439494922318677, 0.053048589340019436), Duration: 1.5, Reward: 215.88503845905907, Done: False
+2024-07-22 00:48:55,207 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:48:55,207 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:48:58,079 - AirSimEnvLogger - INFO - Predictive model loss: 2.756208896636963
+2024-07-22 00:49:05,022 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -17.651843676917142, Velocity: -0.17751959654535804, Movement: 0.2803147412825837, Collision: 0, Height: -1.0, Movement Penalty: -0.0649683116932987, Smoothness: -0.0, Curiosity: 220.07635498046875, Exploration: 0.476402594047857, Large Movement: 1.1212589651303349, Direction Change: 0.03702038167834376, Total: 203.21839157694802
+2024-07-22 00:49:05,149 - AirSimEnvLogger - INFO - Action: [0.31322074 0.32675994 0.3307962  0.32830281], Velocity: (0.313220737953949, 0.3267599396100674, 0.3307962029753305), Duration: 1.5, Reward: 203.21839157694802, Done: False
+2024-07-22 00:49:05,228 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:49:05,228 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:49:08,144 - AirSimEnvLogger - INFO - Predictive model loss: 2.3922557830810547
+2024-07-22 00:49:14,957 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -17.07164491459905, Velocity: -0.26269563176229, Movement: 0.41460104677349596, Collision: 0, Height: -1.0, Movement Penalty: -0.09591611268794345, Smoothness: -0.0, Curiosity: 203.341796875, Exploration: 0.5856519923310628, Large Movement: 1.6584041870939839, Direction Change: 0.00033396663924711856, Total: 187.54774056603767
+2024-07-22 00:49:15,145 - AirSimEnvLogger - INFO - Action: [0.4719575  0.49217373 0.47180213 0.48209331], Velocity: (0.4719574978013611, 0.49217372899589173, 0.4718021329944059), Duration: 1.5, Reward: 187.54774056603767, Done: False
+2024-07-22 00:49:15,223 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:49:15,225 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:49:18,055 - AirSimEnvLogger - INFO - Predictive model loss: 2.117964744567871
+2024-07-22 00:49:24,901 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -17.447629361613938, Velocity: -0.022246435000341954, Movement: 0.031572613333079536, Collision: 0, Height: -1.0, Movement Penalty: -0.007393038326346921, Smoothness: -0.0, Curiosity: 207.53285217285156, Exploration: 0.23578874457370932, Large Movement: 0.12629045333231814, Direction Change: 0.012644646643210966, Total: 189.78953297231175
+2024-07-22 00:49:24,978 - AirSimEnvLogger - INFO - Action: [0.03134346 0.04506168 0.03121462 0.03844973], Velocity: (0.031343461179916376, 0.04506167606250505, 0.03121461904975842), Duration: 1.5, Reward: 189.78953297231175, Done: False
+2024-07-22 00:49:25,041 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:49:25,041 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:49:28,019 - AirSimEnvLogger - INFO - Predictive model loss: 1.656713604927063
+2024-07-22 00:49:34,529 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.01293897073958, Velocity: -0.15350170677375055, Movement: 0.23700349087364747, Collision: 0, Height: -1.0, Movement Penalty: -0.05461523606978659, Smoothness: -0.0, Curiosity: 221.56283569335938, Exploration: 0.4819797937567988, Large Movement: 0.9480139634945899, Direction Change: 0.019100631497035336, Total: 204.13749000168258
+2024-07-22 00:49:34,656 - AirSimEnvLogger - INFO - Action: [-0.27666228 -0.26721346 -0.27701547 -0.2712928 ], Velocity: (-0.27666227740751803, -0.26721345598483837, -0.2770154723937), Duration: 1.5, Reward: 204.13749000168258, Done: False
+2024-07-22 00:49:34,719 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:49:34,719 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:49:37,111 - AirSimEnvLogger - INFO - Predictive model loss: 1.5594985485076904
+2024-07-22 00:49:43,719 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.169378285807017, Velocity: -0.10951681478163952, Movement: 0.18805646554694605, Collision: 0, Height: -1.0, Movement Penalty: -0.042631755188681925, Smoothness: -0.0, Curiosity: 227.79722595214844, Exploration: 0.3690210228982272, Large Movement: 0.7522258621877842, Direction Change: 0.0009603455589682897, Total: 209.96092940101778
+2024-07-22 00:49:43,814 - AirSimEnvLogger - INFO - Action: [-0.2320853  -0.20191054 -0.21640122 -0.20071302], Velocity: (-0.23208529582515328, -0.20191053723781632, -0.21640121845804447), Duration: 1.5, Reward: 209.96092940101778, Done: False
+2024-07-22 00:49:43,877 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:49:43,877 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:49:46,534 - AirSimEnvLogger - INFO - Predictive model loss: 1.5973261594772339
+2024-07-22 00:49:53,262 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -17.947829227245563, Velocity: -0.009615567303615206, Movement: 0.012420267246431471, Collision: 0, Height: -1.0, Movement Penalty: -0.004628125253176264, Smoothness: -0.0, Curiosity: 223.69805908203125, Exploration: 0.12479189904899624, Large Movement: 0.049681068985725885, Direction Change: 0.7830798183218544, Total: 206.89323591525397
+2024-07-22 00:49:53,279 - AirSimEnvLogger - INFO - Action: [ 0.01870256 -0.01583138  0.00407846  0.03905   ], Velocity: (0.018702560845747812, -0.01583137733581194, 0.004078463356872841), Duration: 1.5, Reward: 206.89323591525397, Done: False
+2024-07-22 00:49:53,355 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:49:53,355 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:49:56,173 - AirSimEnvLogger - INFO - Predictive model loss: 1.449775218963623
+2024-07-22 00:50:03,155 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.50443412955257, Velocity: -0.16770479920678646, Movement: 0.2582755092021115, Collision: 0, Height: -1.0, Movement Penalty: -0.05839935196252391, Smoothness: -0.0, Curiosity: 239.2308349609375, Exploration: 0.18691216568188965, Large Movement: 1.033102036808446, Direction Change: 0.8713408005512799, Total: 223.03536268278916
+2024-07-22 00:50:03,281 - AirSimEnvLogger - INFO - Action: [-0.28663353 -0.31079286 -0.29677259 -0.27243986], Velocity: (-0.2866335313234581, -0.31079286372651427, -0.29677258834359416), Duration: 1.5, Reward: 223.03536268278916, Done: False
+2024-07-22 00:50:03,361 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:50:03,361 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:50:05,999 - AirSimEnvLogger - INFO - Predictive model loss: 1.7408232688903809
+2024-07-22 00:50:12,829 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.94268466031595, Velocity: -0.20607941367517166, Movement: 0.32371690617935867, Collision: 0, Height: -1.0, Movement Penalty: -0.07383065227801792, Smoothness: -0.0, Curiosity: 254.14170837402344, Exploration: 0.5116977664291449, Large Movement: 1.2948676247174347, Direction Change: 0.00034512624147087223, Total: 236.10006917654513
+2024-07-22 00:50:12,970 - AirSimEnvLogger - INFO - Action: [-0.3723123  -0.37876886 -0.37025429 -0.35486051], Velocity: (-0.37231229946014255, -0.3787688645242933, -0.37025429143093186), Duration: 1.5, Reward: 236.10006917654513, Done: False
+2024-07-22 00:50:13,047 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:50:13,047 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:50:15,434 - AirSimEnvLogger - INFO - Predictive model loss: 2.0530788898468018
+2024-07-22 00:50:22,618 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -18.951417097898567, Velocity: -0.10673287863074879, Movement: 0.17281009278011433, Collision: 0, Height: -1.0, Movement Penalty: -0.04079151140634837, Smoothness: -0.0, Curiosity: 256.83642578125, Exploration: 0.282231004068472, Large Movement: 0.6912403711204573, Direction Change: 0.0026747485635317814, Total: 238.13963605195764
+2024-07-22 00:50:22,728 - AirSimEnvLogger - INFO - Action: [-0.18644552 -0.19306386 -0.21775612 -0.2166597 ], Velocity: (-0.1864455167799977, -0.19306385892267014, -0.21775612119344384), Duration: 1.5, Reward: 238.13963605195764, Done: False
+2024-07-22 00:50:22,854 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:50:22,854 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:50:25,607 - AirSimEnvLogger - INFO - Predictive model loss: 1.8800873756408691
+2024-07-22 00:50:31,952 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -19.59845912578573, Velocity: -0.22113897893573656, Movement: 0.37980359238861894, Collision: 0, Height: -1.0, Movement Penalty: -0.08834025296529648, Smoothness: -0.0, Curiosity: 278.3961486816406, Exploration: 0.368611775117107, Large Movement: 1.5192143695544758, Direction Change: 0.0010540662228077924, Total: 259.8906812446901
+2024-07-22 00:50:32,078 - AirSimEnvLogger - INFO - Action: [-0.42947672 -0.43429752 -0.45159549 -0.45099551], Velocity: (-0.4294767198011131, -0.434297522548283, -0.4515954873805767), Duration: 1.5, Reward: 259.8906812446901, Done: False
+2024-07-22 00:50:32,139 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:50:32,139 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:50:34,687 - AirSimEnvLogger - INFO - Predictive model loss: 2.27130389213562
+2024-07-22 00:50:41,679 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -20.24980683721879, Velocity: -0.3278719065517589, Movement: 0.4931867268536757, Collision: 0, Height: -1.0, Movement Penalty: -0.11328288386036507, Smoothness: -0.0, Curiosity: 302.31439208984375, Exploration: 0.6816182518664898, Large Movement: 1.9727469074147028, Direction Change: 0.00015846630920579585, Total: 283.67403879976155
+2024-07-22 00:50:41,788 - AirSimEnvLogger - INFO - Action: [-0.56594021 -0.57024433 -0.57224617 -0.55710734], Velocity: (-0.5659402064414218, -0.5702443326020354, -0.5722461656025915), Duration: 1.5, Reward: 283.67403879976155, Done: False
+2024-07-22 00:50:41,805 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:50:41,805 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:50:44,742 - AirSimEnvLogger - INFO - Predictive model loss: 2.4847259521484375
+2024-07-22 00:50:51,803 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -19.988197437383153, Velocity: -0.07899935504112746, Movement: 0.12188267573895174, Collision: 0, Height: -1.0, Movement Penalty: -0.02716605537314449, Smoothness: -0.0, Curiosity: 298.4910888671875, Exploration: 0.33450848526152877, Large Movement: 0.48753070295580697, Direction Change: 0.00011590050793552908, Total: 278.5631714967989
+2024-07-22 00:50:51,866 - AirSimEnvLogger - INFO - Action: [-0.13965206 -0.14362929 -0.13888656 -0.11990792], Velocity: (-0.1396520591131823, -0.14362929097343285, -0.13888655709269715), Duration: 1.5, Reward: 278.5631714967989, Done: False
+2024-07-22 00:50:51,929 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:50:51,929 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:50:54,862 - AirSimEnvLogger - INFO - Predictive model loss: 1.873207449913025
+2024-07-22 00:51:01,990 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -19.476102755790713, Velocity: -0.10818890582949303, Movement: 0.16941324984919776, Collision: 0, Height: -1.0, Movement Penalty: -0.039934195699506896, Smoothness: -0.0, Curiosity: 285.15740966796875, Exploration: 0.4338147566498499, Large Movement: 0.677652999396791, Direction Change: 0.00014699690503650054, Total: 265.95196316596054
+2024-07-22 00:51:02,116 - AirSimEnvLogger - INFO - Action: [0.19438509 0.19542934 0.19704113 0.21135421], Velocity: (0.19438508555825715, 0.19542934018303793, 0.19704113379190216), Duration: 1.5, Reward: 265.95196316596054, Done: False
+2024-07-22 00:51:02,195 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:51:02,195 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:51:05,053 - AirSimEnvLogger - INFO - Predictive model loss: 1.0393437147140503
+2024-07-22 00:51:11,908 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -19.948248186044335, Velocity: -0.08863941528819391, Movement: 0.14069562127949853, Collision: 0, Height: -1.0, Movement Penalty: -0.031953085232681235, Smoothness: -0.0, Curiosity: 297.6806945800781, Exploration: 0.023016460894511866, Large Movement: 0.5627824851179941, Direction Change: 5.2098960909630065e-05, Total: 277.79548376591333
+2024-07-22 00:51:12,033 - AirSimEnvLogger - INFO - Action: [-0.16338781 -0.1624512  -0.16153966 -0.15139001], Velocity: (-0.16338781134411381, -0.16245119708229216, -0.16153966404449052), Duration: 1.5, Reward: 277.79548376591333, Done: False
+2024-07-22 00:51:12,128 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:51:12,128 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:51:15,056 - AirSimEnvLogger - INFO - Predictive model loss: 0.93594890832901
+2024-07-22 00:51:22,006 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -19.699051979132943, Velocity: -0.03577105893008024, Movement: 0.04982357919099858, Collision: 0, Height: -1.0, Movement Penalty: -0.01553817257728745, Smoothness: -0.0, Curiosity: 290.9852600097656, Exploration: 0.11239639188104938, Large Movement: 0.1992943167639943, Direction Change: 0.014124794778530791, Total: 271.0352322159914
+2024-07-22 00:51:22,052 - AirSimEnvLogger - INFO - Action: [0.06718315 0.05941885 0.04342098 0.11922216], Velocity: (0.06718314755670945, 0.059418846605078596, 0.04342098025266554), Duration: 1.5, Reward: 271.0352322159914, Done: False
+2024-07-22 00:51:22,083 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:51:22,085 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:51:25,045 - AirSimEnvLogger - INFO - Predictive model loss: 0.6694435477256775
+2024-07-22 00:51:32,495 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -20.224483299167606, Velocity: -0.1336884530036882, Movement: 0.22059617708429946, Collision: 0, Height: -1.0, Movement Penalty: -0.04888287011877205, Smoothness: -0.0, Curiosity: 306.8127746582031, Exploration: 0.13962895932527628, Large Movement: 0.8823847083371978, Direction Change: 0.019898531363703342, Total: 287.035660975177
+2024-07-22 00:51:32,607 - AirSimEnvLogger - INFO - Action: [-0.24673228 -0.25360531 -0.26354929 -0.21048232], Velocity: (-0.2467322752068549, -0.2536053075328476, -0.2635492852186267), Duration: 1.5, Reward: 287.035660975177, Done: False
+2024-07-22 00:51:32,669 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:51:32,669 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:51:35,557 - AirSimEnvLogger - INFO - Predictive model loss: 0.6419132947921753
+2024-07-22 00:51:42,358 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -20.29383787213858, Velocity: -0.09605069183215043, Movement: 0.13762977236347965, Collision: 0, Height: -1.0, Movement Penalty: -0.028980164369161843, Smoothness: -0.0, Curiosity: 311.365234375, Exploration: 0.3058899647646161, Large Movement: 0.5505190894539186, Direction Change: 0.0076633620523045565, Total: 291.20277002507896
+2024-07-22 00:51:42,453 - AirSimEnvLogger - INFO - Action: [-0.15416468 -0.1808304  -0.1389296  -0.09064864], Velocity: (-0.15416468331049646, -0.18083039656326222, -0.13892960469907253), Duration: 1.5, Reward: 291.20277002507896, Done: False
+2024-07-22 00:51:42,531 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:51:42,531 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:51:45,056 - AirSimEnvLogger - INFO - Predictive model loss: 0.5909006595611572
+2024-07-22 00:51:51,995 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -20.82967377805935, Velocity: -0.2056042868478309, Movement: 0.31140501855020475, Collision: 0, Height: -1.0, Movement Penalty: -0.07019735427096332, Smoothness: -0.0, Curiosity: 330.12396240234375, Exploration: 0.3253420130719128, Large Movement: 1.245620074200819, Direction Change: 0.0031237748276894406, Total: 310.10892250792386
+2024-07-22 00:51:52,122 - AirSimEnvLogger - INFO - Action: [-0.34540985 -0.37919688 -0.35326209 -0.32384335], Velocity: (-0.3454098513144407, -0.37919687841863964, -0.353262090133528), Duration: 1.5, Reward: 310.10892250792386, Done: False
+2024-07-22 00:51:52,169 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:51:52,170 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:51:54,933 - AirSimEnvLogger - INFO - Predictive model loss: 0.5195814371109009
+2024-07-22 00:52:01,915 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -21.53340142675461, Velocity: -0.3040361394760321, Movement: 0.4655522622639466, Collision: 0, Height: -1.0, Movement Penalty: -0.10608151981013417, Smoothness: -0.0, Curiosity: 357.0840759277344, Exploration: 0.6349907482338629, Large Movement: 1.8622090490557863, Direction Change: 0.00018751988656651175, Total: 337.0410394047667
+2024-07-22 00:52:02,038 - AirSimEnvLogger - INFO - Action: [-0.52823418 -0.55353055 -0.53059233 -0.50830429], Velocity: (-0.5282341825259435, -0.5535305473225521, -0.5305923267333011), Duration: 1.5, Reward: 337.0410394047667, Done: False
+2024-07-22 00:52:02,101 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:52:02,101 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:52:04,805 - AirSimEnvLogger - INFO - Predictive model loss: 0.4627228379249573
+2024-07-22 00:52:11,230 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -22.326754062972466, Velocity: -0.3859148278168931, Movement: 0.5802063299744837, Collision: 0, Height: -1.0, Movement Penalty: -0.13302843397360778, Smoothness: -0.0, Curiosity: 389.92181396484375, Exploration: 0.783252435003568, Large Movement: 2.320825319897935, Direction Change: 4.417443760107442e-05, Total: 369.5722448171232
+2024-07-22 00:52:11,387 - AirSimEnvLogger - INFO - Action: [-0.66291596 -0.68105075 -0.66578513 -0.65046052], Velocity: (-0.6629159620508447, -0.681050752909188, -0.665785130946816), Duration: 1.5, Reward: 369.5722448171232, Done: False
+2024-07-22 00:52:11,464 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:52:11,465 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:52:14,179 - AirSimEnvLogger - INFO - Predictive model loss: 0.586532473564148
+2024-07-22 00:52:21,120 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -23.161713386056807, Velocity: -0.4233985439212265, Movement: 0.6438957927367877, Collision: 0, Height: -1.0, Movement Penalty: -0.14813479616161795, Smoothness: -0.0, Curiosity: 426.8975830078125, Exploration: 0.8727101523221182, Large Movement: 2.5755831709471506, Direction Change: 3.594129842743321e-06, Total: 405.9859214745068
+2024-07-22 00:52:21,183 - AirSimEnvLogger - INFO - Action: [-0.73566446 -0.75822943 -0.73640553 -0.7321097 ], Velocity: (-0.7356644570602403, -0.7582294292428524, -0.7364055315278835), Duration: 1.5, Reward: 405.9859214745068, Done: False
+2024-07-22 00:52:21,244 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:52:21,244 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:52:23,781 - AirSimEnvLogger - INFO - Predictive model loss: 0.9426823258399963
+2024-07-22 00:52:30,837 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -23.24812737659892, Velocity: -0.2346726851500877, Movement: 0.35519085403373013, Collision: 0, Height: -1.0, Movement Penalty: -0.08154110618683424, Smoothness: -0.0, Curiosity: 435.5888977050781, Exploration: 0.5900459577283839, Large Movement: 1.4207634161349205, Direction Change: 0.0014565502290937449, Total: 413.3856463133062
+2024-07-22 00:52:30,884 - AirSimEnvLogger - INFO - Action: [-0.43205825 -0.39031926 -0.4069628  -0.40031616], Velocity: (-0.4320582479080953, -0.3903192572817108, -0.40696279801289303), Duration: 1.5, Reward: 413.3856463133062, Done: False
+2024-07-22 00:52:30,947 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:52:30,947 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:52:33,787 - AirSimEnvLogger - INFO - Predictive model loss: 0.6947792768478394
+2024-07-22 00:52:40,621 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -22.850159527464427, Velocity: -0.00972898985533964, Movement: 0.014052624529248011, Collision: 0, Height: -1.0, Movement Penalty: -0.0033231886283563612, Smoothness: -0.0, Curiosity: 424.9699401855469, Exploration: 0.3612735403783451, Large Movement: 0.056210498116992046, Direction Change: 0.3649253192205659, Total: 402.48826758306194
+2024-07-22 00:52:40,699 - AirSimEnvLogger - INFO - Action: [-0.00497506  0.02439366  0.01304236  0.01773283], Velocity: (-0.0049750617036202205, 0.024393657334900842, 0.013042364337523371), Duration: 1.5, Reward: 402.48826758306194, Done: False
+2024-07-22 00:52:40,794 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:52:40,794 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:52:43,837 - AirSimEnvLogger - INFO - Predictive model loss: 0.3091783821582794
+2024-07-22 00:52:50,943 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -22.292543164608215, Velocity: -0.16162648946048974, Movement: 0.2593852534973249, Collision: 0, Height: -1.0, Movement Penalty: -0.06012769328893072, Smoothness: -0.0, Curiosity: 406.0940246582031, Exploration: 0.5044613835400907, Large Movement: 1.0375410139892995, Direction Change: 0.3123913920113508, Total: 385.0699188497203
+2024-07-22 00:52:51,132 - AirSimEnvLogger - INFO - Action: [0.28761507 0.30774336 0.30281089 0.30399196], Velocity: (0.2876150679963544, 0.3077433622298438, 0.30281088915758897), Duration: 1.5, Reward: 385.0699188497203, Done: False
+2024-07-22 00:52:51,210 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:52:51,211 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:52:54,035 - AirSimEnvLogger - INFO - Predictive model loss: 0.3897421956062317
+2024-07-22 00:53:01,113 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -22.71816127860218, Velocity: -0.04882095347532749, Movement: 0.0784431776061882, Collision: 0, Height: -1.0, Movement Penalty: -0.017947584334015675, Smoothness: -0.0, Curiosity: 418.2856140136719, Exploration: 0.08403068656489299, Large Movement: 0.3137727104247528, Direction Change: 0.0045005716226852455, Total: 395.4066798040001
+2024-07-22 00:53:01,223 - AirSimEnvLogger - INFO - Action: [-0.09863039 -0.08453126 -0.08797636 -0.08716794], Velocity: (-0.09863039347883062, -0.08453125938848072, -0.08797636114452781), Duration: 1.5, Reward: 395.4066798040001, Done: False
+2024-07-22 00:53:01,332 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:53:01,332 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:53:04,302 - AirSimEnvLogger - INFO - Predictive model loss: 0.3407832980155945
+2024-07-22 00:53:10,783 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -23.296466525145338, Velocity: -0.19463209236397552, Movement: 0.2970997405583059, Collision: 0, Height: -1.0, Movement Penalty: -0.0685404236571988, Smoothness: -0.0, Curiosity: 440.01214599609375, Exploration: 0.5095159034175717, Large Movement: 1.1883989622332236, Direction Change: 0.0015085245829777882, Total: 417.5121446827468
+2024-07-22 00:53:10,786 - AirSimEnvLogger - INFO - Action: [-0.34772583 -0.33595073 -0.3453938  -0.34162252], Velocity: (-0.34772583191940387, -0.3359507285510777, -0.34539380011981874), Duration: 1.5, Reward: 417.5121446827468, Done: False
+2024-07-22 00:53:10,833 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:53:10,833 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:53:13,610 - AirSimEnvLogger - INFO - Predictive model loss: 0.2121989130973816
+2024-07-22 00:53:20,120 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -23.815998099428658, Velocity: -0.24447591514469005, Movement: 0.3760864883318623, Collision: 0, Height: -1.0, Movement Penalty: -0.08698602979819695, Smoothness: -0.0, Curiosity: 462.8157958984375, Exploration: 0.5526019792891279, Large Movement: 1.5043459533274492, Direction Change: 3.119464371326153e-05, Total: 440.11601609881313
+2024-07-22 00:53:20,244 - AirSimEnvLogger - INFO - Action: [-0.43839452 -0.43010375 -0.43426397 -0.43691275], Velocity: (-0.4383945151343389, -0.4301037524212097, -0.4342639728051255), Duration: 1.5, Reward: 440.11601609881313, Done: False
+2024-07-22 00:53:20,354 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:53:20,354 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:53:23,143 - AirSimEnvLogger - INFO - Predictive model loss: 0.12480087578296661
+2024-07-22 00:53:29,910 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.59703250200516, Velocity: -0.32648780486595597, Movement: 0.5203904962468424, Collision: 0, Height: -1.0, Movement Penalty: -0.12016953552063384, Smoothness: -0.0, Curiosity: 498.1016845703125, Exploration: 0.6711340655980474, Large Movement: 2.0815619849873697, Direction Change: 6.356263908768867e-06, Total: 475.2207087221377
+2024-07-22 00:53:30,053 - AirSimEnvLogger - INFO - Action: [-0.60377462 -0.5974735  -0.60142057 -0.60070513], Velocity: (-0.6037746150217563, -0.5974735015479808, -0.6014205712639571), Duration: 1.5, Reward: 475.2207087221377, Done: False
+2024-07-22 00:53:30,116 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:53:30,116 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:53:32,693 - AirSimEnvLogger - INFO - Predictive model loss: 0.18311777710914612
+2024-07-22 00:53:39,141 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.921402111655446, Velocity: -0.24360377853593243, Movement: 0.39807727369767204, Collision: 0, Height: -1.0, Movement Penalty: -0.09173919263708019, Smoothness: -0.0, Curiosity: 515.7380981445312, Exploration: 0.5990513476612236, Large Movement: 1.5923090947906882, Direction Change: 0.0001695191230625115, Total: 492.0326268200202
+2024-07-22 00:53:39,235 - AirSimEnvLogger - INFO - Action: [-0.45243536 -0.45518892 -0.47113411 -0.45579149], Velocity: (-0.45243536261175843, -0.4551889236463765, -0.4711341101918912), Duration: 1.5, Reward: 492.0326268200202, Done: False
+2024-07-22 00:53:39,282 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:53:39,282 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:53:42,216 - AirSimEnvLogger - INFO - Predictive model loss: 0.19452889263629913
+2024-07-22 00:53:49,521 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.31582666942589, Velocity: -0.24457102179267393, Movement: 0.3715848798759067, Collision: 0, Height: -1.0, Movement Penalty: -0.08454224865450172, Smoothness: -0.0, Curiosity: 536.560546875, Exploration: 0.4384809481959792, Large Movement: 1.4863395195036269, Direction Change: 0.00021726332202332, Total: 512.317638526483
+2024-07-22 00:53:49,662 - AirSimEnvLogger - INFO - Action: [-0.43497557 -0.41898331 -0.43307105 -0.40303584], Velocity: (-0.4349755682470236, -0.4189833119497261, -0.4330710463023193), Duration: 1.5, Reward: 512.317638526483, Done: False
+2024-07-22 00:53:49,724 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:53:49,724 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:53:52,204 - AirSimEnvLogger - INFO - Predictive model loss: 0.2368471920490265
+2024-07-22 00:53:59,273 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.003624152881446, Velocity: -0.02094402576497174, Movement: 0.03360805423391631, Collision: 0, Height: -1.0, Movement Penalty: -0.006832893184076843, Smoothness: -0.0, Curiosity: 527.55126953125, Exploration: 0.24791095982251504, Large Movement: 0.13443221693566523, Direction Change: 0.0035681000960002818, Total: 502.24542759467965
+2024-07-22 00:53:59,353 - AirSimEnvLogger - INFO - Action: [-0.04046085 -0.03320613 -0.04216963 -0.0122816 ], Velocity: (-0.04046084548486106, -0.03320613309640613, -0.04216963297200249), Duration: 1.5, Reward: 502.24542759467965, Done: False
+2024-07-22 00:53:59,397 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:53:59,397 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:54:02,158 - AirSimEnvLogger - INFO - Predictive model loss: 0.06426932662725449
+2024-07-22 00:54:09,397 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.561113806053, Velocity: -0.17466978350985124, Movement: 0.2751784446509644, Collision: 0, Height: -1.0, Movement Penalty: -0.06266604169358819, Smoothness: -0.0, Curiosity: 551.695068359375, Exploration: 0.18166200185753406, Large Movement: 1.1007137786038577, Direction Change: 0.004801613461318244, Total: 526.7757788023291
+2024-07-22 00:54:09,476 - AirSimEnvLogger - INFO - Action: [-0.32068913 -0.31616661 -0.31636982 -0.29968412], Velocity: (-0.32068912631091456, -0.31616661114920425, -0.3163698213522676), Duration: 1.5, Reward: 526.7757788023291, Done: False
+2024-07-22 00:54:09,537 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:54:09,537 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:54:12,485 - AirSimEnvLogger - INFO - Predictive model loss: 0.04719178006052971
+2024-07-22 00:54:19,141 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.884558916688572, Velocity: -0.16527238698239832, Movement: 0.2707287014076222, Collision: 0, Height: -1.0, Movement Penalty: -0.0620956268780688, Smoothness: -0.0, Curiosity: 568.30859375, Exploration: 0.44594097374683767, Large Movement: 1.0829148056304887, Direction Change: 0.0029351186377751803, Total: 543.105713266239
+2024-07-22 00:54:19,267 - AirSimEnvLogger - INFO - Action: [-0.2899347  -0.34262514 -0.30285641 -0.30399107], Velocity: (-0.28993469588033244, -0.3426251407901493, -0.3028564083633354), Duration: 1.5, Reward: 543.105713266239, Done: False
+2024-07-22 00:54:19,314 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:54:19,314 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:54:22,133 - AirSimEnvLogger - INFO - Predictive model loss: 0.0345427431166172
+2024-07-22 00:54:29,123 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -26.552054528415237, Velocity: -0.2850353328750637, Movement: 0.42838117341254706, Collision: 0, Height: -1.0, Movement Penalty: -0.09831929608334347, Smoothness: -0.0, Curiosity: 600.455322265625, Exploration: 0.5095760874975492, Large Movement: 1.7135246936501882, Direction Change: 0.0007544241925993012, Total: 575.2178139623182
+2024-07-22 00:54:29,201 - AirSimEnvLogger - INFO - Action: [-0.47681608 -0.51633714 -0.48998378 -0.48231388], Velocity: (-0.4768160827800663, -0.5163371381668282, -0.4899837771694135), Duration: 1.5, Reward: 575.2178139623182, Done: False
+2024-07-22 00:54:29,262 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:54:29,262 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:54:32,268 - AirSimEnvLogger - INFO - Predictive model loss: 0.04445723444223404
+2024-07-22 00:54:39,418 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -27.364421788257463, Velocity: -0.3599409586195953, Movement: 0.5553328507147817, Collision: 0, Height: -1.0, Movement Penalty: -0.12781171955496326, Smoothness: -0.0, Curiosity: 642.0632934570312, Exploration: 0.752555967072151, Large Movement: 2.2213314028591267, Direction Change: 0.00011492220334685666, Total: 616.5713674319269
+2024-07-22 00:54:39,542 - AirSimEnvLogger - INFO - Action: [-0.62866297 -0.65656959 -0.638183   -0.63245969], Velocity: (-0.62866297299579, -0.6565695874150219, -0.6381830016521801), Duration: 1.5, Reward: 616.5713674319269, Done: False
+2024-07-22 00:54:39,604 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:54:39,604 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:54:42,337 - AirSimEnvLogger - INFO - Predictive model loss: 0.13064083456993103
+2024-07-22 00:54:49,401 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -27.107799798505482, Velocity: -0.09074969506747295, Movement: 0.1358421523251463, Collision: 0, Height: -1.0, Movement Penalty: -0.03126763770592816, Smoothness: -0.0, Curiosity: 635.5149536132812, Exploration: 0.38830485094784056, Large Movement: 0.5433686093005852, Direction Change: 0.0004704020399397546, Total: 608.5350824568401
+2024-07-22 00:54:49,576 - AirSimEnvLogger - INFO - Action: [-0.14855874 -0.16690975 -0.15454384 -0.1547713 ], Velocity: (-0.14855874433557836, -0.166909745393091, -0.15454383768873736), Duration: 1.5, Reward: 608.5350824568401, Done: False
+2024-07-22 00:54:49,638 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:54:49,638 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:54:52,020 - AirSimEnvLogger - INFO - Predictive model loss: 0.049702275544404984
+2024-07-22 00:54:59,297 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -26.831998358484935, Velocity: -0.038297540303193836, Movement: 0.06071634118920241, Collision: 0, Height: -1.0, Movement Penalty: -0.012170879567969027, Smoothness: -0.0, Curiosity: 625.3316040039062, Exploration: 0.3717682459982067, Large Movement: 0.24286536475680964, Direction Change: 0.0003730858068068388, Total: 598.3273089723235
+2024-07-22 00:54:59,437 - AirSimEnvLogger - INFO - Action: [0.06827804 0.07202137 0.06997804 0.00819357], Velocity: (0.06827804448099481, 0.07202137436417194, 0.06997804388636225), Duration: 1.5, Reward: 598.3273089723235, Done: False
+2024-07-22 00:54:59,454 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:54:59,454 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:55:02,367 - AirSimEnvLogger - INFO - Predictive model loss: 0.376323938369751
+2024-07-22 00:55:09,292 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -26.40582262594173, Velocity: -0.14449080971755257, Movement: 0.2284203108747618, Collision: 0, Height: -1.0, Movement Penalty: -0.050382721433852855, Smoothness: -0.0, Curiosity: 606.918701171875, Exploration: 0.3646098258620165, Large Movement: 0.9136812434990472, Direction Change: 0.0016685137236228664, Total: 581.0060954786616
+2024-07-22 00:55:09,370 - AirSimEnvLogger - INFO - Action: [0.27013048 0.24951093 0.27106674 0.21245825], Velocity: (0.27013047636870624, 0.24951092648668305, 0.2710667389796546), Duration: 1.5, Reward: 581.0060954786616, Done: False
+2024-07-22 00:55:09,448 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:55:09,448 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:55:12,316 - AirSimEnvLogger - INFO - Predictive model loss: 0.7855271697044373
+2024-07-22 00:55:19,385 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.726271729716814, Velocity: -0.2230683042638184, Movement: 0.4168130996086618, Collision: 0, Height: -1.0, Movement Penalty: -0.0945098560334078, Smoothness: -0.0, Curiosity: 576.505615234375, Exploration: 0.5531678279002118, Large Movement: 1.6672523984346472, Direction Change: 0.0002759989135463492, Total: 552.0631685768392
+2024-07-22 00:55:19,496 - AirSimEnvLogger - INFO - Action: [0.48575644 0.47156698 0.48641331 0.44528491], Velocity: (0.48575643570151783, 0.47156698081606874, 0.48641330964530105), Duration: 1.5, Reward: 552.0631685768392, Done: False
+2024-07-22 00:55:19,556 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:55:19,556 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:55:22,242 - AirSimEnvLogger - INFO - Predictive model loss: 1.2603014707565308
+2024-07-22 00:55:29,312 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.433093271634945, Velocity: -0.226249573737844, Movement: 0.3317054235226374, Collision: 0, Height: -1.0, Movement Penalty: -0.07618126397281019, Smoothness: -0.0, Curiosity: 558.4823608398438, Exploration: 0.5108655178185633, Large Movement: 1.3268216940905495, Direction Change: 0.007680666637204681, Total: 533.994672834605
+2024-07-22 00:55:29,453 - AirSimEnvLogger - INFO - Action: [0.43771018 0.37984048 0.32286988 0.37449238], Velocity: (0.43771017799425915, 0.3798404830356436, 0.32286988014494594), Duration: 1.5, Reward: 533.994672834605, Done: False
+2024-07-22 00:55:29,515 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:55:29,515 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:55:32,368 - AirSimEnvLogger - INFO - Predictive model loss: 0.5086854696273804
+2024-07-22 00:55:39,397 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.787256738030916, Velocity: -0.012440778480082309, Movement: 0.03783148860763856, Collision: 0, Height: -1.0, Movement Penalty: -0.00820090490215267, Smoothness: -0.0, Curiosity: 568.373046875, Exploration: 0.26080620589933884, Large Movement: 0.15132595443055424, Direction Change: 0.4382385378638656, Total: 543.1735304725903
+2024-07-22 00:55:39,554 - AirSimEnvLogger - INFO - Action: [ 0.01170544 -0.02925184 -0.06879098 -0.03163223], Velocity: (0.011705442734103955, -0.029251838886539372, -0.06879097799300501), Duration: 1.5, Reward: 543.1735304725903, Done: False
+2024-07-22 00:55:39,614 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:55:39,614 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:55:42,477 - AirSimEnvLogger - INFO - Predictive model loss: 0.030406629666686058
+2024-07-22 00:55:49,683 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.89263270806588, Velocity: -0.029767211778423404, Movement: 0.07669785862732884, Collision: 0, Height: -1.0, Movement Penalty: -0.0179342092111266, Smoothness: -0.0, Curiosity: 572.0633544921875, Exploration: 0.2754882951061526, Large Movement: 0.30679143450931534, Direction Change: 0.0644210937304267, Total: 546.1685115883906
+2024-07-22 00:55:49,825 - AirSimEnvLogger - INFO - Action: [-0.03009662 -0.06925266 -0.13352344 -0.09291577], Velocity: (-0.030096623671771003, -0.06925266421304163, -0.1335234354524567), Duration: 1.5, Reward: 546.1685115883906, Done: False
+2024-07-22 00:55:49,889 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:55:49,890 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:55:52,721 - AirSimEnvLogger - INFO - Predictive model loss: 0.1484779417514801
+2024-07-22 00:55:59,823 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.48786083828089, Velocity: -0.11424972012417804, Movement: 0.1560800618954554, Collision: 0, Height: -1.0, Movement Penalty: -0.03562820794591245, Smoothness: -0.0, Curiosity: 555.9994506835938, Exploration: 0.1546647255037284, Large Movement: 0.6243202475818216, Direction Change: 0.2553922317546061, Total: 531.1748795759498
+2024-07-22 00:55:59,918 - AirSimEnvLogger - INFO - Action: [0.23268293 0.16206625 0.13052636 0.1717352 ], Velocity: (0.232682926097607, 0.1620662460175533, 0.1305263601330789), Duration: 1.5, Reward: 531.1748795759498, Done: False
+2024-07-22 00:56:00,010 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:56:00,011 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:56:02,706 - AirSimEnvLogger - INFO - Predictive model loss: 0.1964799165725708
+2024-07-22 00:56:09,699 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.937912066558074, Velocity: -0.09245275509516869, Movement: 0.15544424461125905, Collision: 0, Height: -1.0, Movement Penalty: -0.03588913654666341, Smoothness: -0.0, Curiosity: 573.3314208984375, Exploration: 0.04612952702091577, Large Movement: 0.6217769784450362, Direction Change: 0.08169226322729095, Total: 547.6838524784566
+2024-07-22 00:56:09,716 - AirSimEnvLogger - INFO - Action: [-0.13657596 -0.18606223 -0.20827748 -0.179308  ], Velocity: (-0.1365759553041391, -0.18606222921479096, -0.20827747843548552), Duration: 1.5, Reward: 547.6838524784566, Done: False
+2024-07-22 00:56:09,759 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:56:09,759 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:56:12,581 - AirSimEnvLogger - INFO - Predictive model loss: 0.6207764744758606
+2024-07-22 00:56:19,378 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.761630292947117, Velocity: -0.008973286904071526, Movement: 0.014342524555361032, Collision: 0, Height: -1.0, Movement Penalty: -0.004063402869778808, Smoothness: -0.0, Curiosity: 567.7185668945312, Exploration: 0.1368862641523178, Large Movement: 0.05737009822144413, Direction Change: 0.0031203143843409054, Total: 541.5511100926417
+2024-07-22 00:56:19,537 - AirSimEnvLogger - INFO - Action: [0.01278389 0.01872037 0.01757703 0.02878007], Velocity: (0.012783891750531129, 0.0187203677723026, 0.01757703002969993), Duration: 1.5, Reward: 541.5511100926417, Done: False
+2024-07-22 00:56:19,583 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:56:19,583 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:56:22,390 - AirSimEnvLogger - INFO - Predictive model loss: 0.5371782779693604
+2024-07-22 00:56:29,581 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -26.031279737541535, Velocity: -0.0788061068169884, Movement: 0.12187138976566571, Collision: 0, Height: -1.0, Movement Penalty: -0.027540511421622463, Smoothness: -0.0, Curiosity: 579.3346557617188, Exploration: 0.0725168953715102, Large Movement: 0.48748555906266283, Direction Change: 0.03050090723583032, Total: 553.3639534118216
+2024-07-22 00:56:29,782 - AirSimEnvLogger - INFO - Action: [-0.15733646 -0.12585829 -0.13716949 -0.12820856], Velocity: (-0.1573364627806249, -0.12585829451079655, -0.13716949280424515), Duration: 1.5, Reward: 553.3639534118216, Done: False
+2024-07-22 00:56:29,847 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:56:29,847 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:56:32,831 - AirSimEnvLogger - INFO - Predictive model loss: 0.6304868459701538
+2024-07-22 00:56:40,030 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -26.534102236873586, Velocity: -0.1422969626450298, Movement: 0.27675218668508755, Collision: 0, Height: -1.0, Movement Penalty: -0.0624963004081355, Smoothness: -0.0, Curiosity: 602.2122192382812, Exploration: 0.3875441339213732, Large Movement: 1.1070087467403502, Direction Change: 0.0022944708868519736, Total: 576.372117300391
+2024-07-22 00:56:40,188 - AirSimEnvLogger - INFO - Action: [-0.32923208 -0.29222842 -0.3355233  -0.29019246], Velocity: (-0.32923208025232276, -0.2922284158873244, -0.33552329519814766), Duration: 1.5, Reward: 576.372117300391, Done: False
+2024-07-22 00:56:40,250 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:56:40,250 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:56:43,186 - AirSimEnvLogger - INFO - Predictive model loss: 0.8472017645835876
+2024-07-22 00:56:50,240 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -26.24168423601668, Velocity: -0.007357440085425688, Movement: 0.014308517684091793, Collision: 0, Height: -1.0, Movement Penalty: -0.004006472380098184, Smoothness: -0.0, Curiosity: 591.9876098632812, Exploration: 0.13748130429824298, Large Movement: 0.057234070736367174, Direction Change: 0.775289754794021, Total: 566.8846241198547
+2024-07-22 00:56:50,349 - AirSimEnvLogger - INFO - Action: [-0.00545398  0.01836874 -0.02125508  0.0280401 ], Velocity: (-0.0054539833763710965, 0.018368737204335267, -0.02125507638453006), Duration: 1.5, Reward: 566.8846241198547, Done: False
+2024-07-22 00:56:50,459 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:56:50,459 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:56:53,347 - AirSimEnvLogger - INFO - Predictive model loss: 0.26824790239334106
+2024-07-22 00:57:00,482 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.729404615194806, Velocity: -0.14765503876475283, Movement: 0.23356434229251033, Collision: 0, Height: -1.0, Movement Penalty: -0.05522331293853409, Smoothness: -0.0, Curiosity: 571.2118530273438, Exploration: 0.4234261135376353, Large Movement: 0.9342573691700413, Direction Change: 0.856971624667148, Total: 547.7183588843421
+2024-07-22 00:57:00,625 - AirSimEnvLogger - INFO - Action: [0.26794816 0.27876669 0.26211091 0.2945373 ], Velocity: (0.2679481589784592, 0.2787666851405536, 0.262110906522284), Duration: 1.5, Reward: 547.7183588843421, Done: False
+2024-07-22 00:57:00,671 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:57:00,671 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:57:03,085 - AirSimEnvLogger - INFO - Predictive model loss: 0.02736104279756546
+2024-07-22 00:57:09,712 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.169881323331243, Velocity: -0.2249039165334211, Movement: 0.3718192715955922, Collision: 0, Height: -1.0, Movement Penalty: -0.08667728857116491, Smoothness: -0.0, Curiosity: 546.7181396484375, Exploration: 0.5366478218674356, Large Movement: 1.4872770863823688, Direction Change: 0.0007056435151665541, Total: 522.646601359633
+2024-07-22 00:57:09,821 - AirSimEnvLogger - INFO - Action: [0.43958288 0.42111415 0.42711597 0.44530546], Velocity: (0.4395828782313326, 0.42111414510875583, 0.42711597122407663), Duration: 1.5, Reward: 522.646601359633, Done: False
+2024-07-22 00:57:09,851 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:57:09,851 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:57:12,498 - AirSimEnvLogger - INFO - Predictive model loss: 0.5189726948738098
+2024-07-22 00:57:19,329 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.771070967519403, Velocity: -0.22616272966345094, Movement: 0.3614247084505191, Collision: 0, Height: -1.0, Movement Penalty: -0.08373998910866684, Smoothness: -0.0, Curiosity: 526.7096557617188, Exploration: 0.49094681793381456, Large Movement: 1.4456988338020764, Direction Change: 0.0002727496581642619, Total: 502.98386008710486
+2024-07-22 00:57:19,424 - AirSimEnvLogger - INFO - Action: [0.41849333 0.42295737 0.4104652  0.42276151], Velocity: (0.4184933277125439, 0.42295736558446034, 0.41046520080526366), Duration: 1.5, Reward: 502.98386008710486, Done: False
+2024-07-22 00:57:19,487 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:57:19,487 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:57:22,289 - AirSimEnvLogger - INFO - Predictive model loss: 0.6215496063232422
+2024-07-22 00:57:28,959 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.063278519889582, Velocity: -0.3154108634044789, Movement: 0.5100376238600409, Collision: 0, Height: -1.0, Movement Penalty: -0.1179235781598737, Smoothness: -0.0, Curiosity: 495.69683837890625, Exploration: 0.5729972270725711, Large Movement: 2.0401504954401637, Direction Change: 1.577995606494298e-05, Total: 473.2864336685157
+2024-07-22 00:57:29,069 - AirSimEnvLogger - INFO - Action: [0.58992845 0.59323147 0.58362176 0.59164476], Velocity: (0.5899284522244033, 0.5932314668203008, 0.583621760253626), Duration: 1.5, Reward: 473.2864336685157, Done: False
+2024-07-22 00:57:29,116 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:57:29,116 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:57:31,581 - AirSimEnvLogger - INFO - Predictive model loss: 1.2696101665496826
+2024-07-22 00:57:38,583 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.18039384005056, Velocity: -0.10646799058142771, Movement: 0.17591107183576857, Collision: 0, Height: -1.0, Movement Penalty: -0.0395634829466044, Smoothness: -0.0, Curiosity: 493.2237854003906, Exploration: 0.3711863863553568, Large Movement: 0.7036442873430743, Direction Change: 0.0017660270406587575, Total: 469.33013978015174
+2024-07-22 00:57:38,693 - AirSimEnvLogger - INFO - Action: [0.21861276 0.19031289 0.19941988 0.18096435], Velocity: (0.21861275716186435, 0.19031289039782961, 0.19941987597064426), Duration: 1.5, Reward: 469.33013978015174, Done: False
+2024-07-22 00:57:38,772 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:57:38,772 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:57:41,744 - AirSimEnvLogger - INFO - Predictive model loss: 0.669891893863678
+2024-07-22 00:57:48,963 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -23.570956213784356, Velocity: -0.2332123384049569, Movement: 0.38150139924707427, Collision: 0, Height: -1.0, Movement Penalty: -0.08733808203789478, Smoothness: -0.0, Curiosity: 468.5343933105469, Exploration: 0.30938560876250937, Large Movement: 1.526005596988297, Direction Change: 0.0007831063586588582, Total: 446.0485875175186
+2024-07-22 00:57:49,058 - AirSimEnvLogger - INFO - Action: [0.4514288  0.43188696 0.43801708 0.42499504], Velocity: (0.45142879564059385, 0.43188696079564687, 0.43801708422284696), Duration: 1.5, Reward: 446.0485875175186, Done: False
+2024-07-22 00:57:49,152 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:57:49,152 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:57:52,174 - AirSimEnvLogger - INFO - Predictive model loss: 0.8532457947731018
+2024-07-22 00:57:59,277 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -23.863731968430567, Velocity: -0.023693733804073233, Movement: 0.03614431570231956, Collision: 0, Height: -1.0, Movement Penalty: -0.007670172324499708, Smoothness: -0.0, Curiosity: 474.6296081542969, Exploration: 0.22389537086158937, Large Movement: 0.14457726280927824, Direction Change: 0.007618540297323562, Total: 450.4760422092241
+2024-07-22 00:57:59,340 - AirSimEnvLogger - INFO - Action: [0.04930338 0.03519854 0.03944472 0.02564192], Velocity: (0.04930337602838697, 0.03519854427555019, 0.039444718574752013), Duration: 1.5, Reward: 450.4760422092241, Done: False
+2024-07-22 00:57:59,371 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:57:59,372 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:58:01,681 - AirSimEnvLogger - INFO - Predictive model loss: 0.1458379179239273
+2024-07-22 00:58:09,011 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.144631437545648, Velocity: -0.07414664543426712, Movement: 0.10547103269990672, Collision: 0, Height: -1.0, Movement Penalty: -0.022451375167535707, Smoothness: -0.0, Curiosity: 484.8885192871094, Exploration: 0.32153219258624516, Large Movement: 0.4218841307996269, Direction Change: 0.019350796530438585, Total: 460.7745515701699
+2024-07-22 00:58:09,153 - AirSimEnvLogger - INFO - Action: [-0.12519265 -0.1367933  -0.10055321 -0.07687568], Velocity: (-0.12519264981685702, -0.13679330014362762, -0.10055321189692744), Duration: 1.5, Reward: 460.7745515701699, Done: False
+2024-07-22 00:58:09,184 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:58:09,184 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:58:12,097 - AirSimEnvLogger - INFO - Predictive model loss: 0.02947601117193699
+2024-07-22 00:58:19,126 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -23.731885736155593, Velocity: -0.0931293935289835, Movement: 0.15081381032638505, Collision: 0, Height: -1.0, Movement Penalty: -0.03613563966347682, Smoothness: -0.0, Curiosity: 470.1181335449219, Exploration: 0.06870768183220646, Large Movement: 0.6032552413055402, Direction Change: 0.012993173293788352, Total: 446.52502533774185
+2024-07-22 00:58:19,175 - AirSimEnvLogger - INFO - Action: [0.16890571 0.16955656 0.18357738 0.19899554], Velocity: (0.16890571181101566, 0.16955655689813315, 0.1835773844217083), Duration: 1.5, Reward: 446.52502533774185, Done: False
+2024-07-22 00:58:19,204 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:58:19,204 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:58:22,135 - AirSimEnvLogger - INFO - Predictive model loss: 0.04062332585453987
+2024-07-22 00:58:28,803 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.101625340460178, Velocity: -0.06823011826589394, Movement: 0.10276163142737937, Collision: 0, Height: -1.0, Movement Penalty: -0.023163263272042586, Smoothness: -0.0, Curiosity: 483.0655517578125, Exploration: 0.02191703245387645, Large Movement: 0.4110465257095175, Direction Change: 0.012770235438195776, Total: 458.90153631633984
+2024-07-22 00:58:28,944 - AirSimEnvLogger - INFO - Action: [-0.1269827  -0.12885901 -0.09752211 -0.10683569], Velocity: (-0.12698269918674154, -0.12885900524214572, -0.0975221126192436), Duration: 1.5, Reward: 458.90153631633984, Done: False
+2024-07-22 00:58:29,022 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:58:29,022 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:58:31,720 - AirSimEnvLogger - INFO - Predictive model loss: 0.3300936222076416
+2024-07-22 00:58:38,513 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.176520037853766, Velocity: -0.05183141122617925, Movement: 0.07386221949241842, Collision: 0, Height: -1.0, Movement Penalty: -0.016110794124449962, Smoothness: -0.0, Curiosity: 487.15289306640625, Exploration: 0.22308725307809388, Large Movement: 0.2954488779696737, Direction Change: 0.025156663997402462, Total: 462.87054747526895
+2024-07-22 00:58:38,591 - AirSimEnvLogger - INFO - Action: [-0.11138823 -0.08619388 -0.04456215 -0.06429043], Velocity: (-0.11138823491414135, -0.08619388409822151, -0.04456215143099801), Duration: 1.5, Reward: 462.87054747526895, Done: False
+2024-07-22 00:58:38,685 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:58:38,685 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:58:41,526 - AirSimEnvLogger - INFO - Predictive model loss: 0.5430769324302673
+2024-07-22 00:58:48,262 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -24.770101249294253, Velocity: -0.19857907344433287, Movement: 0.30119623878276736, Collision: 0, Height: -1.0, Movement Penalty: -0.06904425152143763, Smoothness: -0.0, Curiosity: 511.6193542480469, Exploration: 0.3360468664433073, Large Movement: 1.2047849551310694, Direction Change: 0.037860612559177054, Total: 487.6948373986084
+2024-07-22 00:58:48,263 - AirSimEnvLogger - INFO - Action: [-0.36770044 -0.35110452 -0.32310788 -0.3373932 ], Velocity: (-0.3677004357522311, -0.35110452103474016, -0.32310787963794435), Duration: 1.5, Reward: 487.6948373986084, Done: False
+2024-07-22 00:58:48,339 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:58:48,339 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:58:51,141 - AirSimEnvLogger - INFO - Predictive model loss: 1.0263069868087769
+2024-07-22 00:58:58,114 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -25.51670768037387, Velocity: -0.31371089930248885, Movement: 0.4702675781486842, Collision: 0, Height: -1.0, Movement Penalty: -0.10825346094161364, Smoothness: -0.0, Curiosity: 545.856689453125, Exploration: 0.6720466821350952, Large Movement: 1.8810703125947368, Direction Change: 0.0004270005053377268, Total: 521.8568164637874
+2024-07-22 00:58:58,161 - AirSimEnvLogger - INFO - Action: [-0.5571204  -0.54554817 -0.52592817 -0.53598022], Velocity: (-0.5571203973136254, -0.54554816911122, -0.5259281683916721), Duration: 1.5, Reward: 521.8568164637874, Done: False
+2024-07-22 00:58:58,192 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:58:58,192 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:59:01,008 - AirSimEnvLogger - INFO - Predictive model loss: 1.5986013412475586
+2024-07-22 00:59:07,599 - AirSimEnvLogger - INFO - Reward breakdown - Distance: -26.080777005039796, Velocity: -0.27436854885507633, Movement: 0.4637625376989951, Collision: 0, Height: -1.0, Movement Penalty: -0.10694235297693455, Smoothness: -0.0, Curiosity: 574.7037353515625, Exploration: 0.6773604950942244, Large Movement: 1.8550501507959805, Direction Change: 0.00043051753973932794, Total: 550.1186811701737
+2024-07-22 00:59:07,758 - AirSimEnvLogger - INFO - Action: [-0.56226307 -0.51568901 -0.52747308 -0.53231938], Velocity: (-0.5622630697855686, -0.515689008242394, -0.5274730823704015), Duration: 1.5, Reward: 550.1186811701737, Done: False
+2024-07-22 00:59:07,820 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
+2024-07-22 00:59:07,820 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-07-22 00:59:10,622 - AirSimEnvLogger - INFO - Predictive model loss: 2.13364839553833
+2024-07-22 00:59:15,960 - AirSimEnvLogger - ERROR - Error during training: mat1 and mat2 shapes cannot be multiplied (1x4 and 16x128)
+2024-07-22 00:59:15,960 - AirSimEnvLogger - ERROR - Error during training: mat1 and mat2 shapes cannot be multiplied (1x4 and 16x128)
+2024-07-22 00:59:15,960 - AirSimEnvLogger - ERROR - An error occurred in main: mat1 and mat2 shapes cannot be multiplied (1x4 and 16x128)
+Traceback (most recent call last):
+  File "e:\Project\Drone\train.py", line 134, in main
+    episode_rewards, episode_lengths = train_agents(ppo_agent, env, config, logger)
+  File "e:\Project\Drone\train.py", line 77, in train_agents
+    episode_rewards, episode_lengths = ppo_agent.train(env, total_timesteps, ppo_save_path)
+  File "e:\Project\Drone\source\models\ppo\ppo_agent.py", line 361, in train
+  File "e:\Project\Drone\source\models\ppo\ppo_agent.py", line 243, in update
+  File "C:\Users\HP\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\torch\nn\modules\module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "e:\Project\Drone\source\models\nn\critic_network.py", line 66, in forward
+    state_features = F.relu(self.state_encoder(state))
+  File "C:\Users\HP\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\torch\nn\modules\module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\HP\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\site-packages\torch\nn\modules\linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (1x4 and 16x128)
+2024-07-22 00:59:21,528 - AirSimEnvLogger - INFO - Environment closed.
+2024-07-22 00:59:21,591 - AirSimEnvLogger - INFO - Training script execution finished.

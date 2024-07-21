@@ -200,29 +200,41 @@ class PPOAgent:
         )
 
     def select_action(self, observation):
-        state = torch.FloatTensor(observation['state']).to(self.device)
-        visual = torch.FloatTensor(observation['visual']).to(self.device)
+        try:
+            state = torch.FloatTensor(observation['state']).to(self.device)
+            visual = torch.FloatTensor(observation['visual']).to(self.device)
+            
+            if state.dim() == 3:
+                state = state.squeeze(0)
+            if visual.dim() == 5:
+                visual = visual.squeeze(0)
+            
+            with torch.no_grad():
+                if self.config['ppo']['continuous']:
+                    mean, std = self.policy_network(state, visual)
+                    dist = torch.distributions.Normal(mean, std)
+                    action = dist.sample()
+                    log_prob = dist.log_prob(action).sum(dim=-1)
+                    
+                    action_scale = self.config['environment']['action_scale']
+                    scaled_action = action * action_scale
+                    
+                    exploration_noise = torch.randn_like(scaled_action) * self.config['environment']['exploration_noise']
+                    final_action = scaled_action + exploration_noise
+                    
+                    final_action = torch.clamp(final_action, -action_scale, action_scale)
+                else:
+                    probs = self.policy_network(state, visual)
+                    dist = torch.distributions.Categorical(probs)
+                    action = dist.sample()
+                    log_prob = dist.log_prob(action)
+                    final_action = action
+
+            return final_action.cpu().numpy().flatten(), log_prob.cpu().numpy()
+        except Exception as e:
+            self.logger.error(f"Error in select_action: {e}")
+            raise
         
-        print(f"select_action - State shape: {state.shape}")
-        print(f"select_action - Visual shape: {visual.shape}")
-
-        with torch.no_grad():
-            if self.config['ppo']['continuous']:
-                mean, std = self.policy_network(state, visual)
-                dist = torch.distributions.Normal(mean, std)
-                action = dist.sample()
-                log_prob = dist.log_prob(action).sum(dim=-1)
-            else:
-                probs = self.policy_network(state, visual)
-                dist = torch.distributions.Categorical(probs)
-                action = dist.sample()
-                log_prob = dist.log_prob(action)
-
-        print(f"select_action - Action shape: {action.shape}")
-        print(f"select_action - Log prob shape: {log_prob.shape}")
-
-        return action.cpu().numpy().flatten(), log_prob.cpu().numpy()
-
     def update(self):
         if len(self.memory.actions) < self.config['ppo']['batch_size']:
             return
@@ -326,43 +338,52 @@ class PPOAgent:
         episode_reward = 0
         episode_length = 0
 
-        observation = env.reset()
-        for timestep in range(total_timesteps):
-            action, log_prob = self.select_action(observation)
-            next_observation, reward, done, _ = env.step(action)
-            
-            # Ensure state and visual are properly formatted
-            state = observation['state']
-            visual = observation['visual']
-            if isinstance(visual, np.ndarray):
-                visual = torch.FloatTensor(visual)
-            
-            self.memory.add(action, state, visual, log_prob, reward, done, None)
-            
-            episode_reward += reward
-            episode_length += 1
-            
-            if done or episode_length >= self.config['ppo']['n_steps']:
-                self.update()
-                episode_rewards.append(episode_reward)
-                episode_lengths.append(episode_length)
-                self.logger.info(f"Episode {len(episode_rewards)}: Reward = {episode_reward}, Length = {episode_length}")
+        try:
+            observation = env.reset()
+            for timestep in range(total_timesteps):
+                action, log_prob = self.select_action(observation)
+                next_observation, reward, done, _ = env.step(action)
                 
-                observation = env.reset()
-                episode_reward = 0
-                episode_length = 0
-            else:
-                observation = next_observation
+                # Ensure state and visual are properly formatted
+                state = observation['state']
+                visual = observation['visual']
+                
+                # Remove extra dimensions if present
+                if isinstance(state, np.ndarray) and state.ndim == 3:
+                    state = state.squeeze(0)
+                if isinstance(visual, np.ndarray) and visual.ndim == 5:
+                    visual = visual.squeeze(0)
+                
+                self.memory.add(action, state, visual, log_prob, reward, done, None)
+                
+                episode_reward += reward
+                episode_length += 1
+                
+                if done or episode_length >= self.config['ppo']['n_steps']:
+                    self.update()
+                    episode_rewards.append(episode_reward)
+                    episode_lengths.append(episode_length)
+                    self.logger.info(f"Episode {len(episode_rewards)}: Reward = {episode_reward}, Length = {episode_length}")
+                    
+                    observation = env.reset()
+                    episode_reward = 0
+                    episode_length = 0
+                else:
+                    observation = next_observation
 
-            if (timestep + 1) % self.config['ppo']['save_freq'] == 0:
-                self.save_model(save_path)
-                self.logger.info(f"Model saved at timestep {timestep + 1}")
+                if (timestep + 1) % self.config['ppo']['save_freq'] == 0:
+                    self.save_model(save_path)
+                    self.logger.info(f"Model saved at timestep {timestep + 1}")
 
-        self.save_model(save_path)
-        self.logger.info(f"Final model saved at timestep {total_timesteps}")
+            self.save_model(save_path)
+            self.logger.info(f"Final model saved at timestep {total_timesteps}")
+
+        except Exception as e:
+            self.logger.error(f"Error during training: {e}")
+            raise
 
         return episode_rewards, episode_lengths
-    
+
     def evaluate(self, env, num_episodes):
         total_rewards = []
         total_lengths = []
@@ -446,3 +467,5 @@ if __name__ == '__main__':
         logger.info("Training completed and models saved.")
     except Exception as e:
         logger.error(f"An error occurred: {e}")
+    finally:
+        env.close()

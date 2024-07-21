@@ -118,6 +118,8 @@ def main():
             env.set_client(client)
         elif hasattr(env, 'client'):
             env.client = client
+        else:
+            logger.warning("Unable to set AirSim client for the environment.")
 
         env = DummyVecEnv([lambda: env])
 
