@@ -57,15 +57,26 @@ class PPOAgent:
             self.goals.append(goal)
 
         def get_tensors(self, device):
+            states = np.vstack(self.states).astype(np.float32)
+            actions = np.vstack(self.actions).astype(np.float32)
+            rewards = np.vstack(self.rewards).astype(np.float32)
+            dones = np.vstack(self.dones).astype(np.bool_)
+            
+            if self.goals:
+                goals = np.vstack(self.goals).astype(np.float32)
+            else:
+                goals = None
+
             return (
-                torch.tensor(np.vstack(self.actions), device=device).float(),
-                torch.tensor(np.vstack(self.states), device=device).float(),
-                torch.tensor(np.stack(self.visuals), device=device).float(),
-                torch.tensor(np.array(self.log_probs), device=device).float(),
-                torch.tensor(np.array(self.rewards), device=device).float(),
-                torch.tensor(np.array(self.dones), device=device).bool(),
-                torch.tensor(np.vstack(self.goals), device=device).float() if self.goals else None
-            )
+                torch.tensor(states, device=device).float(),
+                torch.tensor(actions, device=device).float(),
+                torch.tensor(np.vstack(self.visuals), device=device).float(),
+                torch.tensor(np.vstack(self.log_probs), device=device).float(),
+                torch.tensor(rewards, device=device).float(),
+                torch.tensor(dones, device=device).bool(),
+                torch.tensor(goals, device=device).float() if goals is not None else None
+    )
+
 
     def __init__(self, config, logger=None, drone_controller=None):
         self.config = config

@@ -116,7 +116,7 @@ class AirSimEnv(gym.Env):
         self.image_size = self.image_height * self.image_width * self.image_channels
         self.total_obs_size = self.state_dim + self.image_size
         
-        self.action_space = spaces.Box(low=-5, high=5, shape=(self.action_dim,), dtype=np.float32)
+        self.action_space = spaces.Box(low=-10, high=10, shape=(self.action_dim,), dtype=np.float32)
         self.observation_space = spaces.Dict({
             'state': spaces.Box(low=-np.inf, high=np.inf, shape=(self.state_dim,), dtype=np.float32),
             'visual': spaces.Box(low=0, high=1, shape=(self.image_height, self.image_width, self.image_channels), dtype=np.float32)
