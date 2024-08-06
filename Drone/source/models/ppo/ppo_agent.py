@@ -2,8 +2,8 @@ import os
 import sys
 import json
 import logging
-import numpy as np
 from collections import deque
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -57,26 +57,15 @@ class PPOAgent:
             self.goals.append(goal)
 
         def get_tensors(self, device):
-            states = np.vstack(self.states).astype(np.float32)
-            actions = np.vstack(self.actions).astype(np.float32)
-            rewards = np.vstack(self.rewards).astype(np.float32)
-            dones = np.vstack(self.dones).astype(np.bool_)
-            
-            if self.goals:
-                goals = np.vstack(self.goals).astype(np.float32)
-            else:
-                goals = None
+            states = torch.tensor(np.vstack(self.states), dtype=torch.float32, device=device)
+            actions = torch.tensor(np.vstack(self.actions), dtype=torch.float32, device=device)
+            rewards = torch.tensor(np.vstack(self.rewards), dtype=torch.float32, device=device)
+            dones = torch.tensor(np.vstack(self.dones), dtype=torch.bool, device=device)
+            visuals = torch.tensor(np.vstack(self.visuals), dtype=torch.float32, device=device)
+            log_probs = torch.tensor(np.vstack(self.log_probs), dtype=torch.float32, device=device)
+            goals = torch.tensor(np.vstack(self.goals), dtype=torch.float32, device=device) if self.goals else None
 
-            return (
-                torch.tensor(states, device=device).float(),
-                torch.tensor(actions, device=device).float(),
-                torch.tensor(np.vstack(self.visuals), device=device).float(),
-                torch.tensor(np.vstack(self.log_probs), device=device).float(),
-                torch.tensor(rewards, device=device).float(),
-                torch.tensor(dones, device=device).bool(),
-                torch.tensor(goals, device=device).float() if goals is not None else None
-    )
-
+            return states, actions, visuals, log_probs, rewards, dones, goals
 
     def __init__(self, config, logger=None, drone_controller=None):
         self.config = config
@@ -107,11 +96,11 @@ class PPOAgent:
         }
 
         self.policy_network = AdvancedPolicyNetwork(
-            self.config['policy_network']['input_size'],
-            self.config['policy_network']['output_size'],
-            self.config['ppo']['continuous'],
-            self.config['policy_network']['hidden_layers'],
-            policy_config
+            self.config['environment']['state_dim'],
+            self.config['environment']['action_dim'],
+            continuous=self.config['ppo']['continuous'],
+            hidden_sizes=self.config['policy_network']['hidden_layers'],
+            config=policy_config
         ).to(self.device)
 
         critic_config = {
@@ -126,16 +115,16 @@ class PPOAgent:
         }
 
         self.critic_network = AdvancedCriticNetwork(
-            self.config['policy_network']['input_size'],
-            self.config['critic_network']['hidden_layers'],
-            critic_config
+            self.config['environment']['state_dim'],
+            hidden_sizes=self.config['critic_network']['hidden_layers'],
+            config=critic_config
         ).to(self.device)
 
         self.icm = ICM(self.config['icm']).to(self.device)
 
         self.predictive_model = PredictiveModel(
-            self.config['policy_network']['input_size'] + self.config['policy_network']['output_size'],
-            self.config['policy_network']['input_size'],
+            self.config['environment']['state_dim'] + self.config['environment']['action_dim'],
+            self.config['environment']['state_dim'],
             self.config['predictive_model']['hidden_layers'],
             self.config['icm']['cnn']
         ).to(self.device)
@@ -144,11 +133,6 @@ class PPOAgent:
                           list(self.critic_network.parameters()) + \
                           list(self.icm.parameters()) + \
                           list(self.predictive_model.parameters())
-
-        # Check if all networks are on the same device
-        networks = [self.policy_network, self.critic_network, self.icm, self.predictive_model]
-        if not all(next(net.parameters()).device == self.device for net in networks):
-            self.logger.warning("Not all networks are on the same device!")
 
     def setup_training_components(self):
         self.optimizer = optim.Adam(self.parameters, lr=self.config['ppo']['learning_rate'])
@@ -182,8 +166,8 @@ class PPOAgent:
             self.config['hrl']['high_level_policy']['hidden_layers']
         ).to(self.device)
         self.low_level_policy = LowLevelPolicy(
-            self.config['policy_network']['input_size'] + self.config['hrl']['sub_goal_dim'],
-            self.config['policy_network']['output_size'],
+            self.config['environment']['state_dim'] + self.config['hrl']['sub_goal_dim'],
+            self.config['environment']['action_dim'],
             self.config['policy_network']['hidden_layers']
         ).to(self.device)
         self.hrl_agent = HierarchicalRLAgent(self.high_level_policy, self.low_level_policy)
@@ -194,47 +178,24 @@ class PPOAgent:
     def setup_multi_agent_cooperation(self):
         self.multi_agent_cooperation = MultiAgentCooperation(
             num_agents=self.config['multi_agent']['num_agents'],
-            state_dim=self.config['policy_network']['input_size'],
-            action_dim=self.config['policy_network']['output_size'],
+            state_dim=self.config['environment']['state_dim'],
+            action_dim=self.config['environment']['action_dim'],
             hidden_layers=self.config['policy_network']['hidden_layers']
         )
 
     def select_action(self, observation):
         try:
-            state = torch.FloatTensor(observation['state']).to(self.device)
-            visual = torch.FloatTensor(observation['visual']).to(self.device)
-            
-            if state.dim() == 3:
-                state = state.squeeze(0)
-            if visual.dim() == 5:
-                visual = visual.squeeze(0)
+            state = torch.FloatTensor(observation['state']).unsqueeze(0).to(self.device)
+            visual = torch.FloatTensor(observation['visual']).unsqueeze(0).to(self.device)
             
             with torch.no_grad():
-                if self.config['ppo']['continuous']:
-                    mean, std = self.policy_network(state, visual)
-                    dist = torch.distributions.Normal(mean, std)
-                    action = dist.sample()
-                    log_prob = dist.log_prob(action).sum(dim=-1)
-                    
-                    action_scale = self.config['environment']['action_scale']
-                    scaled_action = action * action_scale
-                    
-                    exploration_noise = torch.randn_like(scaled_action) * self.config['environment']['exploration_noise']
-                    final_action = scaled_action + exploration_noise
-                    
-                    final_action = torch.clamp(final_action, -action_scale, action_scale)
-                else:
-                    probs = self.policy_network(state, visual)
-                    dist = torch.distributions.Categorical(probs)
-                    action = dist.sample()
-                    log_prob = dist.log_prob(action)
-                    final_action = action
+                action, log_prob = self.policy_network.get_action(state, visual)
 
-            return final_action.cpu().numpy().flatten(), log_prob.cpu().numpy()
+            return action.cpu().numpy().flatten(), log_prob.cpu().numpy()
         except Exception as e:
             self.logger.error(f"Error in select_action: {e}")
             raise
-        
+
     def update(self):
         if len(self.memory.actions) < self.config['ppo']['batch_size']:
             return
@@ -312,21 +273,15 @@ class PPOAgent:
     def load_model(self, path):
         try:
             checkpoint = torch.load(path)
-            if 'policy_state_dict' in checkpoint:
-                self.policy_network.load_state_dict(checkpoint['policy_state_dict'])
-            if 'critic_state_dict' in checkpoint:
-                self.critic_network.load_state_dict(checkpoint['critic_state_dict'])
-            if 'icm_state_dict' in checkpoint:
-                self.icm.load_state_dict(checkpoint['icm_state_dict'])
-            if 'predictive_model_state_dict' in checkpoint:
-                self.predictive_model.load_state_dict(checkpoint['predictive_model_state_dict'])
-            if 'optimizer_state_dict' in checkpoint:
-                self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-            if 'lr_scheduler_state_dict' in checkpoint:
-                self.lr_scheduler.load_state_dict(checkpoint['lr_scheduler_state_dict'])
-            if 'high_level_policy_state_dict' in checkpoint and checkpoint['high_level_policy_state_dict'] is not None:
+            self.policy_network.load_state_dict(checkpoint['policy_state_dict'])
+            self.critic_network.load_state_dict(checkpoint['critic_state_dict'])
+            self.icm.load_state_dict(checkpoint['icm_state_dict'])
+            self.predictive_model.load_state_dict(checkpoint['predictive_model_state_dict'])
+            self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            self.lr_scheduler.load_state_dict(checkpoint['lr_scheduler_state_dict'])
+            if hasattr(self, 'high_level_policy') and checkpoint['high_level_policy_state_dict']:
                 self.high_level_policy.load_state_dict(checkpoint['high_level_policy_state_dict'])
-            if 'low_level_policy_state_dict' in checkpoint and checkpoint['low_level_policy_state_dict'] is not None:
+            if hasattr(self, 'low_level_policy') and checkpoint['low_level_policy_state_dict']:
                 self.low_level_policy.load_state_dict(checkpoint['low_level_policy_state_dict'])
             self.logger.info('Model loaded successfully')
         except Exception as e:
@@ -344,11 +299,10 @@ class PPOAgent:
                 action, log_prob = self.select_action(observation)
                 next_observation, reward, done, _ = env.step(action)
                 
-                # Ensure state and visual are properly formatted
                 state = observation['state']
                 visual = observation['visual']
                 
-                # Remove extra dimensions if present
+                # Ensure state and visual are properly formatted
                 if isinstance(state, np.ndarray) and state.ndim == 3:
                     state = state.squeeze(0)
                 if isinstance(visual, np.ndarray) and visual.ndim == 5:
@@ -417,55 +371,3 @@ class PPOAgent:
         except Exception as e:
             agent.logger.error(f"An error occurred during training: {e}")
             raise e
-
-def train_agents(ppo_agent, env, config, logger):
-    total_timesteps = config["num_timesteps"]
-    ppo_save_path = config["logging"]["model_save_path"] + "/ppo_trained_model.pth"
-    episode_rewards, episode_lengths = ppo_agent.train(env, total_timesteps, ppo_save_path)
-    logger.info("PPO training completed and model saved.")
-    return episode_rewards, episode_lengths
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG, filename='ppo_training.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
-    logger = logging.getLogger('PPOTraining')
-
-    try:
-        os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
-
-        config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../configs/learning/ppo_config.json'))
-        print(f"Loading configuration from: {config_path}")
-        with open(config_path, 'r') as f:
-            config = json.load(f)
-
-        logger = CustomLogger("AirSimEnvLogger", log_dir="./logs")
-        
-        # Initialize AirSim client
-        client = airsim.MultirotorClient()
-        client.confirmConnection()
-        
-        # Pass the client to the environment
-        env = AirSimEnv(state_dim=config['policy_network']['input_size'], 
-                        action_dim=config['policy_network']['output_size'], 
-                        config=config, 
-                        logger=logger, 
-                        tensorboard_log_dir="./logs/tensorboard_logs", 
-                        log_enabled=True)
-        env.set_client(client)
-        env = DummyVecEnv([lambda: env])
-
-        ppo_agent = PPOAgent(config, logger=logger, drone_controller=env.envs[0].drone_controller)
-        episode_rewards, episode_lengths = train_agents(ppo_agent, env, config, logger)
-
-        # Evaluate the trained agent
-        eval_results = ppo_agent.evaluate(env, num_episodes=5)
-        logger.info(f"Evaluation results: {eval_results}")
-
-        # Save episode rewards and lengths to a file
-        np.savetxt("episode_rewards.txt", episode_rewards)
-        np.savetxt("episode_lengths.txt", episode_lengths)
-
-        logger.info("Training completed and models saved.")
-    except Exception as e:
-        logger.error(f"An error occurred: {e}")
-    finally:
-        env.close()

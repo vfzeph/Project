@@ -8590,3 +8590,4723 @@
 2024-07-21 12:06:02,150 - AirSimEnvLogger - INFO - Action: [-0.28261986  0.40791385  0.21282844 -0.11879301], Velocity: (-0.2826198565890081, 0.40791384840849787, 0.21282843709923327), Duration: 0.5, Reward: -10.291088246154057, Done: False
 2024-07-21 12:06:02,275 - AirSimEnvLogger - INFO - Step completed. Observation keys: dict_keys(['state', 'visual'])
 2024-07-21 12:06:02,339 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-03 19:18:10,682 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 4
+2024-08-03 19:18:10,700 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:18:10,701 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.05,
+    "smoothness_penalty": 0.05,
+    "duration": 2.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.0,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 1.0,
+    "task_completion_reward": 100,
+    "large_movement_reward": 0.2,
+    "stationary_penalty": 0.1,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 4,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:18:16,223 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:18:16,797 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-03 19:18:16,844 - AirSimEnvLogger - INFO - State shape: (12,), Visual shape: (144, 256, 3)
+2024-08-03 19:18:18,697 - AirSimEnvLogger - ERROR - Error in _compute_reward: operands could not be broadcast together with shapes (5,) (4,) 
+2024-08-03 19:18:18,744 - AirSimEnvLogger - ERROR - Error in step function: operands could not be broadcast together with shapes (5,) (4,) 
+2024-08-03 19:18:18,791 - AirSimEnvLogger - ERROR - An error occurred: operands could not be broadcast together with shapes (5,) (4,) 
+2024-08-03 19:18:24,453 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-03 19:24:49,601 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:24:49,617 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:24:49,618 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.05,
+    "smoothness_penalty": 0.05,
+    "duration": 2.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.0,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 1.0,
+    "task_completion_reward": 100,
+    "large_movement_reward": 0.2,
+    "stationary_penalty": 0.1,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:24:54,300 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:24:54,941 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-03 19:24:54,988 - AirSimEnvLogger - INFO - State shape: (12,), Visual shape: (144, 256, 3)
+2024-08-03 19:24:56,858 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.79, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.53, movement: 2.09, yaw_control: -0.08, altitude_control: -0.18, stationary: -0.10, revisit: 0.00, task_completion: 0.00, Total: 4.05
+2024-08-03 19:24:56,997 - AirSimEnvLogger - INFO - Action: [-9.988903    0.65244085  2.9905748   0.83156043  1.8491699 ], Velocity: (-9.988903045654297, 0.6524408459663391, 2.990574836730957), Yaw rate: 0.8315604329109192, Altitude change: 1.8491698503494263, Duration: 1.0, Reward: 4.047662154738462, Done: False
+2024-08-03 19:24:59,252 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.40, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.47, movement: 2.55, yaw_control: -0.18, altitude_control: -0.08, stationary: -0.10, revisit: -0.10, task_completion: 0.00, Total: 3.96
+2024-08-03 19:24:59,393 - AirSimEnvLogger - INFO - Action: [-7.885245   9.336389   3.687809  -1.7967848  0.7827146], Velocity: (-7.885244846343994, 9.33638858795166, 3.6878089904785156), Yaw rate: -1.79678475856781, Altitude change: 0.7827146053314209, Duration: 1.0, Reward: 3.963357316233591, Done: False
+2024-08-03 19:25:01,504 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.37, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.16, movement: 2.18, yaw_control: -0.42, altitude_control: -0.88, stationary: -0.10, revisit: -0.20, task_completion: 0.00, Total: 2.37
+2024-08-03 19:25:01,582 - AirSimEnvLogger - INFO - Action: [ 7.5781093  -0.30346128 -7.828945   -4.150697    8.811183  ], Velocity: (7.578109264373779, -0.3034612834453583, -7.828945159912109), Yaw rate: -4.150697231292725, Altitude change: 8.811182975769043, Duration: 1.0, Reward: 2.3682504651543232, Done: False
+2024-08-03 19:25:03,693 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.39, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.42, movement: 2.60, yaw_control: -0.81, altitude_control: -0.62, stationary: -0.10, revisit: -0.30, task_completion: 0.00, Total: 3.57
+2024-08-03 19:25:03,801 - AirSimEnvLogger - INFO - Action: [-9.1130295   9.24276    -0.16973582  8.109131   -6.2302537 ], Velocity: (-9.113029479980469, 9.242759704589844, -0.16973581910133362), Yaw rate: 8.109130859375, Altitude change: -6.23025369644165, Duration: 1.0, Reward: 3.5728280842640388, Done: False
+2024-08-03 19:25:06,059 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.78, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.37, movement: 2.51, yaw_control: -0.58, altitude_control: -0.52, stationary: -0.10, revisit: -0.40, task_completion: 0.00, Total: 4.07
+2024-08-03 19:25:06,183 - AirSimEnvLogger - INFO - Action: [ 9.478742  -3.481179  -7.4774957 -5.8170166 -5.1505685], Velocity: (9.478741645812988, -3.4811789989471436, -7.4774956703186035), Yaw rate: -5.8170166015625, Altitude change: -5.15056848526001, Duration: 1.0, Reward: 4.073603336965144, Done: False
+2024-08-03 19:28:37,966 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:28:37,981 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:28:37,982 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.05,
+    "smoothness_penalty": 0.05,
+    "duration": 2.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.0,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 1.0,
+    "task_completion_reward": 100,
+    "large_movement_reward": 0.2,
+    "stationary_penalty": 0.1,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:28:43,630 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:28:43,676 - AirSimEnvLogger - ERROR - An error occurred: 'AirSimEnv' object has no attribute '_get_state'
+2024-08-03 19:28:49,279 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-03 19:33:37,375 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:33:37,397 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:33:37,399 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.05,
+    "smoothness_penalty": 0.05,
+    "duration": 2.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.0,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 1.0,
+    "task_completion_reward": 100,
+    "large_movement_reward": 0.2,
+    "stationary_penalty": 0.1,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:33:42,557 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:33:43,211 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-03 19:33:43,258 - AirSimEnvLogger - INFO - State shape: (12,), Visual shape: (144, 256, 3)
+2024-08-03 19:33:45,264 - AirSimEnvLogger - INFO - Reward breakdown - distance: 1.29, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.47, movement: 1.65, yaw_control: -0.24, altitude_control: -0.37, stationary: -0.10, revisit: 0.00, task_completion: 0.00, Total: 3.69
+2024-08-03 19:33:45,404 - AirSimEnvLogger - INFO - Action: [ 4.5207825  6.8033547  1.1467444 -2.4448643 -3.6700814], Velocity: (4.520782470703125, 6.803354740142822, 1.1467443704605103), Yaw rate: -2.444864273071289, Altitude change: -3.670081377029419, Duration: 1.0, Reward: 3.6923421154384966, Done: False
+2024-08-03 19:33:47,660 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.82, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.47, movement: 1.65, yaw_control: -0.24, altitude_control: -0.24, stationary: -0.10, revisit: -0.10, task_completion: 0.00, Total: 3.25
+2024-08-03 19:33:47,815 - AirSimEnvLogger - INFO - Action: [ 6.545081   1.8880982 -4.6318116  2.405816  -2.4183612], Velocity: (6.54508113861084, 1.8880982398986816, -4.631811618804932), Yaw rate: 2.405816078186035, Altitude change: -2.418361186981201, Duration: 1.0, Reward: 3.2529163848481146, Done: False
+2024-08-03 19:33:50,199 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.79, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.89, movement: 1.98, yaw_control: -0.33, altitude_control: -0.94, stationary: -0.10, revisit: -0.20, task_completion: 0.00, Total: 3.10
+2024-08-03 19:33:50,355 - AirSimEnvLogger - INFO - Action: [ 1.9698213 -4.5707316  8.558666  -3.2688622 -9.354256 ], Velocity: (1.9698213338851929, -4.5707316398620605, 8.558666229248047), Yaw rate: -3.268862247467041, Altitude change: -9.354255676269531, Duration: 1.0, Reward: 3.1005713389436544, Done: False
+2024-08-03 19:33:52,633 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.52, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.61, movement: 1.25, yaw_control: -0.42, altitude_control: -0.02, stationary: -0.10, revisit: -0.30, task_completion: 0.00, Total: 2.53
+2024-08-03 19:33:52,772 - AirSimEnvLogger - INFO - Action: [ 5.3231587  -2.2457428   2.3395565  -4.2311697   0.24279091], Velocity: (5.3231587409973145, -2.2457427978515625, 2.3395564556121826), Yaw rate: -4.231169700622559, Altitude change: 0.24279090762138367, Duration: 1.0, Reward: 2.5323137858827884, Done: False
+2024-08-03 19:33:55,125 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.81, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.73, movement: 1.82, yaw_control: -0.50, altitude_control: -0.88, stationary: -0.10, revisit: -0.40, task_completion: 0.00, Total: 2.49
+2024-08-03 19:33:55,296 - AirSimEnvLogger - INFO - Action: [ 3.4177742  -0.09141315  8.456439    5.018512   -8.789954  ], Velocity: (3.417774200439453, -0.09141314774751663, 8.456439018249512), Yaw rate: 5.018511772155762, Altitude change: -8.78995418548584, Duration: 1.0, Reward: 2.4861986224332564, Done: False
+2024-08-03 19:33:57,663 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.27, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.89, movement: 1.94, yaw_control: -0.75, altitude_control: -0.60, stationary: -0.10, revisit: -0.50, task_completion: 0.00, Total: 1.61
+2024-08-03 19:33:57,833 - AirSimEnvLogger - INFO - Action: [9.456328  1.7666811 1.3615594 7.531469  6.025126 ], Velocity: (9.456328392028809, 1.7666810750961304, 1.3615593910217285), Yaw rate: 7.531468868255615, Altitude change: 6.025125980377197, Duration: 1.0, Reward: 1.610406064894184, Done: False
+2024-08-03 19:34:00,215 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.06, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.14, movement: 2.49, yaw_control: -0.65, altitude_control: -0.15, stationary: -0.10, revisit: -0.60, task_completion: 0.00, Total: 3.19
+2024-08-03 19:34:00,370 - AirSimEnvLogger - INFO - Action: [-5.4769034  7.8433247  7.9858837 -6.5484343  1.537343 ], Velocity: (-5.476903438568115, 7.843324661254883, 7.985883712768555), Yaw rate: -6.548434257507324, Altitude change: 1.5373430252075195, Duration: 1.0, Reward: 3.189301483941723, Done: False
+2024-08-03 19:34:02,704 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.65, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.85, movement: 1.32, yaw_control: -0.11, altitude_control: -0.93, stationary: -0.10, revisit: -0.70, task_completion: 0.00, Total: 1.97
+2024-08-03 19:34:02,847 - AirSimEnvLogger - INFO - Action: [-6.3778186  0.8032344 -1.412651  -1.090997  -9.334854 ], Velocity: (-6.377818584442139, 0.8032343983650208, -1.4126509428024292), Yaw rate: -1.0909969806671143, Altitude change: -9.334854125976562, Duration: 1.0, Reward: 1.966058105643172, Done: False
+2024-08-03 19:34:05,201 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.07, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.07, movement: 2.57, yaw_control: -0.95, altitude_control: -0.41, stationary: -0.10, revisit: -0.80, task_completion: 0.00, Total: 2.31
+2024-08-03 19:34:05,343 - AirSimEnvLogger - INFO - Action: [-0.2335265  9.844879  -8.292164   9.531928   4.144558 ], Velocity: (-0.23352649807929993, 9.844879150390625, -8.292163848876953), Yaw rate: 9.531928062438965, Altitude change: 4.144557952880859, Duration: 1.0, Reward: 2.307252789475108, Done: False
+2024-08-03 19:34:07,655 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.56, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.43, movement: 2.54, yaw_control: -0.99, altitude_control: -0.76, stationary: -0.10, revisit: -0.90, task_completion: 0.00, Total: 2.78
+2024-08-03 19:34:07,826 - AirSimEnvLogger - INFO - Action: [-3.8986132 -7.2125235 -9.716361  -9.946245  -7.574445 ], Velocity: (-3.898613214492798, -7.212523460388184, -9.716361045837402), Yaw rate: -9.946245193481445, Altitude change: -7.574444770812988, Duration: 1.0, Reward: 2.78351017396144, Done: False
+2024-08-03 19:34:09,990 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.33, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.44, movement: 2.65, yaw_control: -0.16, altitude_control: -0.72, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.78
+2024-08-03 19:34:10,084 - AirSimEnvLogger - INFO - Action: [ 9.08948   -3.030184   9.135722  -1.6139128  7.1655755], Velocity: (9.08948040008545, -3.030184030532837, 9.135722160339355), Yaw rate: -1.61391282081604, Altitude change: 7.1655755043029785, Duration: 1.0, Reward: 2.7761051256245595, Done: False
+2024-08-03 19:34:12,381 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.02, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.54, movement: 2.24, yaw_control: -0.68, altitude_control: -0.17, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.81
+2024-08-03 19:34:12,462 - AirSimEnvLogger - INFO - Action: [ 7.842706  -5.3536253  5.967235   6.7895346  1.7449118], Velocity: (7.842706203460693, -5.353625297546387, 5.967235088348389), Yaw rate: 6.789534568786621, Altitude change: 1.744911789894104, Duration: 1.0, Reward: 1.8120852643288354, Done: False
+2024-08-03 19:34:14,733 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.62, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.04, movement: 1.20, yaw_control: -0.56, altitude_control: -0.28, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.91
+2024-08-03 19:34:14,905 - AirSimEnvLogger - INFO - Action: [-0.84642166  1.1911818  -5.7997675  -5.6065774  -2.8234105 ], Velocity: (-0.8464216589927673, 1.1911817789077759, -5.79976749420166), Yaw rate: -5.606577396392822, Altitude change: -2.8234105110168457, Duration: 1.0, Reward: 1.9100553908117983, Done: False
+2024-08-03 19:34:17,174 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.33, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.68, movement: 1.40, yaw_control: -0.09, altitude_control: -0.74, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.81
+2024-08-03 19:34:17,345 - AirSimEnvLogger - INFO - Action: [-3.003479 -4.22995  -4.671669  0.860595  7.434236], Velocity: (-3.00347900390625, -4.229949951171875, -4.671669006347656), Yaw rate: 0.8605949878692627, Altitude change: 7.4342360496521, Duration: 1.0, Reward: 0.8128068608041948, Done: False
+2024-08-03 19:34:19,617 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.08, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.83, movement: 2.14, yaw_control: -0.89, altitude_control: -0.07, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.00
+2024-08-03 19:34:19,664 - AirSimEnvLogger - INFO - Action: [-9.414675    4.6175203   2.1706693   8.894871    0.70320106], Velocity: (-9.414674758911133, 4.617520332336426, 2.1706693172454834), Yaw rate: 8.89487075805664, Altitude change: 0.7032010555267334, Duration: 1.0, Reward: 1.9962891874210626, Done: False
+2024-08-03 19:34:21,901 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.66, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.89, movement: 1.93, yaw_control: -0.16, altitude_control: -0.61, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.60
+2024-08-03 19:34:22,071 - AirSimEnvLogger - INFO - Action: [-2.3930535 -3.6841686  8.569767  -1.5631213 -6.1324997], Velocity: (-2.3930535316467285, -3.684168577194214, 8.569766998291016), Yaw rate: -1.5631213188171387, Altitude change: -6.132499694824219, Duration: 1.0, Reward: 2.604031919554797, Done: False
+2024-08-03 19:34:24,465 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.16, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.77, movement: 1.72, yaw_control: -0.78, altitude_control: -0.28, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.50
+2024-08-03 19:34:24,634 - AirSimEnvLogger - INFO - Action: [-7.5242805 -3.757146   1.7934319  7.7708797  2.8237407], Velocity: (-7.524280548095703, -3.757145881652832, 1.7934318780899048), Yaw rate: 7.770879745483398, Altitude change: 2.8237407207489014, Duration: 1.0, Reward: 1.4950219653096455, Done: False
+2024-08-03 19:34:26,911 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.41, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.53, movement: 1.75, yaw_control: -0.18, altitude_control: -0.57, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.03
+2024-08-03 19:34:27,050 - AirSimEnvLogger - INFO - Action: [-1.9222395 -8.10446   -2.702613   1.7957824  5.6698604], Velocity: (-1.9222395420074463, -8.104459762573242, -2.702613115310669), Yaw rate: 1.795782446861267, Altitude change: 5.669860363006592, Duration: 1.0, Reward: 1.0288918090032966, Done: False
+2024-08-03 19:34:29,434 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.47, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.70, movement: 2.26, yaw_control: -0.10, altitude_control: -0.44, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.80
+2024-08-03 19:34:29,619 - AirSimEnvLogger - INFO - Action: [ 1.2440376 -9.589379   5.8774257 -0.9700762 -4.381692 ], Velocity: (1.2440376281738281, -9.58937931060791, 5.877425670623779), Yaw rate: -0.9700762033462524, Altitude change: -4.381691932678223, Duration: 1.0, Reward: 2.7983365269562444, Done: False
+2024-08-03 19:34:32,037 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.36, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.13, movement: 2.24, yaw_control: -0.78, altitude_control: -1.00, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.13
+2024-08-03 19:34:32,208 - AirSimEnvLogger - INFO - Action: [ 2.29074   -6.5553617 -8.765324   7.766109   9.950143 ], Velocity: (2.2907400131225586, -6.555361747741699, -8.765323638916016), Yaw rate: 7.766108989715576, Altitude change: 9.950142860412598, Duration: 1.0, Reward: 1.1264562595102285, Done: False
+2024-08-03 19:34:34,560 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.57, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.13, movement: 2.27, yaw_control: -0.41, altitude_control: -0.31, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 3.16
+2024-08-03 19:34:34,717 - AirSimEnvLogger - INFO - Action: [-5.499221  -6.5849433  7.456041   4.0601873 -3.0775168], Velocity: (-5.499220848083496, -6.5849432945251465, 7.456040859222412), Yaw rate: 4.060187339782715, Altitude change: -3.077516794204712, Duration: 1.0, Reward: 3.1591362827580145, Done: False
+2024-08-03 19:34:37,111 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.73, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.23, movement: 2.15, yaw_control: -0.76, altitude_control: -0.12, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.12
+2024-08-03 19:34:37,281 - AirSimEnvLogger - INFO - Action: [-3.8089786 -7.654152   6.4974184  7.6137085 -1.2103131], Velocity: (-3.80897855758667, -7.654151916503906, 6.497418403625488), Yaw rate: 7.61370849609375, Altitude change: -1.210313081741333, Duration: 1.0, Reward: 2.118475364452986, Done: False
+2024-08-03 19:34:39,660 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.63, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.10, movement: 3.00, yaw_control: -0.22, altitude_control: -0.10, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 4.31
+2024-08-03 19:34:39,831 - AirSimEnvLogger - INFO - Action: [ 8.870613  -8.52131   -8.619062  -2.2389414 -1.022427 ], Velocity: (8.870613098144531, -8.521309852600098, -8.619062423706055), Yaw rate: -2.2389414310455322, Altitude change: -1.022426962852478, Duration: 1.0, Reward: 4.30891638595885, Done: False
+2024-08-03 19:34:42,088 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.08, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.25, movement: 2.07, yaw_control: -0.12, altitude_control: -0.43, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.59
+2024-08-03 19:34:42,261 - AirSimEnvLogger - INFO - Action: [-7.0598607   7.5524054  -0.15188673  1.1635797   4.2889595 ], Velocity: (-7.059860706329346, 7.55240535736084, -0.1518867313861847), Yaw rate: 1.1635797023773193, Altitude change: 4.288959503173828, Duration: 1.0, Reward: 2.5913858280036215, Done: False
+2024-08-03 19:34:44,581 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.39, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.89, movement: 1.42, yaw_control: -0.48, altitude_control: -0.49, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.86
+2024-08-03 19:34:44,738 - AirSimEnvLogger - INFO - Action: [ 4.5428839e+00 -5.4376979e+00 -1.7969630e-03  4.7858434e+00
+  4.8596210e+00], Velocity: (4.54288387298584, -5.437697887420654, -0.0017969630425795913), Yaw rate: 4.785843372344971, Altitude change: 4.859621047973633, Duration: 1.0, Reward: 0.855395254840256, Done: False
+2024-08-03 19:34:47,059 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.51, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.89, movement: 2.43, yaw_control: -0.19, altitude_control: -0.16, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 3.37
+2024-08-03 19:34:47,200 - AirSimEnvLogger - INFO - Action: [ 7.502885   9.027413  -3.2245855 -1.9367737 -1.6273059], Velocity: (7.502884864807129, 9.027413368225098, -3.22458553314209), Yaw rate: -1.936773657798767, Altitude change: -1.6273058652877808, Duration: 1.0, Reward: 3.3710609409426207, Done: False
+2024-08-03 19:34:49,533 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.13, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.86, movement: 1.60, yaw_control: -0.76, altitude_control: -0.29, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.44
+2024-08-03 19:34:49,690 - AirSimEnvLogger - INFO - Action: [-2.703746   5.6438794  4.9665217  7.5848007  2.8716538], Velocity: (-2.7037460803985596, 5.643879413604736, 4.966521739959717), Yaw rate: 7.584800720214844, Altitude change: 2.8716537952423096, Duration: 1.0, Reward: 1.4362446479136146, Done: False
+2024-08-03 19:34:51,966 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.51, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.67, movement: 1.44, yaw_control: -0.37, altitude_control: -0.95, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.19
+2024-08-03 19:34:52,089 - AirSimEnvLogger - INFO - Action: [ 6.5434647   3.0334716  -0.21046564  3.6555414   9.505801  ], Velocity: (6.543464660644531, 3.0334715843200684, -0.21046563982963562), Yaw rate: 3.65554141998291, Altitude change: 9.5058012008667, Duration: 1.0, Reward: 0.18660607593309086, Done: False
+2024-08-03 19:34:54,396 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.42, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.37, movement: 2.51, yaw_control: -0.01, altitude_control: -0.95, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 3.24
+2024-08-03 19:34:54,568 - AirSimEnvLogger - INFO - Action: [-8.282301   -9.410153    0.79046744  0.06641517 -9.5213375 ], Velocity: (-8.28230094909668, -9.41015338897705, 0.7904674410820007), Yaw rate: 0.06641516834497452, Altitude change: -9.521337509155273, Duration: 1.0, Reward: 3.2406947034566826, Done: False
+2024-08-03 19:34:56,746 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.11, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.71, movement: 2.64, yaw_control: -0.06, altitude_control: -0.47, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.61
+2024-08-03 19:34:56,903 - AirSimEnvLogger - INFO - Action: [-9.487431   -9.168216    0.22874373  0.6057599   4.6842012 ], Velocity: (-9.487430572509766, -9.16821575164795, 0.22874373197555542), Yaw rate: 0.6057599186897278, Altitude change: 4.684201240539551, Duration: 1.0, Reward: 2.614692863381898, Done: False
+2024-08-03 19:34:59,363 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.59, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.93, movement: 1.62, yaw_control: -0.74, altitude_control: -0.74, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.38
+2024-08-03 19:34:59,534 - AirSimEnvLogger - INFO - Action: [ 6.1837034 -4.4842467 -2.7636259 -7.355623   7.4009776], Velocity: (6.183703422546387, -4.484246730804443, -2.7636258602142334), Yaw rate: -7.3556227684021, Altitude change: 7.400977611541748, Duration: 1.0, Reward: 0.3846509911518249, Done: False
+2024-08-03 19:35:01,849 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.27, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.79, movement: 1.44, yaw_control: -0.07, altitude_control: -0.37, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.42
+2024-08-03 19:35:02,021 - AirSimEnvLogger - INFO - Action: [-0.6516254   7.1091723   0.8963009  -0.73577714  3.6973073 ], Velocity: (-0.651625394821167, 7.109172344207764, 0.8963009119033813), Yaw rate: -0.7357771396636963, Altitude change: 3.6973073482513428, Duration: 1.0, Reward: 1.4231502218967416, Done: False
+2024-08-03 19:35:04,325 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.55, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.84, movement: 1.93, yaw_control: -0.78, altitude_control: -0.42, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.03
+2024-08-03 19:35:04,494 - AirSimEnvLogger - INFO - Action: [-5.5623026 -1.8224766  7.695519   7.7774925 -4.1767306], Velocity: (-5.562302589416504, -1.8224766254425049, 7.695518970489502), Yaw rate: 7.777492523193359, Altitude change: -4.176730632781982, Duration: 1.0, Reward: 2.025809162674229, Done: False
+2024-08-03 19:35:06,797 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.48, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.34, movement: 2.18, yaw_control: -0.99, altitude_control: -0.04, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.87
+2024-08-03 19:35:06,937 - AirSimEnvLogger - INFO - Action: [ 0.65011126  5.378513   -9.458734   -9.940522    0.38858083], Velocity: (0.6501112580299377, 5.378512859344482, -9.458733558654785), Yaw rate: -9.940522193908691, Altitude change: 0.3885808289051056, Duration: 1.0, Reward: 2.870421229775302, Done: False
+2024-08-03 19:35:09,281 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.31, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.41, movement: 2.19, yaw_control: -0.37, altitude_control: -0.12, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.32
+2024-08-03 19:35:09,437 - AirSimEnvLogger - INFO - Action: [-4.480646   3.8480299 -9.238051  -3.7432156  1.2214226], Velocity: (-4.480646133422852, 3.848029851913452, -9.238051414489746), Yaw rate: -3.743215560913086, Altitude change: 1.221422553062439, Duration: 1.0, Reward: 2.3173991158171967, Done: False
+2024-08-03 19:35:11,797 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.25, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.91, movement: 1.70, yaw_control: -0.71, altitude_control: -0.48, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.08
+2024-08-03 19:35:11,954 - AirSimEnvLogger - INFO - Action: [ 1.3150982 -8.108342   2.2323098 -7.0559897  4.7741666], Velocity: (1.3150981664657593, -8.108342170715332, 2.2323098182678223), Yaw rate: -7.055989742279053, Altitude change: 4.774166584014893, Duration: 1.0, Reward: 1.076835764516181, Done: False
+2024-08-03 19:35:14,151 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.32, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.99, movement: 2.35, yaw_control: -0.38, altitude_control: -0.03, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 3.15
+2024-08-03 19:35:14,307 - AirSimEnvLogger - INFO - Action: [-4.749411    4.1892796   9.87732     3.7931638  -0.32949096], Velocity: (-4.749411106109619, 4.189279556274414, 9.877320289611816), Yaw rate: 3.793163776397705, Altitude change: -0.3294909596443176, Duration: 1.0, Reward: 3.145707686206637, Done: False
+2024-08-03 19:35:16,621 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.40, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.92, movement: 2.26, yaw_control: -0.31, altitude_control: -0.72, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.66
+2024-08-03 19:35:16,794 - AirSimEnvLogger - INFO - Action: [ 4.48618   -7.7323856  6.9254355 -3.058468   7.157339 ], Velocity: (4.486179828643799, -7.732385635375977, 6.925435543060303), Yaw rate: -3.0584681034088135, Altitude change: 7.157339096069336, Duration: 1.0, Reward: 1.6585064409720371, Done: False
+2024-08-03 19:35:19,044 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.47, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.15, movement: 2.38, yaw_control: -0.31, altitude_control: -0.78, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.81
+2024-08-03 19:35:19,212 - AirSimEnvLogger - INFO - Action: [ 9.779346   2.3818984 -6.3523035 -3.132945  -7.8021054], Velocity: (9.779346466064453, 2.3818984031677246, -6.352303504943848), Yaw rate: -3.1329450607299805, Altitude change: -7.80210542678833, Duration: 1.0, Reward: 2.8070447270718355, Done: False
+2024-08-03 19:35:21,561 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.76, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.19, movement: 2.73, yaw_control: -0.70, altitude_control: -0.99, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.89
+2024-08-03 19:35:21,733 - AirSimEnvLogger - INFO - Action: [-2.5079734 -9.231334   9.741573  -6.9896636 -9.93326  ], Velocity: (-2.5079734325408936, -9.23133373260498, 9.741573333740234), Yaw rate: -6.989663600921631, Altitude change: -9.933259963989258, Duration: 1.0, Reward: 2.8869351973579396, Done: False
+2024-08-03 19:35:23,940 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.31, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.13, movement: 2.03, yaw_control: -0.74, altitude_control: -0.99, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.02
+2024-08-03 19:35:24,096 - AirSimEnvLogger - INFO - Action: [-7.146683    0.29630622  7.169842   -7.3520837   9.857492  ], Velocity: (-7.146683216094971, 0.29630622267723083, 7.169841766357422), Yaw rate: -7.352083683013916, Altitude change: 9.857492446899414, Duration: 1.0, Reward: 1.0210743896156727, Done: False
+2024-08-03 19:35:26,468 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.47, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.09, movement: 1.06, yaw_control: -0.47, altitude_control: -0.64, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.42
+2024-08-03 19:35:26,591 - AirSimEnvLogger - INFO - Action: [ 1.6130881  3.600341  -3.5720344 -4.697384  -6.3860373], Velocity: (1.6130881309509277, 3.6003410816192627, -3.5720343589782715), Yaw rate: -4.697383880615234, Altitude change: -6.386037349700928, Duration: 1.0, Reward: 1.4174950555916737, Done: False
+2024-08-03 19:35:28,925 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.03, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.93, movement: 2.06, yaw_control: -0.40, altitude_control: -0.42, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.04
+2024-08-03 19:35:29,033 - AirSimEnvLogger - INFO - Action: [ 8.572168  -5.394271   1.9643828  4.0389237  4.187063 ], Velocity: (8.572168350219727, -5.394270896911621, 1.9643827676773071), Yaw rate: 4.038923740386963, Altitude change: 4.187063217163086, Duration: 1.0, Reward: 2.044456242258127, Done: False
+2024-08-03 19:35:31,311 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.64, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.53, movement: 1.15, yaw_control: -0.78, altitude_control: -0.42, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.02
+2024-08-03 19:35:31,483 - AirSimEnvLogger - INFO - Action: [ 4.701854  -1.952004   2.625191   7.8017426 -4.1716037], Velocity: (4.701854228973389, -1.9520039558410645, 2.6251909732818604), Yaw rate: 7.8017425537109375, Altitude change: -4.171603679656982, Duration: 1.0, Reward: 1.0173945576140668, Done: False
+2024-08-03 19:35:33,850 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.63, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.63, movement: 1.98, yaw_control: -0.22, altitude_control: -0.03, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.88
+2024-08-03 19:35:34,006 - AirSimEnvLogger - INFO - Action: [ 0.33318222  6.3973804   7.532187    2.2402031  -0.28021687], Velocity: (0.3331822156906128, 6.397380352020264, 7.532186985015869), Yaw rate: 2.2402031421661377, Altitude change: -0.28021687269210815, Duration: 1.0, Reward: 2.8810257862552886, Done: False
+2024-08-03 19:35:36,342 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.73, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.64, movement: 2.26, yaw_control: -0.72, altitude_control: -0.75, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.06
+2024-08-03 19:35:36,496 - AirSimEnvLogger - INFO - Action: [ 9.197931   4.032091   5.1818714  7.24721   -7.46523  ], Velocity: (9.197931289672852, 4.03209114074707, 5.18187141418457), Yaw rate: 7.2472100257873535, Altitude change: -7.4652299880981445, Duration: 1.0, Reward: 2.0631546382498307, Done: False
+2024-08-03 19:35:38,883 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.78, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.17, movement: 1.40, yaw_control: -0.86, altitude_control: -0.24, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.15
+2024-08-03 19:35:39,021 - AirSimEnvLogger - INFO - Action: [-6.0709085  3.2292027 -1.1844525 -8.567767  -2.4196224], Velocity: (-6.070908546447754, 3.2292027473449707, -1.1844525337219238), Yaw rate: -8.567767143249512, Altitude change: -2.4196224212646484, Duration: 1.0, Reward: 2.145803557461831, Done: False
+2024-08-03 19:35:41,436 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.45, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.70, movement: 1.42, yaw_control: -0.27, altitude_control: -0.04, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.16
+2024-08-03 19:35:41,484 - AirSimEnvLogger - INFO - Action: [-5.1807313  -2.0001018   4.4031615   2.7100525   0.38380888], Velocity: (-5.180731296539307, -2.0001018047332764, 4.403161525726318), Yaw rate: 2.710052490234375, Altitude change: 0.3838088810443878, Duration: 1.0, Reward: 2.155872154677817, Done: False
+2024-08-03 19:35:43,666 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.69, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.67, movement: 2.10, yaw_control: -0.26, altitude_control: -0.28, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.82
+2024-08-03 19:35:43,822 - AirSimEnvLogger - INFO - Action: [ 5.5353503   0.22068778  8.893795   -2.5590217  -2.7653203 ], Velocity: (5.535350322723389, 0.22068777680397034, 8.893795013427734), Yaw rate: -2.5590217113494873, Altitude change: -2.765320301055908, Duration: 1.0, Reward: 2.8198450710246004, Done: False
+2024-08-03 19:35:46,246 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.01, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.47, movement: 1.04, yaw_control: -0.06, altitude_control: -0.34, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.03
+2024-08-03 19:35:46,387 - AirSimEnvLogger - INFO - Action: [ 0.08564746  1.7900635   4.9076543  -0.5750715   3.397879  ], Velocity: (0.08564746379852295, 1.790063500404358, 4.907654285430908), Yaw rate: -0.5750715136528015, Altitude change: 3.397878885269165, Duration: 1.0, Reward: 1.0333626571641585, Done: False
+2024-08-03 19:35:48,707 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.07, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.64, movement: 2.20, yaw_control: -0.97, altitude_control: -0.26, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.45
+2024-08-03 19:35:48,893 - AirSimEnvLogger - INFO - Action: [5.480168  7.1285963 6.3321185 9.656173  2.5527792], Velocity: (5.480167865753174, 7.128596305847168, 6.332118511199951), Yaw rate: 9.656172752380371, Altitude change: 2.552779197692871, Duration: 1.0, Reward: 1.4532708962007428, Done: False
+2024-08-03 19:35:51,229 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.44, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.24, movement: 1.49, yaw_control: -0.91, altitude_control: -0.54, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.74
+2024-08-03 19:35:51,369 - AirSimEnvLogger - INFO - Action: [-7.214205  -1.1787205  1.5495902 -9.073102   5.4473205], Velocity: (-7.214204788208008, -1.178720474243164, 1.5495902299880981), Yaw rate: -9.073101997375488, Altitude change: 5.447320461273193, Duration: 1.0, Reward: 0.7370863130782427, Done: False
+2024-08-03 19:35:53,565 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.59, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.99, movement: 2.95, yaw_control: -0.25, altitude_control: -0.56, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.43
+2024-08-03 19:35:53,740 - AirSimEnvLogger - INFO - Action: [ 5.518477   9.632366   9.744032  -2.5363195  5.6300273], Velocity: (5.518476963043213, 9.632366180419922, 9.74403190612793), Yaw rate: -2.5363194942474365, Altitude change: 5.6300272941589355, Duration: 1.0, Reward: 2.433451695072497, Done: False
+2024-08-03 19:35:56,133 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.36, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.59, movement: 2.22, yaw_control: -0.43, altitude_control: -0.14, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.50
+2024-08-03 19:35:56,288 - AirSimEnvLogger - INFO - Action: [ 6.653885   8.194932   3.4798973  4.2750125 -1.4032044], Velocity: (6.6538848876953125, 8.194931983947754, 3.4798972606658936), Yaw rate: 4.275012493133545, Altitude change: -1.4032044410705566, Duration: 1.0, Reward: 2.5007223705002612, Done: False
+2024-08-03 19:35:58,552 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.55, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.95, movement: 1.66, yaw_control: -0.22, altitude_control: -0.07, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.77
+2024-08-03 19:35:58,709 - AirSimEnvLogger - INFO - Action: [ 1.508557   -7.550373   -3.1047506  -2.1824658  -0.67958385], Velocity: (1.5085569620132446, -7.550373077392578, -3.104750633239746), Yaw rate: -2.1824657917022705, Altitude change: -0.6795838475227356, Duration: 1.0, Reward: 2.7689661323658936, Done: False
+2024-08-03 19:36:01,011 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.08, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.67, movement: 2.04, yaw_control: -0.77, altitude_control: -0.28, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.64
+2024-08-03 19:36:01,181 - AirSimEnvLogger - INFO - Action: [ 7.016107  -6.6575794  3.1641533  7.7173543  2.8207486], Velocity: (7.016107082366943, -6.65757942199707, 3.1641533374786377), Yaw rate: 7.7173542976379395, Altitude change: 2.8207485675811768, Duration: 1.0, Reward: 1.6357544777388022, Done: False
+2024-08-03 19:36:03,560 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.30, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.09, movement: 2.74, yaw_control: -0.22, altitude_control: -0.45, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.76
+2024-08-03 19:36:03,714 - AirSimEnvLogger - INFO - Action: [-7.343384  -6.2845926 -9.702031  -2.1885386  4.5076632], Velocity: (-7.3433837890625, -6.284592628479004, -9.702031135559082), Yaw rate: -2.1885385513305664, Altitude change: 4.507663249969482, Duration: 1.0, Reward: 2.756451565803857, Done: False
+2024-08-03 19:36:06,110 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.51, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.85, movement: 1.67, yaw_control: -0.95, altitude_control: -0.52, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.45
+2024-08-03 19:36:06,268 - AirSimEnvLogger - INFO - Action: [ 6.0283275 -5.3817534 -2.1503532 -9.512393   5.1607037], Velocity: (6.028327465057373, -5.381753444671631, -2.150353193283081), Yaw rate: -9.5123929977417, Altitude change: 5.160703659057617, Duration: 1.0, Reward: 0.450124743541379, Done: False
+2024-08-03 19:36:08,651 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.62, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.86, movement: 2.19, yaw_control: -0.13, altitude_control: -0.69, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.51
+2024-08-03 19:36:08,806 - AirSimEnvLogger - INFO - Action: [ 5.0326557  6.300954   7.3810253 -1.318968   6.909152 ], Velocity: (5.032655715942383, 6.3009538650512695, 7.381025314331055), Yaw rate: -1.3189680576324463, Altitude change: 6.909152030944824, Duration: 1.0, Reward: 1.5072145907434544, Done: False
+2024-08-03 19:36:10,986 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.45, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.70, movement: 1.43, yaw_control: -0.76, altitude_control: -0.20, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.52
+2024-08-03 19:36:11,143 - AirSimEnvLogger - INFO - Action: [-0.31058905  5.4283476   4.6086917   7.573246   -1.9777658 ], Velocity: (-0.3105890452861786, 5.428347587585449, 4.608691692352295), Yaw rate: 7.573246002197266, Altitude change: -1.9777657985687256, Duration: 1.0, Reward: 1.5158953107774673, Done: False
+2024-08-03 19:36:13,498 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.77, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.63, movement: 1.40, yaw_control: -0.85, altitude_control: -0.45, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.39
+2024-08-03 19:36:13,654 - AirSimEnvLogger - INFO - Action: [-0.30698743 -6.6620483   2.048863    8.514623   -4.4889402 ], Velocity: (-0.3069874346256256, -6.66204833984375, 2.048862934112549), Yaw rate: 8.514622688293457, Altitude change: -4.488940238952637, Duration: 1.0, Reward: 1.392401187812097, Done: False
+2024-08-03 19:36:15,996 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.25, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.50, movement: 1.56, yaw_control: -0.65, altitude_control: -0.16, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.40
+2024-08-03 19:36:16,168 - AirSimEnvLogger - INFO - Action: [ 6.353085  -2.9624803  3.4001262  6.53762    1.6389523], Velocity: (6.353085041046143, -2.962480306625366, 3.4001262187957764), Yaw rate: 6.5376200675964355, Altitude change: 1.6389522552490234, Duration: 1.0, Reward: 1.396366999260556, Done: False
+2024-08-03 19:36:18,454 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.09, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.75, movement: 1.98, yaw_control: -0.36, altitude_control: -0.33, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.85
+2024-08-03 19:36:18,580 - AirSimEnvLogger - INFO - Action: [-3.5106423 -4.705981   7.976117  -3.5633612  3.3090382], Velocity: (-3.5106422901153564, -4.7059807777404785, 7.976117134094238), Yaw rate: -3.563361167907715, Altitude change: 3.3090381622314453, Duration: 1.0, Reward: 1.850739190542916, Done: False
+2024-08-03 19:36:20,931 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.56, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.46, movement: 2.52, yaw_control: -0.55, altitude_control: -0.81, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.95
+2024-08-03 19:36:21,102 - AirSimEnvLogger - INFO - Action: [ 2.083038  -9.749903   7.6843348 -5.541275   8.050019 ], Velocity: (2.083038091659546, -9.749902725219727, 7.684334754943848), Yaw rate: -5.5412750244140625, Altitude change: 8.050019264221191, Duration: 1.0, Reward: 0.9540990677470017, Done: False
+2024-08-03 19:36:23,325 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.42, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.26, movement: 2.52, yaw_control: -0.70, altitude_control: -0.79, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.61
+2024-08-03 19:36:23,400 - AirSimEnvLogger - INFO - Action: [ 5.717193  -8.890502  -6.850381   6.9777236 -7.898862 ], Velocity: (5.717193126678467, -8.890501976013184, -6.850380897521973), Yaw rate: 6.977723598480225, Altitude change: -7.898861885070801, Duration: 1.0, Reward: 2.611377612320933, Done: False
+2024-08-03 19:36:25,722 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.25, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.21, movement: 2.93, yaw_control: -0.31, altitude_control: -0.55, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.93
+2024-08-03 19:36:25,877 - AirSimEnvLogger - INFO - Action: [ 8.343767   8.252538  -8.735409  -3.0646763  5.5018897], Velocity: (8.343767166137695, 8.252537727355957, -8.735408782958984), Yaw rate: -3.064676284790039, Altitude change: 5.501889705657959, Duration: 1.0, Reward: 2.9287467812196435, Done: False
+2024-08-03 19:36:28,261 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.39, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.02, movement: 1.80, yaw_control: -0.26, altitude_control: -0.11, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.74
+2024-08-03 19:36:28,418 - AirSimEnvLogger - INFO - Action: [ 0.75692964  3.3301032   8.320555   -2.556885   -1.1310326 ], Velocity: (0.7569296360015869, 3.3301031589508057, 8.320554733276367), Yaw rate: -2.556885004043579, Altitude change: -1.1310325860977173, Duration: 1.0, Reward: 2.7398474962153823, Done: False
+2024-08-03 19:36:30,770 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.69, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.49, movement: 1.80, yaw_control: -0.15, altitude_control: -0.69, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.04
+2024-08-03 19:36:30,925 - AirSimEnvLogger - INFO - Action: [ 4.330898  -3.488499   7.097537  -1.4820825 -6.921468 ], Velocity: (4.330897808074951, -3.4884989261627197, 7.097537040710449), Yaw rate: -1.482082486152649, Altitude change: -6.9214677810668945, Duration: 1.0, Reward: 2.035803607627204, Done: False
+2024-08-03 19:36:33,310 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.42, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.17, movement: 2.39, yaw_control: -0.98, altitude_control: -0.07, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.83
+2024-08-03 19:36:33,466 - AirSimEnvLogger - INFO - Action: [-9.739474   1.3663036 -6.82425   -9.813626   0.7358795], Velocity: (-9.739474296569824, 1.366303563117981, -6.824250221252441), Yaw rate: -9.813626289367676, Altitude change: 0.7358794808387756, Duration: 1.0, Reward: 2.827866537391877, Done: False
+2024-08-03 19:36:35,710 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.24, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.73, movement: 2.12, yaw_control: -0.84, altitude_control: -0.09, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.06
+2024-08-03 19:36:35,900 - AirSimEnvLogger - INFO - Action: [ 2.9341762  8.334614  -5.827106  -8.359828   0.9361696], Velocity: (2.934176206588745, 8.334613800048828, -5.82710599899292), Yaw rate: -8.359827995300293, Altitude change: 0.9361696243286133, Duration: 1.0, Reward: 2.055625830490516, Done: False
+2024-08-03 19:36:38,098 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.68, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.92, movement: 2.61, yaw_control: -0.39, altitude_control: -0.79, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 2.93
+2024-08-03 19:36:38,252 - AirSimEnvLogger - INFO - Action: [-7.491506   9.170554  -5.505258   3.9299605 -7.8950095], Velocity: (-7.491506099700928, 9.170554161071777, -5.505258083343506), Yaw rate: 3.9299604892730713, Altitude change: -7.895009517669678, Duration: 1.0, Reward: 2.929059587782539, Done: False
+2024-08-03 19:36:40,561 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.31, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.39, movement: 1.20, yaw_control: -0.96, altitude_control: -0.94, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.28
+2024-08-03 19:36:40,698 - AirSimEnvLogger - INFO - Action: [-2.2559319 -4.662419   3.0376792 -9.60318    9.438035 ], Velocity: (-2.255931854248047, -4.662418842315674, 3.0376791954040527), Yaw rate: -9.603179931640625, Altitude change: 9.438035011291504, Duration: 1.0, Reward: 0.2794943149632313, Done: False
+2024-08-03 19:36:42,994 - AirSimEnvLogger - INFO - Reward breakdown - distance: -0.67, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 0.56, movement: 2.59, yaw_control: -0.86, altitude_control: -0.79, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 0.73
+2024-08-03 19:36:43,104 - AirSimEnvLogger - INFO - Action: [ 6.800646  -6.031503   9.255528  -8.619325   7.9364963], Velocity: (6.80064582824707, -6.031503200531006, 9.255528450012207), Yaw rate: -8.619324684143066, Altitude change: 7.936496257781982, Duration: 1.0, Reward: 0.7301286848806107, Done: False
+2024-08-03 19:36:45,390 - AirSimEnvLogger - INFO - Reward breakdown - distance: 0.22, velocity: -0.00, collision: 0.00, height: 1.00, smoothness: 1.07, movement: 1.26, yaw_control: -0.41, altitude_control: -0.06, stationary: -0.10, revisit: -1.00, task_completion: 0.00, Total: 1.98
+2024-08-03 19:36:45,515 - AirSimEnvLogger - INFO - Action: [-4.659002   -4.217026   -0.27540526  4.0699024  -0.592696  ], Velocity: (-4.65900182723999, -4.217026233673096, -0.27540525794029236), Yaw rate: 4.069902420043945, Altitude change: -0.5926960110664368, Duration: 1.0, Reward: 1.9777462526672016, Done: False
+2024-08-03 19:36:59,554 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:36:59,573 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:36:59,574 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.05,
+    "smoothness_penalty": 0.05,
+    "duration": 2.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.0,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 1.0,
+    "task_completion_reward": 100,
+    "large_movement_reward": 0.2,
+    "stationary_penalty": 0.1,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:37:04,799 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:37:05,329 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-03 19:37:05,375 - AirSimEnvLogger - INFO - State shape: (12,), Visual shape: (144, 256, 3)
+2024-08-03 19:37:07,577 - AirSimEnvLogger - ERROR - Error in step function: 'NoneType' object has no attribute 'join'
+2024-08-03 19:37:07,624 - AirSimEnvLogger - ERROR - An error occurred: 'NoneType' object has no attribute 'join'
+2024-08-03 19:37:13,244 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-03 19:38:23,549 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:38:23,561 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:38:23,563 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 100,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 25,
+    "height_target": -10,
+    "height_tolerance": 1.0,
+    "height_penalty": 1,
+    "movement_penalty": 0.05,
+    "smoothness_penalty": 0.05,
+    "duration": 2.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.0,
+    "exploration_area": {
+      "x_min": -2000,
+      "x_max": 2000,
+      "y_min": -2000,
+      "y_max": 2000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 1.0,
+    "task_completion_reward": 100,
+    "large_movement_reward": 0.2,
+    "stationary_penalty": 0.1,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": false
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:38:28,500 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:38:28,829 - AirSimEnvLogger - ERROR - An error occurred: State dimension mismatch. Expected 16, got 12
+2024-08-03 19:38:34,451 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-03 19:41:50,784 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:41:50,803 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:41:50,805 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:41:56,590 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:41:57,061 - AirSimEnvLogger - ERROR - An error occurred: State dimension mismatch. Expected 16, got 12
+2024-08-03 19:42:02,745 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-03 19:48:32,920 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:48:32,936 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:48:32,937 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:48:38,447 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:48:38,823 - AirSimEnvLogger - ERROR - An error occurred: State dimension mismatch. Expected 16, got 12
+2024-08-03 19:48:44,430 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-03 19:50:06,714 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:50:06,727 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:50:06,729 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:50:12,364 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:50:12,898 - AirSimEnvLogger - ERROR - An error occurred: 'numpy.ndarray' object has no attribute 'x_val'
+2024-08-03 19:50:18,534 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-03 19:53:02,780 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-03 19:53:02,794 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-03 19:53:02,796 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-03 19:53:08,568 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-03 19:53:09,162 - AirSimEnvLogger - ERROR - An error occurred: 'numpy.ndarray' object has no attribute 'x_val'
+2024-08-03 19:53:14,815 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-06 13:33:47,033 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:33:47,050 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:33:47,052 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:33:52,539 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:33:53,134 - AirSimEnvLogger - ERROR - An error occurred: 'numpy.ndarray' object has no attribute 'x_val'
+2024-08-06 13:33:58,803 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-06 13:36:44,328 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:36:44,342 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:36:44,343 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:36:49,363 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:36:50,205 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:36:50,252 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:36:50,425 - AirSimEnvLogger - INFO - Executing action: vx=-0.57, vy=3.04, vz=2.16, yaw_rate=1.41, altitude_change=-2.01, duration=4.50
+2024-08-06 13:36:59,616 - AirSimEnvLogger - ERROR - Error in step function: 'NoneType' object has no attribute 'join'
+2024-08-06 13:36:59,647 - AirSimEnvLogger - ERROR - An error occurred: 'NoneType' object has no attribute 'join'
+2024-08-06 13:37:05,304 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-06 13:39:32,918 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:39:32,932 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:39:32,933 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:39:38,038 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:39:38,695 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:39:38,742 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:39:38,913 - AirSimEnvLogger - INFO - Executing action: vx=-10.59, vy=5.61, vz=-1.66, yaw_rate=-1.68, altitude_change=2.54, duration=4.50
+2024-08-06 13:39:48,085 - AirSimEnvLogger - ERROR - Error in step function: 'CustomLogger' object has no attribute 'warning'
+2024-08-06 13:39:48,904 - AirSimEnvLogger - INFO - Episode finished. Total reward: 0
+2024-08-06 13:39:48,950 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:39:53,488 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:39:54,237 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:39:54,283 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:39:59,923 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-06 13:42:26,303 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:42:26,319 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:42:26,320 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:42:31,848 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:42:32,687 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:42:32,733 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:42:32,872 - AirSimEnvLogger - INFO - Executing action: vx=2.00, vy=-10.97, vz=1.35, yaw_rate=2.72, altitude_change=1.08, duration=4.50
+2024-08-06 13:42:48,270 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:42:48,285 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:42:48,286 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:42:53,319 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:42:54,103 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:42:54,150 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:42:54,306 - AirSimEnvLogger - INFO - Executing action: vx=-14.43, vy=-2.43, vz=0.60, yaw_rate=0.27, altitude_change=-0.87, duration=4.50
+2024-08-06 13:43:03,526 - AirSimEnvLogger - WARNING - Move or rotate operation failed
+2024-08-06 13:43:04,294 - AirSimEnvLogger - INFO - Episode finished. Total reward: 0
+2024-08-06 13:43:04,340 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:43:09,375 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:43:10,110 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:43:10,158 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:43:15,849 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-06 13:44:42,647 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:44:42,659 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:44:42,660 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:44:47,825 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:44:48,579 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:44:48,611 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:44:48,659 - AirSimEnvLogger - INFO - Starting episode 0
+2024-08-06 13:44:48,783 - AirSimEnvLogger - INFO - Executing action: vx=-5.55, vy=4.03, vz=2.51, yaw_rate=1.00, altitude_change=-1.93, duration=4.50
+2024-08-06 13:44:48,831 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:44:49,644 - AirSimEnvLogger - INFO - Episode 0 finished. Total reward: 0, Steps: 1
+2024-08-06 13:44:49,691 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:44:54,647 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:44:55,321 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:44:55,368 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:44:55,415 - AirSimEnvLogger - INFO - Starting episode 1
+2024-08-06 13:44:55,557 - AirSimEnvLogger - INFO - Executing action: vx=-14.51, vy=-8.58, vz=-2.47, yaw_rate=0.09, altitude_change=-0.54, duration=4.50
+2024-08-06 13:44:55,603 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:44:56,416 - AirSimEnvLogger - INFO - Episode 1 finished. Total reward: 0, Steps: 1
+2024-08-06 13:44:56,462 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:02,115 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:02,845 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:02,893 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:02,941 - AirSimEnvLogger - INFO - Starting episode 2
+2024-08-06 13:45:03,063 - AirSimEnvLogger - INFO - Executing action: vx=-11.35, vy=-11.09, vz=1.64, yaw_rate=0.72, altitude_change=1.73, duration=4.50
+2024-08-06 13:45:03,110 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:03,893 - AirSimEnvLogger - INFO - Episode 2 finished. Total reward: 0, Steps: 1
+2024-08-06 13:45:03,942 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:10,383 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:11,179 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:11,227 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:11,274 - AirSimEnvLogger - INFO - Starting episode 3
+2024-08-06 13:45:11,416 - AirSimEnvLogger - INFO - Executing action: vx=-13.54, vy=11.67, vz=-1.51, yaw_rate=1.13, altitude_change=-2.52, duration=4.50
+2024-08-06 13:45:11,462 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:12,292 - AirSimEnvLogger - INFO - Episode 3 finished. Total reward: 0, Steps: 1
+2024-08-06 13:45:12,339 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:18,722 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:19,536 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:19,567 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:19,613 - AirSimEnvLogger - INFO - Starting episode 4
+2024-08-06 13:45:19,753 - AirSimEnvLogger - INFO - Executing action: vx=-1.94, vy=6.51, vz=-2.10, yaw_rate=-3.51, altitude_change=2.62, duration=4.50
+2024-08-06 13:45:19,799 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:20,551 - AirSimEnvLogger - INFO - Episode 4 finished. Total reward: 0, Steps: 1
+2024-08-06 13:45:20,597 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:26,411 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:27,291 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:27,337 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:27,383 - AirSimEnvLogger - INFO - Starting episode 5
+2024-08-06 13:45:27,542 - AirSimEnvLogger - INFO - Executing action: vx=14.54, vy=-0.62, vz=-1.08, yaw_rate=-3.75, altitude_change=2.06, duration=4.50
+2024-08-06 13:45:27,589 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:28,298 - AirSimEnvLogger - INFO - Episode 5 finished. Total reward: 0, Steps: 1
+2024-08-06 13:45:28,345 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:33,847 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:34,487 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:34,534 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:34,581 - AirSimEnvLogger - INFO - Starting episode 6
+2024-08-06 13:45:34,707 - AirSimEnvLogger - INFO - Executing action: vx=-11.70, vy=4.23, vz=-2.77, yaw_rate=-3.33, altitude_change=-2.19, duration=4.50
+2024-08-06 13:45:34,755 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:35,572 - AirSimEnvLogger - INFO - Episode 6 finished. Total reward: 0, Steps: 1
+2024-08-06 13:45:35,620 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:41,676 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:42,412 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:42,459 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:42,507 - AirSimEnvLogger - INFO - Starting episode 7
+2024-08-06 13:45:42,646 - AirSimEnvLogger - INFO - Executing action: vx=9.31, vy=9.98, vz=1.74, yaw_rate=1.73, altitude_change=-0.80, duration=4.50
+2024-08-06 13:45:42,693 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:43,412 - AirSimEnvLogger - INFO - Episode 7 finished. Total reward: 0, Steps: 1
+2024-08-06 13:45:43,457 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:49,808 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:50,685 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:50,732 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:50,779 - AirSimEnvLogger - INFO - Starting episode 8
+2024-08-06 13:45:50,936 - AirSimEnvLogger - INFO - Executing action: vx=-1.94, vy=1.40, vz=1.42, yaw_rate=-4.63, altitude_change=1.85, duration=4.50
+2024-08-06 13:45:50,982 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:51,815 - AirSimEnvLogger - INFO - Episode 8 finished. Total reward: 0, Steps: 1
+2024-08-06 13:45:51,862 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:45:57,965 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:45:58,809 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:45:58,855 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:45:58,902 - AirSimEnvLogger - INFO - Starting episode 9
+2024-08-06 13:45:59,075 - AirSimEnvLogger - INFO - Executing action: vx=5.23, vy=-1.56, vz=-1.55, yaw_rate=-1.27, altitude_change=-0.43, duration=4.50
+2024-08-06 13:45:59,107 - AirSimEnvLogger - ERROR - Error in step function: 'DroneController' object has no attribute 'logger'
+2024-08-06 13:45:59,983 - AirSimEnvLogger - INFO - Episode 9 finished. Total reward: 0, Steps: 1
+2024-08-06 13:46:00,028 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:46:06,737 - AirSimEnvLogger - INFO - Environment closed.
+2024-08-06 13:48:39,250 - AirSimEnvLogger - INFO - Drone controller initialized
+2024-08-06 13:48:39,251 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:48:39,262 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:48:39,264 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:48:44,278 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:48:45,092 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:48:45,139 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:48:45,185 - AirSimEnvLogger - INFO - Starting episode 0
+2024-08-06 13:48:45,279 - AirSimEnvLogger - INFO - Executing action: vx=-6.25, vy=12.55, vz=-0.30, yaw_rate=4.30, altitude_change=-0.62, duration=4.50
+2024-08-06 13:48:45,326 - AirSimEnvLogger - INFO - Attempting to move drone: vx=-6.25, vy=12.55, vz=0.62, duration=4.50
+2024-08-06 13:48:45,372 - AirSimEnvLogger - INFO - Attempting to move: vx=-6.251996755599976, vy=12.551613807678223, z=0.6218037128448486, duration=4.5
+2024-08-06 13:48:49,998 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:48:50,045 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=4.30, duration=4.50
+2024-08-06 13:48:50,092 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=4.304760456085205, duration=4.5
+2024-08-06 13:48:54,714 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:48:55,091 - AirSimEnvLogger - INFO - Current position: x=-20.39, y=38.46, z=1.17
+2024-08-06 13:48:56,082 - AirSimEnvLogger - INFO - Distance reward: -804.6622
+2024-08-06 13:48:56,129 - AirSimEnvLogger - INFO - Velocity reward: -0.0410
+2024-08-06 13:48:56,208 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:48:56,254 - AirSimEnvLogger - INFO - Smoothness penalty: 0.6458
+2024-08-06 13:48:56,302 - AirSimEnvLogger - INFO - Movement reward: 4.7010
+2024-08-06 13:48:56,349 - AirSimEnvLogger - INFO - Reward breakdown - distance: -804.6622, velocity: -0.0410, collision: 0.0000, height: 0.5000, smoothness: 0.6458, movement: 4.7010, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:48:56,396 - AirSimEnvLogger - INFO - Total reward: -798.8564
+2024-08-06 13:48:56,442 - AirSimEnvLogger - ERROR - Error in step function: 'AirSimEnv' object has no attribute '_check_done'
+2024-08-06 13:48:57,192 - AirSimEnvLogger - INFO - Episode 0 finished. Total reward: 0, Steps: 1
+2024-08-06 13:48:57,239 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:49:03,156 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:49:03,845 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:49:03,892 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:49:03,937 - AirSimEnvLogger - INFO - Starting episode 1
+2024-08-06 13:49:04,106 - AirSimEnvLogger - INFO - Executing action: vx=14.51, vy=-8.01, vz=2.59, yaw_rate=0.09, altitude_change=1.95, duration=4.50
+2024-08-06 13:49:04,153 - AirSimEnvLogger - INFO - Attempting to move drone: vx=14.51, vy=-8.01, vz=-1.95, duration=4.50
+2024-08-06 13:49:04,200 - AirSimEnvLogger - INFO - Attempting to move: vx=14.505430698394775, vy=-8.007644891738892, z=-1.9473928928375244, duration=4.5
+2024-08-06 13:49:08,836 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:49:08,882 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=0.09, duration=4.50
+2024-08-06 13:49:08,929 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=0.08625226467847824, duration=4.5
+2024-08-06 13:49:13,553 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:49:13,931 - AirSimEnvLogger - INFO - Current position: x=44.03, y=-25.06, z=-0.45
+2024-08-06 13:49:14,693 - AirSimEnvLogger - INFO - Distance reward: -947.6463
+2024-08-06 13:49:14,756 - AirSimEnvLogger - INFO - Velocity reward: -0.0553
+2024-08-06 13:49:14,911 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:49:14,974 - AirSimEnvLogger - INFO - Smoothness penalty: 0.7726
+2024-08-06 13:49:15,020 - AirSimEnvLogger - INFO - Movement reward: 7.0110
+2024-08-06 13:49:15,081 - AirSimEnvLogger - INFO - Reward breakdown - distance: -947.6463, velocity: -0.0553, collision: 0.0000, height: 0.5000, smoothness: 0.7726, movement: 7.0110, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:49:15,128 - AirSimEnvLogger - INFO - Total reward: -939.4180
+2024-08-06 13:49:15,174 - AirSimEnvLogger - ERROR - Error in step function: 'AirSimEnv' object has no attribute '_check_done'
+2024-08-06 13:49:16,051 - AirSimEnvLogger - INFO - Episode 1 finished. Total reward: 0, Steps: 1
+2024-08-06 13:49:16,097 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:49:21,911 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:49:22,666 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:49:22,713 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:49:22,759 - AirSimEnvLogger - INFO - Starting episode 2
+2024-08-06 13:49:22,851 - AirSimEnvLogger - INFO - Executing action: vx=-4.97, vy=6.66, vz=0.91, yaw_rate=3.99, altitude_change=-1.77, duration=4.50
+2024-08-06 13:49:22,897 - AirSimEnvLogger - INFO - Attempting to move drone: vx=-4.97, vy=6.66, vz=1.77, duration=4.50
+2024-08-06 13:49:22,944 - AirSimEnvLogger - INFO - Attempting to move: vx=-4.966786623001099, vy=6.660856246948242, z=1.7710368633270264, duration=4.5
+2024-08-06 13:49:27,574 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:49:27,621 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=3.99, duration=4.50
+2024-08-06 13:49:27,684 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=3.988851547241211, duration=4.5
+2024-08-06 13:49:32,328 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:49:32,704 - AirSimEnvLogger - INFO - Current position: x=-17.09, y=21.94, z=1.93
+2024-08-06 13:49:33,598 - AirSimEnvLogger - INFO - Distance reward: -508.9152
+2024-08-06 13:49:33,644 - AirSimEnvLogger - INFO - Velocity reward: -0.0100
+2024-08-06 13:49:33,802 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:49:33,848 - AirSimEnvLogger - INFO - Smoothness penalty: 0.5881
+2024-08-06 13:49:33,895 - AirSimEnvLogger - INFO - Movement reward: 3.1570
+2024-08-06 13:49:33,973 - AirSimEnvLogger - INFO - Reward breakdown - distance: -508.9152, velocity: -0.0100, collision: 0.0000, height: 0.5000, smoothness: 0.5881, movement: 3.1570, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:49:34,036 - AirSimEnvLogger - INFO - Total reward: -504.6801
+2024-08-06 13:49:34,082 - AirSimEnvLogger - ERROR - Error in step function: 'AirSimEnv' object has no attribute '_check_done'
+2024-08-06 13:49:34,883 - AirSimEnvLogger - INFO - Episode 2 finished. Total reward: 0, Steps: 1
+2024-08-06 13:49:34,930 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:49:41,387 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:49:42,267 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:49:42,314 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:49:42,361 - AirSimEnvLogger - INFO - Starting episode 3
+2024-08-06 13:49:42,533 - AirSimEnvLogger - INFO - Executing action: vx=1.56, vy=-2.63, vz=0.57, yaw_rate=-0.71, altitude_change=-2.48, duration=4.50
+2024-08-06 13:49:42,580 - AirSimEnvLogger - INFO - Attempting to move drone: vx=1.56, vy=-2.63, vz=2.48, duration=4.50
+2024-08-06 13:49:42,627 - AirSimEnvLogger - INFO - Attempting to move: vx=1.5648416876792908, vy=-2.6348699927330017, z=2.4848376274108888, duration=4.5
+2024-08-06 13:49:47,269 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:49:47,316 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=-0.71, duration=4.50
+2024-08-06 13:49:47,362 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=-0.7089229226112366, duration=4.5
+2024-08-06 13:49:51,962 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:49:52,342 - AirSimEnvLogger - INFO - Current position: x=5.60, y=-9.41, z=2.48
+2024-08-06 13:49:53,253 - AirSimEnvLogger - INFO - Distance reward: -173.5628
+2024-08-06 13:49:53,300 - AirSimEnvLogger - INFO - Velocity reward: -0.0028
+2024-08-06 13:49:53,440 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:49:53,488 - AirSimEnvLogger - INFO - Smoothness penalty: 0.4426
+2024-08-06 13:49:53,535 - AirSimEnvLogger - INFO - Movement reward: 1.3913
+2024-08-06 13:49:53,597 - AirSimEnvLogger - INFO - Reward breakdown - distance: -173.5628, velocity: -0.0028, collision: 0.0000, height: 0.5000, smoothness: 0.4426, movement: 1.3913, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:49:53,644 - AirSimEnvLogger - INFO - Total reward: -171.2317
+2024-08-06 13:49:53,690 - AirSimEnvLogger - ERROR - Error in step function: 'AirSimEnv' object has no attribute '_check_done'
+2024-08-06 13:49:54,472 - AirSimEnvLogger - INFO - Episode 3 finished. Total reward: 0, Steps: 1
+2024-08-06 13:49:54,520 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:50:00,673 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:50:01,463 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:50:01,521 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:50:01,567 - AirSimEnvLogger - INFO - Starting episode 4
+2024-08-06 13:50:01,721 - AirSimEnvLogger - INFO - Executing action: vx=9.05, vy=9.59, vz=0.73, yaw_rate=-4.10, altitude_change=-2.52, duration=4.50
+2024-08-06 13:50:01,768 - AirSimEnvLogger - INFO - Attempting to move drone: vx=9.05, vy=9.59, vz=2.52, duration=4.50
+2024-08-06 13:50:01,816 - AirSimEnvLogger - INFO - Attempting to move: vx=9.049160242080688, vy=9.58854603767395, z=2.516219902038574, duration=4.5
+2024-08-06 13:50:06,496 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:50:06,544 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=-4.10, duration=4.50
+2024-08-06 13:50:06,591 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=-4.095123291015625, duration=4.5
+2024-08-06 13:50:11,278 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:50:11,638 - AirSimEnvLogger - INFO - Current position: x=28.04, y=28.37, z=2.56
+2024-08-06 13:50:12,566 - AirSimEnvLogger - INFO - Distance reward: -749.5980
+2024-08-06 13:50:12,613 - AirSimEnvLogger - INFO - Velocity reward: -0.0111
+2024-08-06 13:50:12,768 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:50:12,815 - AirSimEnvLogger - INFO - Smoothness penalty: 0.7428
+2024-08-06 13:50:12,878 - AirSimEnvLogger - INFO - Movement reward: 4.5620
+2024-08-06 13:50:12,955 - AirSimEnvLogger - INFO - Reward breakdown - distance: -749.5980, velocity: -0.0111, collision: 0.0000, height: 0.5000, smoothness: 0.7428, movement: 4.5620, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:50:13,016 - AirSimEnvLogger - INFO - Total reward: -743.8043
+2024-08-06 13:50:13,064 - AirSimEnvLogger - ERROR - Error in step function: 'AirSimEnv' object has no attribute '_check_done'
+2024-08-06 13:50:13,845 - AirSimEnvLogger - INFO - Episode 4 finished. Total reward: 0, Steps: 1
+2024-08-06 13:50:13,877 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:50:20,235 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:50:21,159 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:50:21,206 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:50:21,252 - AirSimEnvLogger - INFO - Starting episode 5
+2024-08-06 13:50:21,393 - AirSimEnvLogger - INFO - Executing action: vx=-8.37, vy=3.91, vz=0.55, yaw_rate=2.34, altitude_change=2.74, duration=4.50
+2024-08-06 13:50:21,441 - AirSimEnvLogger - INFO - Attempting to move drone: vx=-8.37, vy=3.91, vz=-2.74, duration=4.50
+2024-08-06 13:50:21,504 - AirSimEnvLogger - INFO - Attempting to move: vx=-8.366011619567871, vy=3.905421495437622, z=-2.744193935394287, duration=4.5
+2024-08-06 13:50:26,141 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:50:26,200 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=2.34, duration=4.50
+2024-08-06 13:50:26,251 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=2.337130308151245, duration=4.5
+2024-08-06 13:50:30,841 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:50:31,215 - AirSimEnvLogger - INFO - Current position: x=-25.44, y=12.35, z=-2.52
+2024-08-06 13:50:32,230 - AirSimEnvLogger - INFO - Distance reward: -518.7016
+2024-08-06 13:50:32,278 - AirSimEnvLogger - INFO - Velocity reward: -0.0116
+2024-08-06 13:50:32,418 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:50:32,464 - AirSimEnvLogger - INFO - Smoothness penalty: 0.6057
+2024-08-06 13:50:32,528 - AirSimEnvLogger - INFO - Movement reward: 3.2108
+2024-08-06 13:50:32,574 - AirSimEnvLogger - INFO - Reward breakdown - distance: -518.7016, velocity: -0.0116, collision: 0.0000, height: 0.5000, smoothness: 0.6057, movement: 3.2108, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:50:32,620 - AirSimEnvLogger - INFO - Total reward: -514.3968
+2024-08-06 13:50:32,666 - AirSimEnvLogger - ERROR - Error in step function: 'AirSimEnv' object has no attribute '_check_done'
+2024-08-06 13:50:33,445 - AirSimEnvLogger - INFO - Episode 5 finished. Total reward: 0, Steps: 1
+2024-08-06 13:50:33,492 - AirSimEnvLogger - INFO - Updated curriculum difficulty to 1
+2024-08-06 13:50:39,176 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:50:39,970 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:50:40,017 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:50:40,064 - AirSimEnvLogger - INFO - Starting episode 6
+2024-08-06 13:50:40,218 - AirSimEnvLogger - INFO - Executing action: vx=2.35, vy=13.90, vz=2.56, yaw_rate=0.26, altitude_change=2.27, duration=4.50
+2024-08-06 13:50:40,266 - AirSimEnvLogger - INFO - Attempting to move drone: vx=2.35, vy=13.90, vz=-2.27, duration=4.50
+2024-08-06 13:50:40,328 - AirSimEnvLogger - INFO - Attempting to move: vx=2.3517170548439026, vy=13.903780460357666, z=-2.267060136795044, duration=4.5
+2024-08-06 13:50:51,212 - AirSimEnvLogger - INFO - Drone controller initialized
+2024-08-06 13:50:51,213 - AirSimEnvLogger - INFO - Initialized with state_dim: 16, action_dim: 5
+2024-08-06 13:50:51,224 - AirSimEnvLogger - INFO - Initializing AirSimEnv
+2024-08-06 13:50:51,226 - AirSimEnvLogger - INFO - Configuration: {
+  "learning_rate": 0.0001,
+  "gamma": 0.99,
+  "tau": 0.95,
+  "batch_size": 64,
+  "num_timesteps": 5000,
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 128,
+    "batch_size": 32,
+    "n_epochs": 2,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.3,
+    "ent_coef": 0.02,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "use_sde": true,
+    "sde_sample_freq": 4,
+    "tensorboard_log": "logs/tensorboard_logs/ppo_airsim_tensorboard/",
+    "verbose": 1,
+    "seed": null,
+    "device": "auto",
+    "continuous": true,
+    "save_freq": 500
+  },
+  "environment": {
+    "env_name": "Africa_001",
+    "reward_threshold": 250,
+    "max_episode_steps": 200,
+    "state_dim": 16,
+    "action_dim": 5,
+    "reward_scale": 20,
+    "proximity_threshold": 5.0,
+    "collision_penalty": 50,
+    "height_target": -50,
+    "height_tolerance": 5.0,
+    "height_penalty": 0.5,
+    "movement_penalty": 0.02,
+    "smoothness_penalty": 0.05,
+    "duration": 3.0,
+    "action_scale": 50.0,
+    "exploration_noise": 0.2,
+    "min_action_interval": 1.5,
+    "horizontal_scale": 1.5,
+    "vertical_scale": 0.3,
+    "yaw_scale": 0.5,
+    "exploration_area": {
+      "x_min": -5000,
+      "x_max": 5000,
+      "y_min": -5000,
+      "y_max": 5000,
+      "z_min": -200,
+      "z_max": 200
+    },
+    "goal_threshold": 5.0,
+    "task_completion_reward": 200,
+    "large_movement_reward": 0.5,
+    "stationary_penalty": 0.2,
+    "revisit_penalty": 0.1
+  },
+  "policy_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256,
+      128
+    ],
+    "output_size": 5,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true,
+    "num_action_heads": 1
+  },
+  "critic_network": {
+    "input_size": 16,
+    "hidden_layers": [
+      256,
+      256
+    ],
+    "output_size": 1,
+    "use_batch_norm": true,
+    "use_dropout": true,
+    "dropout_rate": 0.2,
+    "use_attention": true
+  },
+  "exploration": {
+    "strategy": "epsilon_decay",
+    "initial_epsilon": 1.0,
+    "min_epsilon": 0.05,
+    "epsilon_decay_rate": 0.9995
+  },
+  "model_checkpointing": {
+    "checkpoint_interval": 5,
+    "save_best_only": true,
+    "checkpoint_dir": "models/checkpoints"
+  },
+  "logging": {
+    "log_interval": 5,
+    "log_dir": "logs/",
+    "tensorboard": true,
+    "tensorboard_log_dir": "logs/tensorboard_logs",
+    "model_save_path": "models/saved_models"
+  },
+  "advanced_training_techniques": {
+    "gradient_clipping": 0.5,
+    "use_gae": true,
+    "gae_lambda": 0.95,
+    "normalize_advantages": true
+  },
+  "early_stopping": {
+    "patience": 5
+  },
+  "reward_adjustments": {
+    "collision_penalty": 50,
+    "reward_threshold": 250
+  },
+  "shared_components": {
+    "residual_block": {
+      "input_dim": 128,
+      "hidden_dim": 128,
+      "dropout_rate": 0.2
+    },
+    "attention_layer": {
+      "input_dim": 128,
+      "hidden_dim": 128
+    }
+  },
+  "icm": {
+    "state_dim": 16,
+    "action_dim": 4,
+    "image_channels": 3,
+    "image_height": 144,
+    "image_width": 256,
+    "cnn": {
+      "input_channels": 3,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    },
+    "state_encoder": {
+      "hidden_dim": 128
+    },
+    "forward_model": {
+      "hidden_dim": 128
+    },
+    "inverse_model": {
+      "hidden_dim": 128
+    }
+  },
+  "predictive_model": {
+    "learning_rate": 0.0001,
+    "hidden_layers": [
+      128,
+      128
+    ],
+    "cnn_config": {
+      "input_channels": 3,
+      "image_height": 144,
+      "image_width": 256,
+      "conv1": {
+        "out_channels": 32,
+        "kernel_size": 8,
+        "stride": 4,
+        "padding": 0
+      },
+      "conv2": {
+        "out_channels": 64,
+        "kernel_size": 4,
+        "stride": 2,
+        "padding": 0
+      },
+      "conv3": {
+        "out_channels": 64,
+        "kernel_size": 3,
+        "stride": 1,
+        "padding": 0
+      }
+    }
+  },
+  "hrl": {
+    "use_hierarchical": true,
+    "high_level_policy": {
+      "input_size": 16,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    },
+    "sub_goal_dim": 3,
+    "low_level_policy": {
+      "input_size": 19,
+      "hidden_layers": [
+        256,
+        256
+      ],
+      "output_size": 4
+    }
+  },
+  "curriculum_learning": {
+    "use_curriculum": true,
+    "initial_difficulty": 1,
+    "max_difficulty": 10,
+    "difficulty_increment": 0.5,
+    "reward_threshold": 50
+  },
+  "multi_agent": {
+    "use_multi_agent": true,
+    "num_agents": 2,
+    "hidden_layers": [
+      256,
+      256
+    ]
+  }
+}
+2024-08-06 13:50:55,947 - AirSimEnvLogger - INFO - Environment reset and takeoff completed.
+2024-08-06 13:50:56,793 - AirSimEnvLogger - INFO - Reset completed. Observation keys: dict_keys(['state', 'visual'])
+2024-08-06 13:50:56,838 - AirSimEnvLogger - INFO - State shape: (16,), Visual shape: (144, 256, 3)
+2024-08-06 13:50:56,884 - AirSimEnvLogger - INFO - Starting episode 0
+2024-08-06 13:50:56,979 - AirSimEnvLogger - INFO - Executing action: vx=-6.61, vy=3.27, vz=2.39, yaw_rate=-2.79, altitude_change=1.37, duration=4.50
+2024-08-06 13:50:57,027 - AirSimEnvLogger - INFO - Attempting to move drone: vx=-6.61, vy=3.27, vz=-1.37, duration=4.50
+2024-08-06 13:50:57,073 - AirSimEnvLogger - INFO - Attempting to move: vx=-6.610274076461792, vy=3.273455500602722, z=-1.3652429580688477, duration=4.5
+2024-08-06 13:51:01,701 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:51:01,748 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=-2.79, duration=4.50
+2024-08-06 13:51:01,794 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=-2.7887210845947266, duration=4.5
+2024-08-06 13:51:06,414 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:51:06,776 - AirSimEnvLogger - INFO - Current position: x=-21.99, y=11.22, z=-1.22
+2024-08-06 13:51:07,685 - AirSimEnvLogger - INFO - Distance reward: -10.0000
+2024-08-06 13:51:07,731 - AirSimEnvLogger - INFO - Velocity reward: -0.0110
+2024-08-06 13:51:07,824 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:51:07,870 - AirSimEnvLogger - INFO - Smoothness penalty: 0.5902
+2024-08-06 13:51:07,917 - AirSimEnvLogger - INFO - Movement reward: 4.6779
+2024-08-06 13:51:07,963 - AirSimEnvLogger - INFO - Reward breakdown - distance: -10.0000, velocity: -0.0110, collision: 0.0000, height: 0.5000, smoothness: 0.5902, movement: 4.6779, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:51:08,009 - AirSimEnvLogger - INFO - Total reward: -4.2428
+2024-08-06 13:51:08,149 - AirSimEnvLogger - INFO - Step completed - Reward: -4.24, Done: False
+2024-08-06 13:51:08,742 - AirSimEnvLogger - INFO - Executing action: vx=1.39, vy=10.92, vz=0.15, yaw_rate=0.80, altitude_change=0.69, duration=4.50
+2024-08-06 13:51:08,788 - AirSimEnvLogger - INFO - Attempting to move drone: vx=1.39, vy=10.92, vz=-0.69, duration=4.50
+2024-08-06 13:51:08,834 - AirSimEnvLogger - INFO - Attempting to move: vx=1.3920679986476898, vy=10.921442985534668, z=-0.6932003259658813, duration=4.5
+2024-08-06 13:51:13,456 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:51:13,502 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=0.80, duration=4.50
+2024-08-06 13:51:13,548 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=0.7984640598297119, duration=4.5
+2024-08-06 13:51:18,151 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:51:18,466 - AirSimEnvLogger - INFO - Current position: x=-16.41, y=44.39, z=-0.83
+2024-08-06 13:51:19,354 - AirSimEnvLogger - INFO - Distance reward: -10.0000
+2024-08-06 13:51:19,401 - AirSimEnvLogger - INFO - Velocity reward: -0.0169
+2024-08-06 13:51:19,542 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:51:19,591 - AirSimEnvLogger - INFO - Smoothness penalty: 0.6458
+2024-08-06 13:51:19,635 - AirSimEnvLogger - INFO - Movement reward: 3.6779
+2024-08-06 13:51:19,681 - AirSimEnvLogger - INFO - Reward breakdown - distance: -10.0000, velocity: -0.0169, collision: 0.0000, height: 0.5000, smoothness: 0.6458, movement: 3.6779, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:51:19,727 - AirSimEnvLogger - INFO - Total reward: -5.1931
+2024-08-06 13:51:19,884 - AirSimEnvLogger - INFO - Step completed - Reward: -5.19, Done: False
+2024-08-06 13:51:20,355 - AirSimEnvLogger - INFO - Executing action: vx=11.92, vy=-1.94, vz=1.63, yaw_rate=-0.33, altitude_change=0.92, duration=4.50
+2024-08-06 13:51:20,401 - AirSimEnvLogger - INFO - Attempting to move drone: vx=11.92, vy=-1.94, vz=-0.92, duration=4.50
+2024-08-06 13:51:20,449 - AirSimEnvLogger - INFO - Attempting to move: vx=11.921092987060547, vy=-1.941935420036316, z=-0.9152720689773559, duration=4.5
+2024-08-06 13:51:25,070 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:51:25,116 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=-0.33, duration=4.50
+2024-08-06 13:51:25,163 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=-0.3319670557975769, duration=4.5
+2024-08-06 13:51:29,789 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:51:30,166 - AirSimEnvLogger - INFO - Current position: x=20.65, y=38.67, z=-0.87
+2024-08-06 13:51:31,027 - AirSimEnvLogger - INFO - Distance reward: 10.0000
+2024-08-06 13:51:31,090 - AirSimEnvLogger - INFO - Velocity reward: -0.0347
+2024-08-06 13:51:31,250 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:51:31,313 - AirSimEnvLogger - INFO - Smoothness penalty: 0.6187
+2024-08-06 13:51:31,376 - AirSimEnvLogger - INFO - Movement reward: 4.8613
+2024-08-06 13:51:31,423 - AirSimEnvLogger - INFO - Reward breakdown - distance: 10.0000, velocity: -0.0347, collision: 0.0000, height: 0.5000, smoothness: 0.6187, movement: 4.8613, stationary: 0.0000, revisit: 0.0000, task_completion: 0.0000
+2024-08-06 13:51:31,469 - AirSimEnvLogger - INFO - Total reward: 15.9453
+2024-08-06 13:51:31,628 - AirSimEnvLogger - INFO - Step completed - Reward: 15.95, Done: False
+2024-08-06 13:51:32,224 - AirSimEnvLogger - INFO - Executing action: vx=11.01, vy=-5.80, vz=-2.97, yaw_rate=-2.35, altitude_change=0.23, duration=4.50
+2024-08-06 13:51:32,269 - AirSimEnvLogger - INFO - Attempting to move drone: vx=11.01, vy=-5.80, vz=-0.23, duration=4.50
+2024-08-06 13:51:32,316 - AirSimEnvLogger - INFO - Attempting to move: vx=11.012019395828247, vy=-5.799861431121826, z=-0.22519025802612302, duration=4.5
+2024-08-06 13:51:36,970 - AirSimEnvLogger - INFO - Move completed successfully
+2024-08-06 13:51:37,017 - AirSimEnvLogger - INFO - Attempting to rotate drone: yaw_rate=-2.35, duration=4.50
+2024-08-06 13:51:37,064 - AirSimEnvLogger - INFO - Attempting to rotate: yaw_rate=-2.345853328704834, duration=4.5
+2024-08-06 13:51:38,178 - AirSimEnvLogger - INFO - Rotation completed successfully
+2024-08-06 13:51:38,556 - AirSimEnvLogger - INFO - Current position: x=0.00, y=0.00, z=0.29
+2024-08-06 13:51:39,522 - AirSimEnvLogger - INFO - Distance reward: 10.0000
+2024-08-06 13:51:39,570 - AirSimEnvLogger - INFO - Velocity reward: -0.1009
+2024-08-06 13:51:39,724 - AirSimEnvLogger - INFO - Height penalty applied: 0.5000
+2024-08-06 13:51:39,787 - AirSimEnvLogger - INFO - Smoothness penalty: 0.8127
+2024-08-06 13:51:39,849 - AirSimEnvLogger - INFO - Movement reward: 6.4602
+2024-08-06 13:51:39,896 - AirSimEnvLogger - INFO - Task completion reward: 200.0000
+2024-08-06 13:51:39,943 - AirSimEnvLogger - INFO - Reward breakdown - distance: 10.0000, velocity: -0.1009, collision: 0.0000, height: 0.5000, smoothness: 0.8127, movement: 6.4602, stationary: 0.0000, revisit: 0.0000, task_completion: 200.0000
+2024-08-06 13:51:39,989 - AirSimEnvLogger - INFO - Total reward: 217.6721
+2024-08-06 13:51:40,115 - AirSimEnvLogger - INFO - Step completed - Reward: 217.67, Done: False
+2024-08-06 13:51:40,662 - AirSimEnvLogger - INFO - Executing action: vx=12.97, vy=13.42, vz=0.67, yaw_rate=4.71, altitude_change=-0.80, duration=4.50
+2024-08-06 13:51:40,710 - AirSimEnvLogger - INFO - Attempting to move drone: vx=12.97, vy=13.42, vz=0.80, duration=4.50
+2024-08-06 13:51:40,757 - AirSimEnvLogger - INFO - Attempting to move: vx=12.97085952758789, vy=13.424969673156738, z=0.8020152568817138, duration=4.5

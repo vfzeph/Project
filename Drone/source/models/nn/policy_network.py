@@ -86,7 +86,7 @@ class AdvancedPolicyNetwork(nn.Module):
         
         if continuous:
             self.mean = nn.Linear(hidden_sizes[-1], action_dim)
-            self.log_std = nn.Parameter(torch.zeros(action_dim))
+            self.log_std = nn.Parameter(torch.zeros(1, action_dim))  # Initialize as a parameter
         else:
             self.action_head = nn.Linear(hidden_sizes[-1], action_dim)
 
@@ -97,10 +97,14 @@ class AdvancedPolicyNetwork(nn.Module):
         # Ensure state has batch dimension
         if state.dim() == 1:
             state = state.unsqueeze(0)
+        elif state.dim() == 3:  # If state comes with an extra dimension (e.g., from a vector environment)
+            state = state.squeeze(1)
         
         # Ensure visual has batch dimension and correct channel order
         if visual.dim() == 3:
             visual = visual.unsqueeze(0)
+        elif visual.dim() == 5:  # If visual comes with an extra dimension
+            visual = visual.squeeze(1)
         if visual.shape[1] != 3:
             visual = visual.permute(0, 3, 1, 2)
         
@@ -124,24 +128,29 @@ class AdvancedPolicyNetwork(nn.Module):
         
         if self.continuous:
             mean = self.mean(x)
-            std = self.log_std.exp().expand_as(mean)
-            return mean, std
+            log_std = self.log_std.expand_as(mean)
+            return mean, log_std
         else:
             return F.softmax(self.action_head(x), dim=-1)
-        
+
     def get_action(self, state, visual):
         with torch.no_grad():
             if self.continuous:
-                mean, std = self.forward(state, visual)
-                action_dist = Normal(mean, std)
-                action = action_dist.sample()
-                return action, action_dist.log_prob(action).sum(dim=-1)
+                mean, log_std = self.forward(state, visual)
+                print(f"Mean shape: {mean.shape}, Log_std shape: {log_std.shape}")
+                std = log_std.exp()
+                print(f"Std shape: {std.shape}")
+                dist = Normal(mean, std)
+                action = dist.sample()
+                log_prob = dist.log_prob(action).sum(dim=-1)
+                print(f"Action shape: {action.shape}, Log_prob shape: {log_prob.shape}")
+                return action, log_prob
             else:
                 probs = self.forward(state, visual)
-                action_dist = Categorical(probs)
-                action = action_dist.sample()
-                return action, action_dist.log_prob(action)
-
+                dist = Categorical(probs)
+                action = dist.sample()
+                return action, dist.log_prob(action)
+            
     def evaluate_actions(self, state, visual, action):
         if self.continuous:
             mean, std = self.forward(state, visual)
